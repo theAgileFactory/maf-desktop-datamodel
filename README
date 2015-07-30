@@ -1,4 +1,4 @@
-This is your new Play application app-framework
-===============================================
+# Desktop data model
+The Desktop data model component is the Java representation of the desktop model for the BizDock software
 
-This file will be packaged with your application, when using `mvn install`.
+Find <a href="https://help.bizdock.io/doku.php">here</a> the full description of the BizDock software.

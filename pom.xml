@@ -44,7 +44,7 @@
         <java.target>1.7</java.target>
         <scala.version>2.10</scala.version>
         <!-- Dependencies properties -->
-        <lib.app-framework.version>7.0.0</lib.app-framework.version>
+        <lib.app-framework.version>7.0.1-SNAPSHOT</lib.app-framework.version>
         <play.version>2.3.4</play.version>
         <deadbolt.version>2.3.1</deadbolt.version>
         <!-- Plugin properties -->

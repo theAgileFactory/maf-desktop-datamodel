@@ -30,7 +30,7 @@ import javax.persistence.Version;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
 

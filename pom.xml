@@ -39,10 +39,11 @@
     <properties>
        <!-- Global properties -->
         <project.build.sourceEncoding>latin1</project.build.sourceEncoding>
-		<play.version>2.3.9</play.version>
+		<play.version>2.4.2</play.version>
+		<play.java.ebean.version>1.0.0</play.java.ebean.version>
         <java.source>1.8</java.source>
         <java.target>1.8</java.target>
-        <scala.version>2.10</scala.version>
+        <scala.version>2.11</scala.version>
         <!-- Dependencies properties -->
         <lib.app-framework.version>7.0.1-SNAPSHOT</lib.app-framework.version>
         <!-- Plugin properties -->
@@ -82,12 +83,12 @@
         </dependency>
         
         <!-- Required since "provided" in the framework -->
-        <dependency>
-            <groupId>com.typesafe.play</groupId>
-            <artifactId>play-java-ebean_${scala.version}</artifactId>
-            <version>${play.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>com.typesafe.play</groupId>
+			<artifactId>play-ebean_${scala.version}</artifactId>
+			<version>${play.java.ebean.version}</version>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>com.typesafe.play</groupId>
             <artifactId>play-cache_${scala.version}</artifactId>

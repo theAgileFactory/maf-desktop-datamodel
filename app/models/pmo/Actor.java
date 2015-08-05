@@ -43,7 +43,7 @@ import models.governance.LifeCycleMilestoneInstanceApprover;
 import models.governance.ProcessTransitionRequest;
 import models.timesheet.TimesheetActivityAllocatedActor;
 import models.timesheet.TimesheetReport;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

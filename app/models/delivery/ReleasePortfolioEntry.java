@@ -23,7 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import models.pmo.PortfolioEntry;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.annotation.EnumValue;
 

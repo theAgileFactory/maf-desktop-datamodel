@@ -43,7 +43,7 @@ import models.governance.LifeCycleInstance;
 import models.governance.LifeCycleMilestoneInstance;
 import models.governance.LifeCycleProcess;
 import models.timesheet.TimesheetEntry;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.Where;

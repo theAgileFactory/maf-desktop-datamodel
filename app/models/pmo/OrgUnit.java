@@ -32,7 +32,7 @@ import javax.persistence.Version;
 import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

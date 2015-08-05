@@ -26,7 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 import models.framework_models.parent.IModel;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;

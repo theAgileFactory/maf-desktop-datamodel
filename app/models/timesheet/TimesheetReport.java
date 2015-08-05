@@ -34,7 +34,7 @@ import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
 import play.data.validation.Constraints.Required;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.annotation.EnumMapping;
 import com.avaje.ebean.annotation.Where;

@@ -30,7 +30,7 @@ import javax.persistence.Version;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import play.Logger;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 import framework.utils.DefaultSelectableValueHolder;
 import framework.utils.DefaultSelectableValueHolderCollection;
 import framework.utils.Language;

@@ -22,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 /**
  * Define the association table for the portfolio entry dependencies.

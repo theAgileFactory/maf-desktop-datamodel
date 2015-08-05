@@ -28,7 +28,7 @@ import javax.persistence.Version;
 
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 

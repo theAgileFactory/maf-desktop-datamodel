@@ -30,11 +30,13 @@ import javax.persistence.Version;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import play.Logger;
+
 import com.avaje.ebean.Model;
+
+import framework.services.ServiceStaticAccessor;
+import framework.services.configuration.Language;
 import framework.utils.DefaultSelectableValueHolder;
 import framework.utils.DefaultSelectableValueHolderCollection;
-import framework.utils.Language;
-import framework.utils.LanguageUtil;
 import framework.utils.Msg;
 
 /**
@@ -118,7 +120,7 @@ public class Reporting extends Model implements IModel {
     public DefaultSelectableValueHolderCollection<String> getLanguagesAsVHC() {
         DefaultSelectableValueHolderCollection<String> vhc = new DefaultSelectableValueHolderCollection<>();
         for (String code : this.languages.split(",")) {
-            Language language = LanguageUtil.getLanguageByCode(code);
+            Language language = ServiceStaticAccessor.getMessagesPlugin().getLanguageByCode(code);
             if (language != null) {
                 vhc.add(new DefaultSelectableValueHolder<>(code, language.getName()));
             }

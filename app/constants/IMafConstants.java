@@ -178,6 +178,8 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String ARCHITECTURE_PERMISSION = "ARCHITECTURE_PERMISSION";
     public static final String APPLICATION_BLOCK_EDIT_ALL_PERMISSION = "APPLICATION_BLOCK_EDIT_ALL_PERMISSION";
 
+    public static final String PARTNER_SYNDICATION_PERMISSION = "PARTNER_SYNDICATION_PERMISSION";
+
     // -------------------------------------------------------------------------------------
     // Preference constants
     // -------------------------------------------------------------------------------------

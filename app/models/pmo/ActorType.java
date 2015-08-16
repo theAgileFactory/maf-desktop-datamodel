@@ -53,8 +53,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActorType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -5890495273282208211L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

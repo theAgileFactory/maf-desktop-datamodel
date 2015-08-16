@@ -46,8 +46,6 @@ import framework.utils.Msg;
 @Entity
 public class TimesheetActivity extends Model implements IModel {
 
-    private static final long serialVersionUID = 3964921668212418223L;
-
     @Id
     public Long id;
 

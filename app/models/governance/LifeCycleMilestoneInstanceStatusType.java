@@ -42,8 +42,6 @@ import framework.utils.Msg;
 @Entity
 public class LifeCycleMilestoneInstanceStatusType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -8103953429197184883L;
-
     @Id
     public Long id;
 

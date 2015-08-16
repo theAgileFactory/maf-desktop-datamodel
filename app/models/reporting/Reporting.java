@@ -27,10 +27,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import play.Logger;
-
 import com.avaje.ebean.Model;
 
 import framework.services.ServiceStaticAccessor;
@@ -38,6 +34,9 @@ import framework.services.configuration.Language;
 import framework.utils.DefaultSelectableValueHolder;
 import framework.utils.DefaultSelectableValueHolderCollection;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import play.Logger;
 
 /**
  * Define a report.
@@ -48,9 +47,7 @@ import framework.utils.Msg;
 @Entity
 public class Reporting extends Model implements IModel {
 
-    private static final long serialVersionUID = -8561487829658751804L;
-
-    public static Finder<Long, Reporting> find = new Finder<>(Long.class, Reporting.class);
+    public static Finder<Long, Reporting> find = new Finder<>(Reporting.class);
 
     @Id
     public Long id;

@@ -57,7 +57,6 @@ import framework.utils.ISelectableValueHolder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BudgetBucket extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = 6163020188344280692L;
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

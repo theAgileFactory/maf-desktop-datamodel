@@ -51,8 +51,6 @@ import framework.utils.ISelectableValueHolder;
  */
 @Entity
 public class PurchaseOrderLineShipmentStatusType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
-    private static final long serialVersionUID = -213595926561179034L;
-
     public boolean deleted = false;
 
     @Version

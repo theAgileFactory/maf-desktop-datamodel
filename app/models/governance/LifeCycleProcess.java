@@ -56,8 +56,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LifeCycleProcess extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -6479934931442743920L;
-
     @Id
     @ApiModelProperty(required = true)
     @JsonProperty

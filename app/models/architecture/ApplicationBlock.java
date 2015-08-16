@@ -47,8 +47,6 @@ import framework.utils.ISelectableValueHolder;
 @Entity
 public class ApplicationBlock extends Model implements IModel, ISelectableValueHolder<Long>, ITafTreeNode {
 
-    private static final long serialVersionUID = -5220286436901888446L;
-
     @Id
     public Long id;
 

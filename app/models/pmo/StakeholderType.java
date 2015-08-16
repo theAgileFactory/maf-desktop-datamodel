@@ -54,8 +54,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StakeholderType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = 8970058869226649148L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

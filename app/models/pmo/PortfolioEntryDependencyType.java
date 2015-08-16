@@ -40,8 +40,6 @@ import framework.utils.Msg;
 @Entity
 public class PortfolioEntryDependencyType extends Model implements IModel, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -4541231658489L;
-
     @Id
     public Long id;
 

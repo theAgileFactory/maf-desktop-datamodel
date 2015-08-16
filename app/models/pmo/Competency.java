@@ -53,8 +53,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Competency extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = 6698531245756L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

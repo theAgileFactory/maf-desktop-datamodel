@@ -45,8 +45,6 @@ import com.avaje.ebean.annotation.Where;
 @Entity
 public class ReportingAuthorization extends Model implements IModel {
 
-    private static final long serialVersionUID = -4426666790914793903L;
-
     @Id
     public Long id;
 

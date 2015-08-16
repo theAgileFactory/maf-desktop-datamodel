@@ -39,8 +39,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class TimesheetLog extends Model implements IModel {
 
-    private static final long serialVersionUID = 6303479530512271365L;
-
     @Id
     public Long id;
 

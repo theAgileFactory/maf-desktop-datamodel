@@ -59,8 +59,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PurchaseOrderLineItem extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 3700694627486850139L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

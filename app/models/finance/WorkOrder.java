@@ -63,8 +63,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WorkOrder extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 8276881244927141735L;
-
     @Id
     @ApiModelProperty(required = true)
     @JsonProperty

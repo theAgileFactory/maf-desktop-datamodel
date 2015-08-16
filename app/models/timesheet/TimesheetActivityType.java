@@ -45,8 +45,6 @@ import framework.utils.Msg;
 @Entity
 public class TimesheetActivityType extends Model implements IModel, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -3098525590598336560L;
-
     @Id
     public Long id;
 

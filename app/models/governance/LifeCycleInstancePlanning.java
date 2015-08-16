@@ -49,8 +49,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class LifeCycleInstancePlanning extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 4910944086637370152L;
-
     @Id
     public Long id;
 

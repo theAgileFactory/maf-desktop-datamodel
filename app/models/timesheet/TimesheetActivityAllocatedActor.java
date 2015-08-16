@@ -44,8 +44,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class TimesheetActivityAllocatedActor extends Model implements IModel {
 
-    private static final long serialVersionUID = 452137892344L;
-
     @Id
     public long id;
 

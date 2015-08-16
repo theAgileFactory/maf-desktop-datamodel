@@ -49,8 +49,6 @@ import framework.services.api.commons.IApiObject;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Supplier extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -4325365827651999991L;
-
     public boolean deleted = false;
     @Version
     public Timestamp lastUpdate;

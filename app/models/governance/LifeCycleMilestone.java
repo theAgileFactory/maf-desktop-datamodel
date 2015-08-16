@@ -51,8 +51,6 @@ import framework.utils.Msg;
 @Entity
 public class LifeCycleMilestone extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 2603980375880043265L;
-
     @Id
     public Long id;
 

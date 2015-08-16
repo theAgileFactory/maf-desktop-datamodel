@@ -27,10 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -41,6 +38,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * Define a severity for a requirement.
@@ -48,12 +47,9 @@ import framework.utils.Msg;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
-        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequirementSeverity extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
-
-    private static final long serialVersionUID = 3964921668212418223L;
 
     @Id
     @JsonProperty

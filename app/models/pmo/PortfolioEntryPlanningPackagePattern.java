@@ -53,8 +53,6 @@ import framework.utils.ISelectableValueHolder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryPlanningPackagePattern extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -2945566128625442603L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

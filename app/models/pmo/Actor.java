@@ -72,8 +72,6 @@ import framework.utils.ISelectableValueHolder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Actor extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -5220286436901888446L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

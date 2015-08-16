@@ -47,8 +47,6 @@ import framework.taftree.TafTreeHelper;
 @Entity
 public class ReportingCategory extends Model implements IModel, ITafTreeNode {
 
-    private static final long serialVersionUID = 8902217968758168740L;
-
     @Id
     public Long id;
 

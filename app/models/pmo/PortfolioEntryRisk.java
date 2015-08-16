@@ -57,8 +57,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 3998785409668477844L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

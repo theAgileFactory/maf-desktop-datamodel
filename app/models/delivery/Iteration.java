@@ -29,11 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.PortfolioEntry;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -48,6 +44,9 @@ import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.PortfolioEntry;
 
 /**
  * Define an iteration.
@@ -55,12 +54,9 @@ import framework.utils.formats.DateType;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
-        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Iteration extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
-
-    private static final long serialVersionUID = 124396448216L;
 
     @Id
     @JsonProperty

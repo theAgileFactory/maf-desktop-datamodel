@@ -60,8 +60,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrgUnit extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = 4886738624472325573L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

@@ -56,8 +56,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Requirement extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 3964921668212418223L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

@@ -56,8 +56,6 @@ import framework.utils.ISelectableValueHolder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PurchaseOrder extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -1294256118431144345L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

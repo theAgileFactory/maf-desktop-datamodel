@@ -63,8 +63,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryResourcePlanAllocatedActor extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -8483345853276600534L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

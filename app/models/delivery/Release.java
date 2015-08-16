@@ -62,8 +62,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Release extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = 3691571315678L;
-
     @Id
     @JsonProperty
     public Long id;

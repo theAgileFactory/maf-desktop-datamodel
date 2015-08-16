@@ -44,8 +44,6 @@ import com.avaje.ebean.annotation.Where;
 @Entity
 public class TimesheetEntry extends Model implements IModel {
 
-    private static final long serialVersionUID = 1551014807194216336L;
-
     @Id
     public Long id;
 

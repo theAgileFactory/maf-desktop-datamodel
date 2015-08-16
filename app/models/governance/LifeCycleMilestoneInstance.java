@@ -53,8 +53,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class LifeCycleMilestoneInstance extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -2940989268480068464L;
-
     @Id
     public Long id;
 

@@ -48,8 +48,6 @@ import framework.services.api.commons.IApiObject;
 @Entity
 public class LifeCycleInstance extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -3603451215643276040L;
-
     @Id
     public Long id;
 

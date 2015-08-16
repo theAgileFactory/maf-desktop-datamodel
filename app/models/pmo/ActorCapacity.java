@@ -48,8 +48,6 @@ import framework.services.api.commons.JsonPropertyLink;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActorCapacity extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 34612537913415L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true, position = 1)

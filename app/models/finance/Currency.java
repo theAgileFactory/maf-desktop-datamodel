@@ -50,8 +50,6 @@ import framework.utils.ISelectableValueHolder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Currency extends Model implements IModel, IApiObject, ISelectableValueHolder<String> {
 
-    private static final long serialVersionUID = -4975588655698867912L;
-
     @JsonProperty
     @ApiModelProperty(required = true)
     public Long id;

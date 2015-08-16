@@ -52,8 +52,6 @@ import framework.utils.Msg;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryEventType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
-    private static final long serialVersionUID = -1867754219005407427L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

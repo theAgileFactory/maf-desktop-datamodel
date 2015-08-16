@@ -46,8 +46,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 942693642558530070L;
-
     @Id
     public Long id;
 

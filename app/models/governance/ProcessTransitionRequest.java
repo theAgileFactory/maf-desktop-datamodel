@@ -46,8 +46,6 @@ import framework.utils.formats.DateType;
 @Entity
 public class ProcessTransitionRequest extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = 783973340407387908L;
-
     @Id
     public Long id;
 

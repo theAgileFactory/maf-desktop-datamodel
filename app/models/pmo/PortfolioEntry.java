@@ -75,8 +75,6 @@ import framework.utils.formats.DateType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObjectsContainer {
 
-    private static final long serialVersionUID = -4975588639123867912L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

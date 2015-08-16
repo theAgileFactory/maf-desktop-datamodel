@@ -41,8 +41,6 @@ import framework.services.api.commons.IApiObject;
 @Entity
 public class GoodsReceipt extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -7190969855755695879L;
-
     @Id
     public Long id;
 

@@ -32,20 +32,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
-import models.delivery.Iteration;
-import models.delivery.ReleasePortfolioEntry;
-import models.delivery.Requirement;
-import models.finance.PurchaseOrder;
-import models.finance.WorkOrder;
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.governance.LifeCycleInstance;
-import models.governance.LifeCycleMilestoneInstance;
-import models.governance.LifeCycleProcess;
-import models.timesheet.TimesheetEntry;
-import com.avaje.ebean.Model;
-
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -60,6 +48,17 @@ import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.Msg;
 import framework.utils.formats.DateType;
+import models.delivery.Iteration;
+import models.delivery.ReleasePortfolioEntry;
+import models.delivery.Requirement;
+import models.finance.PurchaseOrder;
+import models.finance.WorkOrder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleInstance;
+import models.governance.LifeCycleMilestoneInstance;
+import models.governance.LifeCycleProcess;
+import models.timesheet.TimesheetEntry;
 
 /**
  * An portfolioEntry is a unit of work consuming some resources.<br/>
@@ -138,6 +137,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     @ApiModelProperty(required = true)
     public boolean archived;
 
+    public boolean isSyndicated;
+
     /**
      * The manager of the portfolioEntry.<br/>
      * The one that is on a daily basis managing the work progress.
@@ -148,7 +149,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     public Actor manager;
 
     /**
-     * The organizational unit which is officially sponsoring the portfolioEntry<br/>
+     * The organizational unit which is officially sponsoring the portfolioEntry
+     * <br/>
      * Usually this is a business team.
      */
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
@@ -363,8 +365,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
      */
     @JsonProperty("lastPortfolioEntryReport")
     public PortfolioEntryReport getApiLastPortfolioEntryReport() {
-        return lastPortfolioEntryReport != null ? Ebean.find(PortfolioEntryReport.class).where().eq("deleted", false)
-                .eq("id", this.lastPortfolioEntryReport.id).findUnique() : null;
+        return lastPortfolioEntryReport != null
+                ? Ebean.find(PortfolioEntryReport.class).where().eq("deleted", false).eq("id", this.lastPortfolioEntryReport.id).findUnique() : null;
     }
 
 }

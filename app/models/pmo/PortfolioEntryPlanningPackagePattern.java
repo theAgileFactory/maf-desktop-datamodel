@@ -26,11 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import play.data.validation.Constraints.Required;
 import com.avaje.ebean.Model;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -38,8 +34,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.utils.Color;
 import framework.utils.ISelectableValueHolder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import play.data.validation.Constraints.Required;
 
 /**
  * An portfolio entry planning package pattern is a pattern for a planning
@@ -145,13 +143,6 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
 
     @Override
     public void setUrl(String arg0) {
-    }
-
-    /**
-     * Get the CSS class for a display.
-     */
-    public String getDisplayCssClass() {
-        return Color.getLabel(this.cssClass);
     }
 
     /** Api methods. **/

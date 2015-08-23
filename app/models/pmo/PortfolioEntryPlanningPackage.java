@@ -29,16 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.finance.PortfolioEntryResourcePlanAllocatedActor;
-import models.finance.PortfolioEntryResourcePlanAllocatedCompetency;
-import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
-import models.finance.WorkOrder;
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.timesheet.TimesheetEntry;
-import play.data.validation.Constraints.Required;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.EnumMapping;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -49,13 +40,20 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.Color;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.finance.PortfolioEntryResourcePlanAllocatedActor;
+import models.finance.PortfolioEntryResourcePlanAllocatedCompetency;
+import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
+import models.finance.WorkOrder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.timesheet.TimesheetEntry;
+import play.data.validation.Constraints.Required;
 
 /**
  * An portfolio entry planning package is a date or an interval that defines
@@ -232,13 +230,6 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
         } else {
             return null;
         }
-    }
-
-    /**
-     * Get the CSS class for a display.
-     */
-    public String getDisplayCssClass() {
-        return Color.getLabel(this.cssClass);
     }
 
     /**

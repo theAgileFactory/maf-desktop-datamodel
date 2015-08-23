@@ -29,15 +29,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import com.avaje.ebean.Model;
-
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 
-import framework.taftree.ITafTreeNode;
+import framework.taftree.INodeEntity;
 import framework.utils.ISelectableValueHolder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * An application block is a hierarchical representation of IT concepts.
@@ -45,7 +44,7 @@ import framework.utils.ISelectableValueHolder;
  * @author Johann Kohler
  */
 @Entity
-public class ApplicationBlock extends Model implements IModel, ISelectableValueHolder<Long>, ITafTreeNode {
+public class ApplicationBlock extends Model implements IModel, ISelectableValueHolder<Long>, INodeEntity<ApplicationBlock> {
 
     @Id
     public Long id;
@@ -141,17 +140,7 @@ public class ApplicationBlock extends Model implements IModel, ISelectableValueH
     }
 
     @Override
-    public List<? extends ITafTreeNode> getChildren() {
-        return Ebean.find(ApplicationBlock.class).orderBy("order").where().eq("deleted", false).eq("archived", false).eq("parent.id", this.id).findList();
-    }
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    @Override
-    public int getLastChildrenOrder() {
+    public int getLastNodeChildrenOrder() {
         List<ApplicationBlock> blocks =
                 Ebean.find(ApplicationBlock.class).orderBy("order DESC").where().eq("deleted", false).eq("parent.id", this.id).setMaxRows(1).findList();
         if (blocks.size() > 0) {
@@ -161,49 +150,90 @@ public class ApplicationBlock extends Model implements IModel, ISelectableValueH
     }
 
     @Override
-    public int getOrder() {
-        return this.order;
+    public List<ApplicationBlock> getNodeChildren() {
+        return Ebean.find(ApplicationBlock.class).orderBy("order").where().eq("deleted", false).eq("archived", false).eq("parent.id", this.id).findList();
     }
 
     @Override
-    public boolean hasChildren() {
-        return this.getChildren() != null && this.getChildren().size() > 0;
+    public Long getNodeId() {
+        return id;
     }
 
     @Override
-    public boolean isManageable() {
+    public String getNodeName() {
+        return name;
+    }
+
+    @Override
+    public int getNodeOrder() {
+        return order;
+    }
+
+    @Override
+    public ApplicationBlock getNodeParent() {
+        return parent;
+    }
+
+    @Override
+    public ApplicationBlock getRootNode() {
+        if (this.parent == null) {
+            return null;
+        } else {
+
+            ApplicationBlock lastParent = this.parent;
+            ApplicationBlock rootParent = null;
+
+            while (lastParent != null) {
+
+                if (lastParent.parent == null) {
+                    rootParent = lastParent;
+                }
+
+                lastParent = lastParent.parent;
+
+            }
+
+            return rootParent;
+        }
+    }
+
+    @Override
+    public boolean hasNodeChildren() {
+        return this.children != null && this.children.size() > 0;
+    }
+
+    @Override
+    public boolean isNodeDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public boolean isNodeManageable() {
         return true;
     }
 
     @Override
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-
+    public void setNodeDeleted(boolean deleted) {
+        this.deleted=deleted;
     }
 
     @Override
-    public void setManageable(boolean arg0) {
+    public void setNodeManageable(boolean arg0) {
+        
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-
+    public void setNodeName(String name) {
+        this.name=name;
     }
 
     @Override
-    public void setOrder(int order) {
-        this.order = order;
-
+    public void setNodeOrder(int order) {
+        this.order=order;
     }
 
     @Override
-    public ITafTreeNode getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(Long parentId) {
+    public void setNodeParent(Long parentId) {
         this.parent = Ebean.find(ApplicationBlock.class).where().eq("deleted", false).eq("id", parentId).findUnique();
     }
 }

@@ -18,6 +18,7 @@
 package models.reporting;
 
 import java.sql.Timestamp;
+import framework.taftree.INodeEntity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,9 +36,6 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.Where;
 
-import framework.taftree.ITafTreeNode;
-import framework.taftree.TafTreeHelper;
-
 /**
  * Define a category for the reports.
  * 
@@ -45,7 +43,7 @@ import framework.taftree.TafTreeHelper;
  * 
  */
 @Entity
-public class ReportingCategory extends Model implements IModel, ITafTreeNode {
+public class ReportingCategory extends Model implements IModel, INodeEntity<ReportingCategory> {
 
     @Id
     public Long id;
@@ -90,71 +88,71 @@ public class ReportingCategory extends Model implements IModel, ITafTreeNode {
     }
 
     @Override
-    public Long getId() {
+    public Long getNodeId() {
         return id;
     }
 
     @Override
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-
+    public boolean isNodeDeleted() {
+        return deleted;
     }
 
     @Override
-    public String getName() {
+    public void setNodeDeleted(boolean deleted) {
+        this.deleted=deleted;
+    }
+
+    @Override
+    public String getNodeName() {
         return name;
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-
+    public void setNodeName(String name) {
+        this.name=name;
     }
 
     @Override
-    public boolean isManageable() {
+    public boolean isNodeManageable() {
         return manageable;
     }
 
     @Override
-    public void setManageable(boolean isManageable) {
-        this.manageable = isManageable;
-
+    public void setNodeManageable(boolean manageable) {
+        this.manageable=manageable;
     }
 
     @Override
-    public int getOrder() {
+    public ReportingCategory getNodeParent() {
+        return parent;
+    }
+
+    @Override
+    public void setNodeParent(Long parentId) {
+        setParentFromId(parentId);
+    }
+
+    @Override
+    public List<ReportingCategory> getNodeChildren() {
+        return children;
+    }
+
+    @Override
+    public int getNodeOrder() {
         return order;
     }
 
     @Override
-    public void setOrder(int order) {
-        this.order = order;
-
+    public void setNodeOrder(int order) {
+        this.order=order;
     }
-
-    @Override
-    public ITafTreeNode getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(Long parentId) {
-        this.parent = Ebean.find(ReportingCategory.class).where().eq("deleted", false).eq("id", parentId).findUnique();
-    }
-
-    @Override
-    public boolean hasChildren() {
+    
+    public boolean hasNodeChildren() {
         return this.children != null && this.children.size() > 0;
     }
-
+    
     @Override
-    public List<ReportingCategory> getChildren() {
-        return this.children;
-    }
-
-    @Override
-    public int getLastChildrenOrder() {
+    public int getLastNodeChildrenOrder() {
         List<ReportingCategory> categories =
                 Ebean.find(ReportingCategory.class).orderBy("order DESC").where().eq("deleted", false).eq("parent.id", this.id).setMaxRows(1).findList();
         if (categories.size() > 0) {
@@ -163,43 +161,8 @@ public class ReportingCategory extends Model implements IModel, ITafTreeNode {
         return 0;
     }
 
-    /**
-     * Get the name in the correct language and if empty then get it in the
-     * first available language.
-     */
-    public String getTranslatedName() {
-        return TafTreeHelper.getName(this);
-    }
-
-    /**
-     * Same as getTranslatedName with full name.<br/>
-     * parentName > Name
-     */
-    public String getTranslatedFullName() {
-        String r = "";
-        if (this.parent != null) {
-            r = this.parent.getTranslatedName() + " > ";
-        }
-        return r + TafTreeHelper.getName(this);
-    }
-
-    /**
-     * Same as getTranslatedName with root name.<br/>
-     * rootName > Name
-     */
-    public String getTranslatedRootName() {
-        String r = "";
-        ReportingCategory root = getRoot();
-        if (root != null) {
-            r = root.getTranslatedName() + " > ";
-        }
-        return r + TafTreeHelper.getName(this);
-    }
-
-    /**
-     * Get the root parent category.
-     */
-    public ReportingCategory getRoot() {
+    @Override
+    public ReportingCategory getRootNode() {
 
         if (this.parent == null) {
             return null;
@@ -221,5 +184,8 @@ public class ReportingCategory extends Model implements IModel, ITafTreeNode {
             return rootParent;
         }
     }
-
+    
+    private void setParentFromId(Long parentId) {
+        this.parent = Ebean.find(ReportingCategory.class).where().eq("deleted", false).eq("id", parentId).findUnique();
+    }
 }

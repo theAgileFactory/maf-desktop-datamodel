@@ -79,6 +79,37 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String WorkOrder = "WorkOrder";
 
     // -------------------------------------------------------------------------------------
+    // Dynamic permissions constants
+    // -------------------------------------------------------------------------------------
+    public static final String PORTFOLIO_ENTRY_VIEW_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_VIEW_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_DETAILS_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_DETAILS_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_EDIT_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_EDIT_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_DELETE_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_DELETE_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_REVIEW_REQUEST_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_REVIEW_REQUEST_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_FINANCIAL_VIEW_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_FINANCIAL_VIEW_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_ENTRY_FINANCIAL_EDIT_DYNAMIC_PERMISSION = "PORTFOLIO_ENTRY_FINANCIAL_EDIT_DYNAMIC_PERMISSION";
+
+    public static final String PORTFOLIO_VIEW_DYNAMIC_PERMISSION = "PORTFOLIO_VIEW_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_EDIT_DYNAMIC_PERMISSION = "PORTFOLIO_EDIT_DYNAMIC_PERMISSION";
+    public static final String PORTFOLIO_VIEW_FINANCIAL_DYNAMIC_PERMISSION = "PORTFOLIO_VIEW_FINANCIAL_DYNAMIC_PERMISSION";
+
+    public static final String BUDGET_BUCKET_VIEW_DYNAMIC_PERMISSION = "BUDGET_BUCKET_VIEW_DYNAMIC_PERMISSION";
+    public static final String BUDGET_BUCKET_EDIT_DYNAMIC_PERMISSION = "BUDGET_BUCKET_EDIT_DYNAMIC_PERMISSION";
+
+    public static final String REPORTING_VIEW_DYNAMIC_PERMISSION = "REPORTING_VIEW_DYNAMIC_PERMISSION";
+
+    public static final String TIMESHEET_APPROVAL_DYNAMIC_PERMISSION = "TIMESHEET_APPROVAL_DYNAMIC_PERMISSION";
+
+    public static final String ACTOR_VIEW_DYNAMIC_PERMISSION = "ACTOR_VIEW_DYNAMIC_PERMISSION";
+    public static final String ACTOR_EDIT_DYNAMIC_PERMISSION = "ACTOR_EDIT_DYNAMIC_PERMISSION";
+    public static final String ACTOR_DELETE_DYNAMIC_PERMISSION = "ACTOR_DELETE_DYNAMIC_PERMISSION";
+
+    public static final String ORG_UNIT_VIEW_DYNAMIC_PERMISSION = "ORG_UNIT_VIEW_DYNAMIC_PERMISSION";
+
+    public static final String RELEASE_VIEW_DYNAMIC_PERMISSION = "RELEASE_VIEW_DYNAMIC_PERMISSION";
+    public static final String RELEASE_EDIT_DYNAMIC_PERMISSION = "RELEASE_EDIT_DYNAMIC_PERMISSION";
+    
+    // -------------------------------------------------------------------------------------
     // Permissions constants
     // -------------------------------------------------------------------------------------
     public static final String ADMIN_USER_ADMINISTRATION_PERMISSION = "ADMIN_USER_ADMINISTRATION_PERMISSION";

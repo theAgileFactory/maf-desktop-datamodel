@@ -108,7 +108,7 @@ public interface IMafConstants extends IFrameworkConstants {
 
     public static final String RELEASE_VIEW_DYNAMIC_PERMISSION = "RELEASE_VIEW_DYNAMIC_PERMISSION";
     public static final String RELEASE_EDIT_DYNAMIC_PERMISSION = "RELEASE_EDIT_DYNAMIC_PERMISSION";
-    
+
     // -------------------------------------------------------------------------------------
     // Permissions constants
     // -------------------------------------------------------------------------------------
@@ -234,4 +234,5 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String LICENSE_ECHANNEL_API_SECRET_KEY_PREFERENCE = "LICENSE_ECHANNEL_API_SECRET_KEY_PREFERENCE";
     public static final String LICENSE_INSTANCE_DOMAIN_PREFERENCE = "LICENSE_INSTANCE_DOMAIN_PREFERENCE";
     public static final String APPLICATION_BLOCK_FILTER_STORAGE_PREFERENCE = "APPLICATION_BLOCK_FILTER_STORAGE_PREFERENCE";
+    public static final String PORTFOLIO_ENTRY_TIMESHEETS_FILTER_STORAGE_PREFERENCE = "PORTFOLIO_ENTRY_TIMESHEETS_FILTER_STORAGE_PREFERENCE";
 }

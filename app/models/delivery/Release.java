@@ -30,11 +30,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -44,11 +41,15 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
+import framework.services.kpi.IKpiObjectsContainer;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
 
 /**
  * Define a release.
@@ -60,7 +61,7 @@ import framework.utils.formats.DateType;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Release extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
+public class Release extends Model implements IModel, IApiObject, ISelectableValueHolder<Long>, IKpiObjectsContainer {
 
     @Id
     @JsonProperty
@@ -180,6 +181,7 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
     }
 
     /** Api methods **/
+
     @Override
     @JsonProperty(value = "name")
     @ApiModelProperty(required = true)
@@ -196,5 +198,20 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
+    }
+
+    @Override
+    public List<? extends IKpiObjectsContainer> getAllInstancesForKpi() {
+        return Ebean.find(Release.class).where().eq("deleted", false).eq("isActive", true).findList();
+    }
+
+    @Override
+    public Long getIdForKpi() {
+        return this.id;
+    }
+
+    @Override
+    public Object getObjectByIdForKpi(Long objectId) {
+        return Ebean.find(Release.class).where().eq("deleted", false).eq("id", objectId).findUnique();
     }
 }

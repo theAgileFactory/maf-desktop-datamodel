@@ -27,12 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
-import models.pmo.PortfolioEntry;
 import com.avaje.ebean.Model;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,6 +39,10 @@ import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
+import models.pmo.PortfolioEntry;
 
 /**
  * Define a requirement.
@@ -114,6 +113,12 @@ public class Requirement extends Model implements IModel, IApiObject {
 
     @JsonProperty
     public Integer initialEstimation;
+
+    @JsonProperty
+    public Integer effort;
+
+    @JsonProperty
+    public Integer remainingEffort;
 
     @JsonProperty
     public Boolean isScoped;

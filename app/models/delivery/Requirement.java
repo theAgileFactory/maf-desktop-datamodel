@@ -112,13 +112,13 @@ public class Requirement extends Model implements IModel, IApiObject {
     public Integer storyPoints;
 
     @JsonProperty
-    public Integer initialEstimation;
+    public Double initialEstimation;
 
     @JsonProperty
-    public Integer effort;
+    public Double effort;
 
     @JsonProperty
-    public Integer remainingEffort;
+    public Double remainingEffort;
 
     @JsonProperty
     public Boolean isScoped;

@@ -3,8 +3,8 @@
 	<groupId>com.agifac.maf.desktop</groupId>
 	<artifactId>maf-desktop-datamodel</artifactId>
 	<version>7.0.1-SNAPSHOT</version>
-	<name>Component "maf-desktop-datamodel", of scope "com.agifac.maf.desktop"</name>
-	<description>This is the component xxx</description>
+	<name>BizDock application data model</name>
+	<description>This components gathers the ORM classes for the BizDock data model</description>
 	<packaging>play2</packaging>
 	<url>https://prod.the-agile-factory.net/site/${project.groupId}/${project.artifactId}-${project.version}</url>
     <organization>

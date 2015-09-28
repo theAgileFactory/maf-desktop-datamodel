@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.agifac.maf.desktop</groupId>
 	<artifactId>maf-desktop-datamodel</artifactId>
-	<version>8.0.1-SNAPSHOT</version>
+	<version>8.0.1</version>
 	<name>Component "maf-desktop-datamodel", of scope "com.agifac.maf.desktop"</name>
 	<description>This is the component xxx</description>
 	<packaging>play2</packaging>

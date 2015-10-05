@@ -325,7 +325,7 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
 
     @Override
     public List<? extends IKpiObjectsContainer> getAllInstancesForKpi() {
-        return Ebean.find(PortfolioEntry.class).where().eq("deleted", false).eq("archived", false).eq("activeLifeCycleInstance.isConcept", false).findList();
+        return Ebean.find(PortfolioEntry.class).where().eq("deleted", false).eq("archived", false).findList();
     }
 
     /** Api methods. **/

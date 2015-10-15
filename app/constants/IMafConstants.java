@@ -54,6 +54,7 @@ public interface IMafConstants extends IFrameworkConstants {
     // -------------------------------------------------------------------------------------
 
     public static final String Actor = "Actor";
+    public static final String ApplicationBlock = "ApplicationBlock";
     public static final String BudgetBucket = "BudgetBucket";
     public static final String BudgetBucketLine = "BudgetBucketLine";
     public static final String CostCenter = "CostCenter";

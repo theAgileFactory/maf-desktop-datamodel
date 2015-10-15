@@ -20,6 +20,10 @@ public class MafDataType extends DataType {
         return DataType.getDataType(IMafConstants.Actor);
     }
 
+    public static DataType getApplicationBlock() {
+        return DataType.getDataType(IMafConstants.ApplicationBlock);
+    }
+
     public static DataType getBudgetBucket() {
         return DataType.getDataType(IMafConstants.BudgetBucket);
     }

@@ -1,5 +1,7 @@
 package constants;
 
+import java.util.Map;
+
 import framework.commons.DataType;
 
 /**
@@ -12,8 +14,9 @@ public class MafDataType extends DataType {
     public MafDataType() {
     }
 
-    public MafDataType(String dataName, String dataTypeClassName, boolean isAuditable, boolean isCustomAttribute) {
-        super(dataName, dataTypeClassName, isAuditable, isCustomAttribute);
+    public MafDataType(String dataName, String dataTypeClassName, boolean isAuditable, boolean isCustomAttribute,
+            Map<String, String> conditionalRuleAuthorizedFields) {
+        super(dataName, dataTypeClassName, isAuditable, isCustomAttribute, conditionalRuleAuthorizedFields);
     }
 
     public static DataType getActor() {

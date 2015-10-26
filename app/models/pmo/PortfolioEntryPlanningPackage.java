@@ -93,9 +93,12 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     public Date endDate;
 
     @Column(length = IModelConstants.MEDIUM_STRING)
-    @JsonProperty
-    @ApiModelProperty(required = true)
     public String cssClass;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
+    @ApiModelProperty(dataType = "String")
+    public PortfolioEntryPlanningPackageType portfolioEntryPlanningPackageType;
 
     @JsonProperty
     @ApiModelProperty(required = true)
@@ -152,7 +155,7 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
 
         this.name = pattern.name;
         this.description = pattern.description;
-        this.cssClass = pattern.cssClass;
+        this.portfolioEntryPlanningPackageType = pattern.portfolioEntryPlanningPackageType;
         this.isImportant = pattern.isImportant;
         this.order = pattern.order;
         this.portfolioEntryPlanningPackageGroup = pattern.portfolioEntryPlanningPackageGroup;
@@ -164,7 +167,7 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @Override
     public String audit() {
         return "PortfolioEntryPlanningPackage [id=" + id + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", endDate="
-                + endDate + ", cssClass=" + cssClass + " ]";
+                + endDate + " ]";
     }
 
     @Override
@@ -223,8 +226,8 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
      */
     public String getDisplayDate() {
         if (this.startDate != null && this.endDate != null) {
-            return Msg.get("object.portfolio_entry_planning_package.date.period", Utilities.getDateFormat(null).format(this.startDate), Utilities
-                    .getDateFormat(null).format(this.endDate));
+            return Msg.get("object.portfolio_entry_planning_package.date.period", Utilities.getDateFormat(null).format(this.startDate),
+                    Utilities.getDateFormat(null).format(this.endDate));
         } else if (this.endDate != null) {
             return Utilities.getDateFormat(null).format(this.endDate);
         } else {

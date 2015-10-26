@@ -18,12 +18,12 @@
 package models.pmo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import com.avaje.ebean.Model;
@@ -34,15 +34,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.ISelectableValueHolder;
+import framework.utils.Msg;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import play.data.validation.Constraints.Required;
 
 /**
- * An portfolio entry planning package pattern is a pattern for a planning
- * package.
+ * A type for a planning package.
  * 
  * @author Johann Kohler
  */
@@ -50,7 +48,7 @@ import play.data.validation.Constraints.Required;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryPlanningPackagePattern extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
+public class PortfolioEntryPlanningPackageType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
     @Id
     @JsonProperty
@@ -62,67 +60,50 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     @Version
     public Timestamp lastUpdate;
 
-    @Required
     @Column(length = IModelConstants.MEDIUM_STRING)
+    @ApiModelProperty(required = true)
     public String name;
 
-    @Column(length = IModelConstants.VLARGE_STRING)
-    public String description;
-
     @Column(length = IModelConstants.MEDIUM_STRING)
+    @JsonProperty
+    @ApiModelProperty(required = true)
     public String cssClass;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonPropertyLink
-    @ApiModelProperty(dataType = "String")
-    public PortfolioEntryPlanningPackageType portfolioEntryPlanningPackageType;
-
     @JsonProperty
-    public boolean isImportant = false;
+    @ApiModelProperty(required = true)
+    public Boolean isActive;
 
-    @Column(name = "`order`")
-    @JsonProperty
-    public Integer order;
+    @OneToMany(mappedBy = "portfolioEntryPlanningPackageType")
+    public List<PortfolioEntryPlanningPackage> portfolioEntryPlanningPackages;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    public PortfolioEntryPlanningPackageGroup portfolioEntryPlanningPackageGroup;
-
-    /**
-     * Default constructor.
-     */
-    public PortfolioEntryPlanningPackagePattern() {
-    }
+    @OneToMany(mappedBy = "portfolioEntryPlanningPackageType")
+    public List<PortfolioEntryPlanningPackagePattern> portfolioEntryPlanningPackagePatterns;
 
     @Override
     public String audit() {
-        return "PortfolioEntryPlanningPackagePattern [id=" + id + ", name=" + name + ", description=" + description + " ]";
+        return this.getClass().getSimpleName() + " [id=" + id + ", name=" + name + "]";
     }
 
     @Override
     public void defaults() {
+
     }
 
     @Override
     public void doDelete() {
         deleted = true;
         save();
+
     }
 
     @Override
-    public int compareTo(Object o) {
-        PortfolioEntryPlanningPackagePattern c = (PortfolioEntryPlanningPackagePattern) o;
-        return this.order > c.order ? +1 : this.order < c.order ? -1 : 0;
-    }
-
-    @Override
-    @JsonProperty(value = "description")
     public String getDescription() {
-        return this.description;
+        return null;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return Msg.get(this.name);
     }
 
     @Override
@@ -131,8 +112,17 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     }
 
     @Override
+    public void setUrl(String url) {
+    }
+
+    @Override
     public Long getValue() {
         return this.id;
+    }
+
+    @Override
+    public boolean isSelectable() {
+        return isActive;
     }
 
     @Override
@@ -141,12 +131,10 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     }
 
     @Override
-    public boolean isSelectable() {
-        return true;
-    }
-
-    @Override
-    public void setUrl(String arg0) {
+    public int compareTo(Object o) {
+        @SuppressWarnings("unchecked")
+        ISelectableValueHolder<Long> v = (ISelectableValueHolder<Long>) o;
+        return this.getName().compareTo(v.getName());
     }
 
     /** Api methods. **/

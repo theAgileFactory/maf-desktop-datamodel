@@ -92,9 +92,6 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @JsonProperty
     public Date endDate;
 
-    @Column(length = IModelConstants.MEDIUM_STRING)
-    public String cssClass;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")

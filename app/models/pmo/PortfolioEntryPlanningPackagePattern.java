@@ -69,9 +69,6 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     @Column(length = IModelConstants.VLARGE_STRING)
     public String description;
 
-    @Column(length = IModelConstants.MEDIUM_STRING)
-    public String cssClass;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")

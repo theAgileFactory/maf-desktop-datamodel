@@ -17,61 +17,58 @@
  */
 package models.delivery;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import models.pmo.PortfolioEntry;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.EnumValue;
 
 import framework.utils.Msg;
+import models.pmo.PortfolioEntry;
+import models.pmo.PortfolioEntryPlanningPackage;
 
 /**
- * Define the association table between a release and a portfolio entry.
+ * Define the association table between a portfolio entry and a deliverable.
  * 
  * @author Johann Kohler
  */
 @Entity
-public class ReleasePortfolioEntry extends Model {
+public class PortfolioEntryDeliverable extends Model {
 
     public static final long serialVersionUID = 4369856314752364L;
 
     @EmbeddedId
-    public ReleasePortfolioEntryId id = new ReleasePortfolioEntryId();
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "release_id", insertable = false, updatable = false)
-    private Release release;
+    public PortfolioEntryDeliverableId id = new PortfolioEntryDeliverableId();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "portfolio_entry_id", insertable = false, updatable = false)
     private PortfolioEntry portfolioEntry;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "deliverable_id", insertable = false, updatable = false)
+    private Deliverable deliverable;
+
     public Type type;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
     /**
      * Default constructor.
      * 
-     * @param release
-     *            the release
      * @param portfolioEntry
      *            the portfolio entry
+     * @param deliverable
+     *            the deliverable
      */
-    public ReleasePortfolioEntry(Release release, PortfolioEntry portfolioEntry) {
-        this.release = release;
+    public PortfolioEntryDeliverable(PortfolioEntry portfolioEntry, Deliverable deliverable) {
         this.portfolioEntry = portfolioEntry;
-        this.id.releaseId = release.id;
+        this.deliverable = deliverable;
         this.id.portfolioEntryId = portfolioEntry.id;
-    }
-
-    /**
-     * Get the release.
-     */
-    public Release getRelease() {
-        return this.release.deleted ? null : this.release;
+        this.id.deliverableId = deliverable.id;
     }
 
     /**
@@ -82,23 +79,29 @@ public class ReleasePortfolioEntry extends Model {
     }
 
     /**
-     * The requirements' relation type.
+     * Get the deliverable.
+     */
+    public Deliverable getDeliverable() {
+        return this.deliverable.deleted ? null : this.deliverable;
+    }
+
+    /**
+     * The portfolio entries' relation type.
+     * 
+     * Note: for a deliverable there is at least ONE relation with a PE, and
+     * exactly ONE "OWNER" relation.
      * 
      * @author Johann Kohler
      * 
      */
     public enum Type {
-        @EnumValue("ALL")
-        ALL, @EnumValue("BY_ITERATION")
-        BY_ITERATION, @EnumValue("BY_REQUIREMENT")
-        BY_REQUIREMENT, @EnumValue("NONE")
-        NONE;
+        @EnumValue("OWNER") OWNER, @EnumValue("FOLLOWER") FOLLOWER;
 
         /**
          * Get the label.
          */
         public String getLabel() {
-            return Msg.get("object.release.portfolio_entry.type." + this.name() + ".label");
+            return Msg.get("object.portfolio_entry.deliverable.type." + this.name() + ".label");
         }
     }
 }

@@ -49,7 +49,7 @@ import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.Msg;
 import framework.utils.formats.DateType;
 import models.delivery.Iteration;
-import models.delivery.ReleasePortfolioEntry;
+import models.delivery.PortfolioEntryDeliverable;
 import models.delivery.Requirement;
 import models.finance.PurchaseOrder;
 import models.finance.WorkOrder;
@@ -256,14 +256,14 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     @Where(clause = "${ta}.deleted=0")
     public List<Iteration> iterations;
 
-    @OneToMany(mappedBy = "portfolioEntry")
-    public List<ReleasePortfolioEntry> releasesPortfolioEntries;
-
     @OneToMany(mappedBy = "sourcePortfolioEntry")
     public List<PortfolioEntryDependency> sourceDependencies;
 
     @OneToMany(mappedBy = "destinationPortfolioEntry")
     public List<PortfolioEntryDependency> destinationDependencies;
+
+    @OneToMany(mappedBy = "portfolioEntry")
+    public List<PortfolioEntryDeliverable> portfolioEntryDeliverables;
 
     @Override
     public String audit() {

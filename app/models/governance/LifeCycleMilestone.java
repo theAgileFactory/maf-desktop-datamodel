@@ -29,15 +29,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
 import com.avaje.ebean.Model;
-
+import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.Where;
 
 import framework.services.api.commons.IApiObject;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
 
 /**
  * A life cycle process is made of multiple life cycle milestones. A milestone
@@ -75,6 +75,8 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
     public LifeCycleProcess lifeCycleProcess;
 
     public boolean isActive;
+
+    public Type type;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "lifeCycleMilestones")
     @Where(clause = "${ta}.deleted=0")
@@ -151,5 +153,29 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
+    }
+
+    /**
+     * The milestone type.
+     * 
+     * @author Johann Kohler
+     * 
+     */
+    public enum Type {
+
+        @EnumValue("IMPLEMENTATION_START_DATE") IMPLEMENTATION_START_DATE(true), @EnumValue("IMPLEMENTATION_END_DATE") IMPLEMENTATION_END_DATE(true);
+
+        public boolean isRelease;
+
+        Type(boolean isRelease) {
+            this.isRelease = isRelease;
+        }
+
+        /**
+         * Get the label.
+         */
+        public String getLabel() {
+            return Msg.get("object.life_cycle_milestone.type." + this.name() + ".label");
+        }
     }
 }

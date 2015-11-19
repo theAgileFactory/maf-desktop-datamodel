@@ -134,7 +134,7 @@ public class Reporting extends Model implements IModel {
                     vhc.add(new DefaultSelectableValueHolder<>(code, format.getLabel()));
                 }
             } catch (Exception e) {
-                Logger.debug("impossible to findRelease the report format " + code);
+                Logger.debug("impossible to find the report format " + code);
             }
         }
         return vhc;

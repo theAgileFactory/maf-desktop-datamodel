@@ -103,10 +103,6 @@ public class MafDataType extends DataType {
         return DataType.getDataType(IMafConstants.PurchaseOrder);
     }
 
-    public static DataType getRelease() {
-        return DataType.getDataType(IMafConstants.Release);
-    }
-
     public static DataType getRequirement() {
         return DataType.getDataType(IMafConstants.Requirement);
     }

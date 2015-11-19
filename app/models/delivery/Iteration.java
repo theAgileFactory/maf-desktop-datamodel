@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
@@ -54,7 +53,8 @@ import models.pmo.PortfolioEntry;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
+        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Iteration extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
@@ -97,11 +97,6 @@ public class Iteration extends Model implements IModel, IApiObject, ISelectableV
     @Column(length = IModelConstants.LARGE_STRING)
     @JsonProperty
     public String source;
-
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @ApiModelProperty(dataType = "String")
-    @JsonPropertyLink
-    public Release release;
 
     /**
      * Default constructor.

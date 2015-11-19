@@ -24,6 +24,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -68,7 +69,7 @@ public class Requirement extends Model implements IModel, IApiObject {
     @JsonProperty
     public boolean isDefect;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     public PortfolioEntry portfolioEntry;
 
     @Column(length = IModelConstants.MEDIUM_STRING)
@@ -127,10 +128,8 @@ public class Requirement extends Model implements IModel, IApiObject {
     @JsonProperty
     public Iteration iteration;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @JsonPropertyLink
-    @ApiModelProperty(dataType = "String")
-    public Release release;
+    @ManyToMany(mappedBy = "requirements")
+    public List<Deliverable> delivrables;
 
     /**
      * Default constructor.

@@ -74,7 +74,6 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String Stakeholder = "Stakeholder";
     public static final String PurchaseOrderLineItem = "PurchaseOrderLineItem";
     public static final String PurchaseOrder = "PurchaseOrder";
-    public static final String Release = "Release";
     public static final String Requirement = "Requirement";
     public static final String TimesheetActivityAllocatedActor = "TimesheetActivityAllocatedActor";
     public static final String WorkOrder = "WorkOrder";
@@ -106,9 +105,6 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String ACTOR_DELETE_DYNAMIC_PERMISSION = "ACTOR_DELETE_DYNAMIC_PERMISSION";
 
     public static final String ORG_UNIT_VIEW_DYNAMIC_PERMISSION = "ORG_UNIT_VIEW_DYNAMIC_PERMISSION";
-
-    public static final String RELEASE_VIEW_DYNAMIC_PERMISSION = "RELEASE_VIEW_DYNAMIC_PERMISSION";
-    public static final String RELEASE_EDIT_DYNAMIC_PERMISSION = "RELEASE_EDIT_DYNAMIC_PERMISSION";
 
     // -------------------------------------------------------------------------------------
     // Permissions constants
@@ -198,11 +194,6 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String TIMESHEET_APPROVAL_ALL_PERMISSION = "TIMESHEET_APPROVAL_ALL_PERMISSION";
     public static final String TIMESHEET_APPROVAL_AS_MANAGER_PERMISSION = "TIMESHEET_APPROVAL_AS_MANAGER_PERMISSION";
     public static final String TIMESHEET_LOCK_ALL_PERMISSION = "TIMESHEET_LOCK_ALL_PERMISSION";
-
-    public static final String RELEASE_VIEW_ALL_PERMISSION = "RELEASE_VIEW_ALL_PERMISSION";
-    public static final String RELEASE_VIEW_AS_MANAGER_PERMISSION = "RELEASE_VIEW_AS_MANAGER_PERMISSION";
-    public static final String RELEASE_EDIT_ALL_PERMISSION = "RELEASE_EDIT_ALL_PERMISSION";
-    public static final String RELEASE_EDIT_AS_MANAGER_PERMISSION = "RELEASE_EDIT_AS_MANAGER_PERMISSION";
 
     public static final String API_MANAGER_PERMISSION = "API_MANAGER_PERMISSION";
     public static final String API_TESTER_PERMISSION = "API_TESTER_PERMISSION";

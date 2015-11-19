@@ -20,17 +20,17 @@ package models.delivery;
 import javax.persistence.Embeddable;
 
 /**
- * Define the id of the association table between a release and a portfolio
- * entry.
+ * Define the id of the association table between a portfolio entry and a
+ * deliverable.
  * 
  * @author Johann Kohler
  */
 @Embeddable
-public class ReleasePortfolioEntryId {
-
-    public Long releaseId;
+public class PortfolioEntryDeliverableId {
 
     public Long portfolioEntryId;
+
+    public Long deliverableId;
 
     @Override
     public boolean equals(Object obj) {
@@ -40,11 +40,11 @@ public class ReleasePortfolioEntryId {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ReleasePortfolioEntryId other = (ReleasePortfolioEntryId) obj;
-        if ((this.releaseId == null) ? (other.releaseId != null) : !this.releaseId.equals(other.releaseId)) {
+        final PortfolioEntryDeliverableId other = (PortfolioEntryDeliverableId) obj;
+        if ((this.portfolioEntryId == null) ? (other.portfolioEntryId != null) : !this.portfolioEntryId.equals(other.portfolioEntryId)) {
             return false;
         }
-        if ((this.portfolioEntryId == null) ? (other.portfolioEntryId != null) : !this.portfolioEntryId.equals(other.portfolioEntryId)) {
+        if ((this.deliverableId == null) ? (other.deliverableId != null) : !this.deliverableId.equals(other.deliverableId)) {
             return false;
         }
         return true;
@@ -53,8 +53,8 @@ public class ReleasePortfolioEntryId {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + (this.releaseId != null ? this.releaseId.hashCode() : 0);
         hash = 89 * hash + (this.portfolioEntryId != null ? this.portfolioEntryId.hashCode() : 0);
+        hash = 89 * hash + (this.deliverableId != null ? this.deliverableId.hashCode() : 0);
         return hash;
     }
 

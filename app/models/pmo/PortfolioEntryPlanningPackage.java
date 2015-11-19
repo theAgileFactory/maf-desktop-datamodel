@@ -46,6 +46,7 @@ import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.delivery.PortfolioEntryDeliverable;
 import models.finance.PortfolioEntryResourcePlanAllocatedActor;
 import models.finance.PortfolioEntryResourcePlanAllocatedCompetency;
 import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
@@ -133,6 +134,9 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @OneToMany(mappedBy = "portfolioEntryPlanningPackage")
     @Where(clause = "${ta}.deleted=0")
     public List<WorkOrder> workOrders;
+
+    @OneToMany(mappedBy = "portfolioEntryPlanningPackage")
+    public List<PortfolioEntryDeliverable> portfolioEntryDeliverable;
 
     /**
      * Default constructor.

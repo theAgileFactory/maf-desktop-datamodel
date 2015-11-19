@@ -27,10 +27,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -41,6 +38,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * A portfolio entry is implemented within a defined life cycle process. One
@@ -92,10 +91,12 @@ public class LifeCycleProcess extends Model implements IModel, IApiObject, ISele
     @OrderBy("order")
     public List<LifeCyclePhase> lifeCyclePhases;
 
+    public boolean isRelease = false;
+
     @Override
     public String audit() {
-        return this.getClass().getSimpleName() + " [id=" + id + ", shortName=" + shortName + ", name=" + name + ", description=" + description
-                + ", isActive=" + isActive + "]";
+        return this.getClass().getSimpleName() + " [id=" + id + ", shortName=" + shortName + ", name=" + name + ", description=" + description + ", isActive="
+                + isActive + "]";
     }
 
     @Override

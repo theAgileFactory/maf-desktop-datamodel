@@ -18,19 +18,17 @@
 package models.delivery;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Version;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -40,31 +38,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.services.api.commons.JsonPropertyLink;
-import framework.services.kpi.IKpiObjectsContainer;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
-import framework.utils.formats.DateType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
 
 /**
- * Define a release.
+ * Define an deliverable.
  * 
  * @author Johann Kohler
  */
 @Entity
-@Table(name = "`release`")
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Release extends Model implements IModel, IApiObject, ISelectableValueHolder<Long>, IKpiObjectsContainer {
+public class Deliverable extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
     @Id
     @JsonProperty
+    @ApiModelProperty(required = true)
     public Long id;
 
     public boolean deleted = false;
@@ -72,51 +66,24 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
     @Version
     public Timestamp lastUpdate;
 
-    @JsonProperty
-    @ApiModelProperty(required = true)
-    public boolean isActive = true;
-
-    @Column(length = IModelConstants.LARGE_STRING)
+    @Column(length = IModelConstants.MEDIUM_STRING)
     public String name;
 
+    @Column(length = IModelConstants.VLARGE_STRING)
     public String description;
 
-    @JsonProperty
-    public Integer capacity;
-
-    @DateType
-    @JsonProperty
-    public Date cutOffDate;
-
-    @DateType
-    @JsonProperty
-    public Date endTestsDate;
-
-    @DateType
-    @JsonProperty
-    @ApiModelProperty(required = true)
-    public Date deploymentDate;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "release")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "deliverable_has_requirement")
     @Where(clause = "${ta}.deleted=0")
     public List<Requirement> requirements;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @JsonPropertyLink
-    @ApiModelProperty(dataType = "String", required = true)
-    public Actor manager;
-
-    @OneToMany(mappedBy = "release")
-    public List<ReleasePortfolioEntry> releasesPortfolioEntries;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "release")
-    @Where(clause = "${ta}.deleted=0")
-    public List<Iteration> iterations;
+    @OneToMany(mappedBy = "deliverable")
+    public List<PortfolioEntryDeliverable> portfolioEntryDeliverables;
 
     /**
      * Default constructor.
      */
-    public Release() {
+    public Deliverable() {
     }
 
     /**
@@ -136,7 +103,7 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
 
     @Override
     public String audit() {
-        return "Release [id=" + id + ", name=" + name + ", description=" + description + " ]";
+        return "Delivrable [id=" + id + ", name=" + name + ", description=" + description + " ]";
     }
 
     @Override
@@ -173,7 +140,7 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
 
     @Override
     public boolean isSelectable() {
-        return isActive;
+        return true;
     }
 
     @Override
@@ -183,8 +150,8 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
     /** Api methods **/
 
     @Override
-    @JsonProperty(value = "name")
     @ApiModelProperty(required = true)
+    @JsonProperty(value = "name")
     public String getApiName() {
         return getName();
     }
@@ -192,26 +159,11 @@ public class Release extends Model implements IModel, IApiObject, ISelectableVal
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(Release.class, id);
+        return CustomAttributeApiHandler.getSerializableValues(Deliverable.class, id);
     }
 
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
-    }
-
-    @Override
-    public List<? extends IKpiObjectsContainer> getAllInstancesForKpi() {
-        return Ebean.find(Release.class).where().eq("deleted", false).eq("isActive", true).findList();
-    }
-
-    @Override
-    public Long getIdForKpi() {
-        return this.id;
-    }
-
-    @Override
-    public Object getObjectByIdForKpi(Long objectId) {
-        return Ebean.find(Release.class).where().eq("deleted", false).eq("id", objectId).findUnique();
     }
 }

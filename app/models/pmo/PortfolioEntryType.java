@@ -29,10 +29,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -43,6 +40,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * A type of portfolio entry.
@@ -84,6 +83,8 @@ public class PortfolioEntryType extends Model implements IModel, IApiObject, ISe
     @JoinTable(name = "portfolio_entry_type_has_stakeholder_type")
     @Where(clause = "${ta}.deleted=0")
     public List<StakeholderType> stakeholderTypes;
+
+    public boolean isRelease = false;
 
     /**
      * Default constructor.

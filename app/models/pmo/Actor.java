@@ -30,21 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.delivery.Release;
-import models.delivery.Requirement;
-import models.finance.CostCenter;
-import models.finance.PortfolioEntryResourcePlanAllocatedActor;
-import models.finance.PurchaseOrderLineItem;
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.governance.LifeCycleMilestone;
-import models.governance.LifeCycleMilestoneInstance;
-import models.governance.LifeCycleMilestoneInstanceApprover;
-import models.governance.ProcessTransitionRequest;
-import models.timesheet.TimesheetActivityAllocatedActor;
-import models.timesheet.TimesheetReport;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -57,6 +43,18 @@ import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.CustomAttributeApiHandler;
 import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
 import framework.utils.ISelectableValueHolder;
+import models.delivery.Requirement;
+import models.finance.CostCenter;
+import models.finance.PortfolioEntryResourcePlanAllocatedActor;
+import models.finance.PurchaseOrderLineItem;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleMilestone;
+import models.governance.LifeCycleMilestoneInstance;
+import models.governance.LifeCycleMilestoneInstanceApprover;
+import models.governance.ProcessTransitionRequest;
+import models.timesheet.TimesheetActivityAllocatedActor;
+import models.timesheet.TimesheetReport;
 
 /**
  * Represent a person involved in a governance process.<br/>
@@ -265,10 +263,6 @@ public class Actor extends Model implements IModel, IApiObject, ISelectableValue
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     @Where(clause = "${ta}.deleted=0")
     public List<Requirement> requirements;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
-    @Where(clause = "${ta}.deleted=0")
-    public List<Release> releases;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "actor_has_competency")

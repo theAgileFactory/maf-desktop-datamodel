@@ -114,4 +114,8 @@ public class MafDataType extends DataType {
     public static DataType getWorkOrder() {
         return DataType.getDataType(IMafConstants.WorkOrder);
     }
+
+    public static DataType getDeliverable() {
+        return DataType.getDataType(IMafConstants.Deliverable);
+    }
 }

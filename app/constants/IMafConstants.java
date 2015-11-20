@@ -77,6 +77,7 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String Requirement = "Requirement";
     public static final String TimesheetActivityAllocatedActor = "TimesheetActivityAllocatedActor";
     public static final String WorkOrder = "WorkOrder";
+    public static final String Deliverable = "Deliverable";
 
     // -------------------------------------------------------------------------------------
     // Dynamic permissions constants

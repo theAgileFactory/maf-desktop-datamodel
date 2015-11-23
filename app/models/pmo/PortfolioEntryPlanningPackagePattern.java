@@ -74,9 +74,6 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     @ApiModelProperty(dataType = "String")
     public PortfolioEntryPlanningPackageType portfolioEntryPlanningPackageType;
 
-    @JsonProperty
-    public boolean isImportant = false;
-
     @Column(name = "`order`")
     @JsonProperty
     public Integer order;

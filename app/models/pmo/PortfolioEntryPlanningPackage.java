@@ -98,10 +98,6 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @ApiModelProperty(dataType = "String")
     public PortfolioEntryPlanningPackageType portfolioEntryPlanningPackageType;
 
-    @JsonProperty
-    @ApiModelProperty(required = true)
-    public boolean isImportant = false;
-
     @Column(name = "`order`")
     public Integer order;
 
@@ -157,7 +153,6 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
         this.name = pattern.name;
         this.description = pattern.description;
         this.portfolioEntryPlanningPackageType = pattern.portfolioEntryPlanningPackageType;
-        this.isImportant = pattern.isImportant;
         this.order = pattern.order;
         this.portfolioEntryPlanningPackageGroup = pattern.portfolioEntryPlanningPackageGroup;
         this.status = Status.NOT_STARTED;

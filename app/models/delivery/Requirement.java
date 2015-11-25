@@ -129,7 +129,7 @@ public class Requirement extends Model implements IModel, IApiObject {
     public Iteration iteration;
 
     @ManyToMany(mappedBy = "requirements")
-    public List<Deliverable> delivrables;
+    public List<Deliverable> deliverables;
 
     /**
      * Default constructor.

@@ -17,7 +17,6 @@
  */
 package models.delivery;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -53,7 +52,7 @@ public class PortfolioEntryDeliverable extends Model {
 
     public Type type;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(optional = true)
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
     /**

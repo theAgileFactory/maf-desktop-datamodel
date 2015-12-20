@@ -29,11 +29,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import com.avaje.ebean.Model;
-
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,9 +40,11 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.kpi.IKpiObjectsContainer;
-import framework.utils.CustomAttributeApiHandler;
-import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
+import framework.utils.CustomAttributeFormAndDisplayHandler;
+import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * An object which defines a group of {@link PortfolioEntry} mainly for
@@ -210,8 +209,8 @@ public class Portfolio extends Model implements IModel, IApiObject, IKpiObjectsC
      */
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
-    public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(Portfolio.class, id);
+    public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
+        return CustomAttributeFormAndDisplayHandler.getSerializableValues(Portfolio.class, id);
     }
 
 }

@@ -38,8 +38,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.utils.CustomAttributeApiHandler;
-import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
+import framework.utils.CustomAttributeFormAndDisplayHandler;
+import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import models.framework_models.parent.IModel;
@@ -158,8 +158,8 @@ public class Deliverable extends Model implements IModel, IApiObject, ISelectabl
 
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
-    public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(Deliverable.class, id);
+    public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
+        return CustomAttributeFormAndDisplayHandler.getSerializableValues(Deliverable.class, id);
     }
 
     @Override

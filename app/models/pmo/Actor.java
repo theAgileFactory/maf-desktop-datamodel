@@ -40,8 +40,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeApiHandler;
-import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
+import framework.utils.CustomAttributeFormAndDisplayHandler;
+import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
 import models.delivery.Requirement;
 import models.finance.CostCenter;
@@ -400,7 +400,7 @@ public class Actor extends Model implements IModel, IApiObject, ISelectableValue
      */
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String")
-    public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(Actor.class, id);
+    public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
+        return CustomAttributeFormAndDisplayHandler.getSerializableValues(Actor.class, id);
     }
 }

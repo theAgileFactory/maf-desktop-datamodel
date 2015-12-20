@@ -29,12 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Competency;
-import models.pmo.PortfolioEntryPlanningPackage;
 import com.avaje.ebean.Model;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,11 +38,15 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeApiHandler;
-import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
+import framework.utils.CustomAttributeFormAndDisplayHandler;
+import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Competency;
+import models.pmo.PortfolioEntryPlanningPackage;
 
 /**
  * The portfolioEntry resource plan allocated competency defines the association
@@ -142,8 +141,8 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
 
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
-    public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(PortfolioEntryResourcePlanAllocatedCompetency.class, id);
+    public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
+        return CustomAttributeFormAndDisplayHandler.getSerializableValues(PortfolioEntryResourcePlanAllocatedCompetency.class, id);
     }
 
     @Override

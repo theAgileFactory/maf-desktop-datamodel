@@ -40,8 +40,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeApiHandler;
-import framework.utils.CustomAttributeApiHandler.CustomAttributeApiValue;
+import framework.utils.CustomAttributeFormAndDisplayHandler;
+import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.Utilities;
@@ -269,7 +269,7 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
      */
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
-    public List<CustomAttributeApiValue> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeApiHandler.getSerializableValues(PortfolioEntryPlanningPackage.class, id);
+    public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
+        return CustomAttributeFormAndDisplayHandler.getSerializableValues(PortfolioEntryPlanningPackage.class, id);
     }
 }

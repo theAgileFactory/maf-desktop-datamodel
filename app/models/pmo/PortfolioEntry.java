@@ -46,7 +46,6 @@ import framework.services.api.commons.JsonPropertyLink;
 import framework.services.kpi.IKpiObjectsContainer;
 import framework.utils.CustomAttributeFormAndDisplayHandler;
 import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
-import framework.utils.Msg;
 import framework.utils.formats.DateType;
 import models.delivery.Iteration;
 import models.delivery.PortfolioEntryDeliverable;
@@ -299,18 +298,6 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Get the name with a close eye if confidential.
-     */
-    public String getDisplayName() {
-        if (!isPublic) {
-            return "<i id='portfolio-entry-confidential' class='glyphicons glyphicons-eye-close' title='"
-                    + Msg.get("object.portfolio_entry.is_condfidential.label") + "'></i> " + getName();
-        } else {
-            return getName();
-        }
     }
 
     @Override

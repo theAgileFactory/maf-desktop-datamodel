@@ -55,8 +55,6 @@ import models.framework_models.parent.IModelConstants;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObject {
 
-    private static final long serialVersionUID = -2786218115607865846L;
-
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)
@@ -101,6 +99,11 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
     @ApiModelProperty(dataType = "String")
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public BudgetBucket budgetBucket;
+
+    @Column(length = IModelConstants.LARGE_STRING)
+    public String resourceObjectType;
+
+    public Long resourceObjectId;
 
     @Override
     public String audit() {

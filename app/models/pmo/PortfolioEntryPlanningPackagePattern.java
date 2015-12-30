@@ -77,6 +77,8 @@ public class PortfolioEntryPlanningPackagePattern extends Model implements IMode
     @Column(name = "`order`")
     @JsonProperty
     public Integer order;
+    
+    public boolean isOpex;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PortfolioEntryPlanningPackageGroup portfolioEntryPlanningPackageGroup;

@@ -30,16 +30,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
-import play.data.validation.Constraints.Required;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.EnumMapping;
 import com.avaje.ebean.annotation.Where;
 
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
+import models.pmo.OrgUnit;
+import play.data.validation.Constraints.Required;
 
 /**
  * A timesheet report is a set of timesheet entries (and so a set of log times)
@@ -62,6 +62,9 @@ public class TimesheetReport extends Model implements IModel {
 
     @ManyToOne(cascade = CascadeType.ALL)
     public Actor actor;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    public OrgUnit orgUnit;
 
     @Required
     @Column(length = IModelConstants.SMALL_STRING)

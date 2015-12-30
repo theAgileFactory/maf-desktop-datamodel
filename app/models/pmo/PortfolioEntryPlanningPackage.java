@@ -108,6 +108,8 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
 
     public Status status;
 
+    public boolean isOpex;
+
     @ManyToOne
     public PortfolioEntry portfolioEntry;
 
@@ -157,6 +159,7 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
         this.portfolioEntryPlanningPackageGroup = pattern.portfolioEntryPlanningPackageGroup;
         this.status = Status.NOT_STARTED;
         this.portfolioEntry = portfolioEntry;
+        this.isOpex = pattern.isOpex;
 
     }
 

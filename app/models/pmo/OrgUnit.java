@@ -46,6 +46,7 @@ import framework.utils.Msg;
 import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.timesheet.TimesheetReport;
 
 /**
  * An organizational unit of the company.
@@ -134,6 +135,10 @@ public class OrgUnit extends Model implements IModel, IApiObject, ISelectableVal
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")
     public Actor manager;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orgUnit")
+    @Where(clause = "${ta}.deleted=0")
+    public List<TimesheetReport> timesheetReports;
 
     /**
      * Default constructor.

@@ -128,6 +128,11 @@ public class WorkOrder extends Model implements IModel, IApiObject {
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
+    @Column(length = IModelConstants.LARGE_STRING)
+    public String resourceObjectType;
+
+    public Long resourceObjectId;
+
     /**
      * Default constructor.
      */

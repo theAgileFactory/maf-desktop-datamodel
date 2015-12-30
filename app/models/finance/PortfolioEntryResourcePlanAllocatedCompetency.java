@@ -103,6 +103,14 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
+    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @ApiModelProperty(required = true)
+    public BigDecimal dailyRate;
+
+    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @ApiModelProperty(required = true)
+    public BigDecimal forecastDays;
+
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [" + ", days=" + days + "]";
@@ -123,8 +131,8 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
      */
     public String getDisplayDate() {
         if (this.startDate != null && this.endDate != null) {
-            return Msg.get("object.allocated_resource.date.period", Utilities.getDateFormat(null).format(this.startDate), Utilities.getDateFormat(null)
-                    .format(this.endDate));
+            return Msg.get("object.allocated_resource.date.period", Utilities.getDateFormat(null).format(this.startDate),
+                    Utilities.getDateFormat(null).format(this.endDate));
         } else if (this.endDate != null) {
             return Utilities.getDateFormat(null).format(this.endDate);
         } else {

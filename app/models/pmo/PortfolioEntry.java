@@ -138,6 +138,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
 
     public boolean isSyndicated;
 
+    public boolean defaultIsOpex;
+
     /**
      * The manager of the portfolioEntry.<br/>
      * The one that is on a daily basis managing the work progress.

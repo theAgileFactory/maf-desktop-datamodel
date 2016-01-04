@@ -140,6 +140,10 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
 
     public boolean defaultIsOpex;
 
+    public Date budgetTrackingLastRun;
+
+    public boolean budgetTrackingHasUnallocatedTimesheet;
+
     /**
      * The manager of the portfolioEntry.<br/>
      * The one that is on a daily basis managing the work progress.

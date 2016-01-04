@@ -49,6 +49,13 @@ public interface IMafConstants extends IFrameworkConstants {
      */
     public static final int MAF_GOVERNANCE_MODULE_CONFIGURATION = 0;
 
+    /**
+     * The ref ID of the purchase order that is used to engage the work orders
+     * used in the budget tracking (automatically generated from a resource
+     * allocation).
+     */
+    public static final String PURCHASE_ORDER_REF_ID_FOR_BUDGET_TRACKING = "_PO_BUDGET_TRACKING";
+
     // -------------------------------------------------------------------------------------
     // DataType name constants
     // -------------------------------------------------------------------------------------

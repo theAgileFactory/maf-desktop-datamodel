@@ -19,7 +19,9 @@ package models.finance;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,15 +29,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.governance.LifeCycleInstancePlanning;
-import models.governance.LifeCycleMilestoneInstance;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.governance.LifeCycleInstancePlanning;
+import models.governance.LifeCycleMilestoneInstance;
 
 /**
  * The portfolioEntry resource plan is the “human budget” of the project.
@@ -45,8 +46,6 @@ import framework.utils.formats.DateType;
  */
 @Entity
 public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObject {
-
-    private static final long serialVersionUID = 5052210881914651965L;
 
     @Id
     public long id;
@@ -100,7 +99,12 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
      * units) in the DB and return the clone.
      * 
      */
-    public PortfolioEntryResourcePlan cloneInDB() {
+    public PortfolioEntryResourcePlan cloneInDB(Map<String, Map<Long, Long>> allocatedResourcesMapOldToNew) {
+
+        allocatedResourcesMapOldToNew.put(PortfolioEntryResourcePlanAllocatedActor.class.getName(), new HashMap<>());
+        allocatedResourcesMapOldToNew.put(PortfolioEntryResourcePlanAllocatedOrgUnit.class.getName(), new HashMap<>());
+        allocatedResourcesMapOldToNew.put(PortfolioEntryResourcePlanAllocatedCompetency.class.getName(), new HashMap<>());
+
         PortfolioEntryResourcePlan newResourcePlan = new PortfolioEntryResourcePlan();
         newResourcePlan.allocationDate = this.allocationDate;
         newResourcePlan.save();
@@ -113,9 +117,12 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedActor.portfolioEntryPlanningPackage = allocatedActor.portfolioEntryPlanningPackage;
             newAllocatedActor.isConfirmed = allocatedActor.isConfirmed;
             newAllocatedActor.followPackageDates = allocatedActor.followPackageDates;
+            newAllocatedActor.dailyRate = allocatedActor.dailyRate;
+            newAllocatedActor.forecastDays = allocatedActor.forecastDays;
             newAllocatedActor.portfolioEntryResourcePlan = newResourcePlan;
             newAllocatedActor.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedActors.add(newAllocatedActor);
+            allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedActor.class.getName()).put(allocatedActor.id, newAllocatedActor.id);
         }
         for (PortfolioEntryResourcePlanAllocatedOrgUnit allocatedOrgUnit : this.portfolioEntryResourcePlanAllocatedOrgUnits) {
             PortfolioEntryResourcePlanAllocatedOrgUnit newAllocatedOrgUnit = new PortfolioEntryResourcePlanAllocatedOrgUnit();
@@ -126,9 +133,12 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedOrgUnit.portfolioEntryPlanningPackage = allocatedOrgUnit.portfolioEntryPlanningPackage;
             newAllocatedOrgUnit.isConfirmed = allocatedOrgUnit.isConfirmed;
             newAllocatedOrgUnit.followPackageDates = allocatedOrgUnit.followPackageDates;
+            newAllocatedOrgUnit.dailyRate = allocatedOrgUnit.dailyRate;
+            newAllocatedOrgUnit.forecastDays = allocatedOrgUnit.forecastDays;
             newAllocatedOrgUnit.portfolioEntryResourcePlan = newResourcePlan;
             newAllocatedOrgUnit.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedOrgUnits.add(newAllocatedOrgUnit);
+            allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedOrgUnit.class.getName()).put(allocatedOrgUnit.id, newAllocatedOrgUnit.id);
         }
         for (PortfolioEntryResourcePlanAllocatedCompetency allocatedCompetency : this.portfolioEntryResourcePlanAllocatedCompetencies) {
             PortfolioEntryResourcePlanAllocatedCompetency newAllocatedCompetency = new PortfolioEntryResourcePlanAllocatedCompetency();
@@ -139,9 +149,13 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedCompetency.portfolioEntryPlanningPackage = allocatedCompetency.portfolioEntryPlanningPackage;
             newAllocatedCompetency.isConfirmed = allocatedCompetency.isConfirmed;
             newAllocatedCompetency.followPackageDates = allocatedCompetency.followPackageDates;
+            newAllocatedCompetency.dailyRate = allocatedCompetency.dailyRate;
+            newAllocatedCompetency.forecastDays = allocatedCompetency.forecastDays;
             newAllocatedCompetency.portfolioEntryResourcePlan = newResourcePlan;
             newAllocatedCompetency.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedCompetencies.add(newAllocatedCompetency);
+            allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedCompetency.class.getName()).put(allocatedCompetency.id,
+                    newAllocatedCompetency.id);
         }
 
         return newResourcePlan;

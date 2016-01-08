@@ -20,21 +20,21 @@ package models.finance;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.governance.LifeCycleInstancePlanning;
-import models.governance.LifeCycleMilestoneInstance;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.governance.LifeCycleInstancePlanning;
+import models.governance.LifeCycleMilestoneInstance;
 
 /**
  * The portfolioEntry budget defines how much money is allocated to the
@@ -86,7 +86,7 @@ public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
      * Clone a portfolio entry budget (with its lines) in the DB and return the
      * clone.
      */
-    public PortfolioEntryBudget cloneInDB() {
+    public PortfolioEntryBudget cloneInDB(Map<String, Map<Long, Long>> allocatedResourcesMapOldToNew) {
         PortfolioEntryBudget newBudget = new PortfolioEntryBudget();
         newBudget.allocationDate = this.allocationDate;
         newBudget.save();
@@ -100,6 +100,10 @@ public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
             newBudgetLine.name = budgetLine.name;
             newBudgetLine.refId = budgetLine.refId;
             newBudgetLine.portfolioEntryBudget = newBudget;
+            if (budgetLine.resourceObjectType != null) {
+                newBudgetLine.resourceObjectId = allocatedResourcesMapOldToNew.get(budgetLine.resourceObjectType).get(budgetLine.resourceObjectId);
+                newBudgetLine.resourceObjectType = budgetLine.resourceObjectType;
+            }
             newBudgetLine.save();
             newBudget.portfolioEntryBudgetLines.add(newBudgetLine);
         }

@@ -29,7 +29,7 @@ import javax.persistence.Version;
 
 import com.avaje.ebean.Model;
 
-import framework.services.ServiceStaticAccessor;
+import framework.services.configuration.II18nMessagesPlugin;
 import framework.services.configuration.Language;
 import framework.utils.DefaultSelectableValueHolder;
 import framework.utils.DefaultSelectableValueHolderCollection;
@@ -114,10 +114,10 @@ public class Reporting extends Model implements IModel {
         return Msg.get(this.name);
     }
 
-    public DefaultSelectableValueHolderCollection<String> getLanguagesAsVHC() {
+    public DefaultSelectableValueHolderCollection<String> getLanguagesAsVHC(II18nMessagesPlugin i18nMessagesPlugin) {
         DefaultSelectableValueHolderCollection<String> vhc = new DefaultSelectableValueHolderCollection<>();
         for (String code : this.languages.split(",")) {
-            Language language = ServiceStaticAccessor.getMessagesPlugin().getLanguageByCode(code);
+            Language language = i18nMessagesPlugin.getLanguageByCode(code);
             if (language != null) {
                 vhc.add(new DefaultSelectableValueHolder<>(code, language.getName()));
             }

@@ -38,14 +38,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
-import framework.utils.CustomAttributeFormAndDisplayHandler;
-import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
+import framework.services.custom_attribute.ICustomAttributeManagerService;
+import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.formats.DateType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.PortfolioEntry;
+import play.Play;
 
 /**
  * Define an iteration.
@@ -177,7 +178,8 @@ public class Iteration extends Model implements IModel, IApiObject, ISelectableV
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeFormAndDisplayHandler.getSerializableValues(Iteration.class, id);
+        ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
+        return customAttributeManagerService.getSerializableValues(Iteration.class, id);
     }
 
     @Override

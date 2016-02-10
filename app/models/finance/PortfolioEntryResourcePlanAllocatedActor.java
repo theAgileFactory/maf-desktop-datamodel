@@ -38,8 +38,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeFormAndDisplayHandler;
-import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
+import framework.services.custom_attribute.ICustomAttributeManagerService;
+import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
@@ -47,6 +47,7 @@ import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
 import models.pmo.PortfolioEntryPlanningPackage;
+import play.Play;
 
 /**
  * The portfolioEntry resource plan allocated actor defines the association
@@ -149,7 +150,8 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeFormAndDisplayHandler.getSerializableValues(PortfolioEntryResourcePlanAllocatedActor.class, id);
+        ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
+        return customAttributeManagerService.getSerializableValues(PortfolioEntryResourcePlanAllocatedActor.class, id);
     }
 
     @Override

@@ -38,11 +38,12 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeFormAndDisplayHandler;
-import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
+import framework.services.custom_attribute.ICustomAttributeManagerService;
+import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.formats.DateType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import play.Play;
 
 /**
  * A project manager is supposed to deliver some portfolioEntry reports about
@@ -131,7 +132,8 @@ public class PortfolioEntryReport extends Model implements IModel, IApiObject {
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeFormAndDisplayHandler.getSerializableValues(PortfolioEntryReport.class, id);
+        ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
+        return customAttributeManagerService.getSerializableValues(PortfolioEntryReport.class, id);
     }
 
 }

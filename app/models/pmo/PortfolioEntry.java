@@ -44,8 +44,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.kpi.IKpiObjectsContainer;
-import framework.utils.CustomAttributeFormAndDisplayHandler;
-import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
+import framework.services.custom_attribute.ICustomAttributeManagerService;
+import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.formats.DateType;
 import models.delivery.Iteration;
 import models.delivery.PortfolioEntryDeliverable;
@@ -58,6 +58,7 @@ import models.governance.LifeCycleInstance;
 import models.governance.LifeCycleMilestoneInstance;
 import models.governance.LifeCycleProcess;
 import models.timesheet.TimesheetEntry;
+import play.Play;
 
 /**
  * An portfolioEntry is a unit of work consuming some resources.<br/>
@@ -334,7 +335,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeFormAndDisplayHandler.getSerializableValues(PortfolioEntry.class, id);
+        ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
+        return customAttributeManagerService.getSerializableValues(PortfolioEntry.class, id);
     }
 
     @Override

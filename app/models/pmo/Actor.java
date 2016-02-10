@@ -40,8 +40,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.utils.CustomAttributeFormAndDisplayHandler;
-import framework.utils.CustomAttributeFormAndDisplayHandler.CustomAttributeValueObject;
+import framework.services.custom_attribute.ICustomAttributeManagerService;
+import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.ISelectableValueHolder;
 import models.delivery.Requirement;
 import models.finance.CostCenter;
@@ -55,6 +55,7 @@ import models.governance.LifeCycleMilestoneInstanceApprover;
 import models.governance.ProcessTransitionRequest;
 import models.timesheet.TimesheetActivityAllocatedActor;
 import models.timesheet.TimesheetReport;
+import play.Play;
 
 /**
  * Represent a person involved in a governance process.<br/>
@@ -401,6 +402,7 @@ public class Actor extends Model implements IModel, IApiObject, ISelectableValue
     @JsonProperty(value = "customAttributes")
     @ApiModelProperty(dataType = "String")
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
-        return CustomAttributeFormAndDisplayHandler.getSerializableValues(Actor.class, id);
+        ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
+        return customAttributeManagerService.getSerializableValues(Actor.class, id);
     }
 }

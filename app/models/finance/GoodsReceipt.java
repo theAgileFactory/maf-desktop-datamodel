@@ -27,10 +27,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
+import com.avaje.ebean.Model;
+
+import framework.services.api.commons.IApiObject;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import com.avaje.ebean.Model;
-import framework.services.api.commons.IApiObject;
 
 /**
  * Good receipt associated with {@link PurchaseOrderLineItem}.
@@ -57,6 +58,12 @@ public class GoodsReceipt extends Model implements IModel, IApiObject {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PurchaseOrderLineItem purchaseOrderLineItem;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    public BigDecimal currencyRate;
 
     @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
     public BigDecimal quantityReceived;

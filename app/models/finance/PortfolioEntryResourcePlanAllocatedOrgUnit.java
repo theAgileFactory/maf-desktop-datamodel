@@ -73,11 +73,6 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
     @Version
     public Timestamp lastUpdate;
 
-    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
-    @JsonProperty
-    @ApiModelProperty(required = true)
-    public BigDecimal days;
-
     @DateType
     @JsonProperty
     public Date startDate;
@@ -104,13 +99,32 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
+    @JsonPropertyLink(linkField = "code")
+    @ApiModelProperty(dataType = "String", required = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    @JsonProperty
+    public BigDecimal currencyRate;
+
     @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @JsonProperty
+    @ApiModelProperty(required = true)
+    public BigDecimal days;
+
+    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @JsonProperty
     @ApiModelProperty(required = true)
     public BigDecimal dailyRate;
 
     @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
-    @ApiModelProperty(required = true)
+    @JsonProperty
     public BigDecimal forecastDays;
+
+    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @JsonProperty
+    public BigDecimal forecastDailyRate;
 
     @Override
     public String audit() {

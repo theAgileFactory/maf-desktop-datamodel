@@ -86,8 +86,12 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
 
     @JsonPropertyLink(linkField = "code")
     @ApiModelProperty(dataType = "String", required = true)
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    @JsonProperty
+    public BigDecimal currencyRate;
 
     @JsonProperty
     @Column(length = IModelConstants.MEDIUM_STRING)

@@ -25,10 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -38,6 +35,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.utils.ISelectableValueHolder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * A currency is used in all entity that manage amount.
@@ -70,13 +69,17 @@ public class Currency extends Model implements IModel, IApiObject, ISelectableVa
     @ApiModelProperty(required = true)
     public boolean isDefault = false;
 
-    @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
+    @Column(scale = 8, precision = 18)
     @JsonProperty
     public BigDecimal conversionRate;
 
     @Column(length = IModelConstants.MEDIUM_STRING)
     @JsonProperty
     public String symbol;
+
+    @OneToMany(mappedBy = "currency")
+    @Where(clause = "${ta}.deleted=0")
+    public List<BudgetBucketLine> budgetBucketLines;
 
     @OneToMany(mappedBy = "currency")
     @Where(clause = "${ta}.deleted=0")
@@ -89,6 +92,22 @@ public class Currency extends Model implements IModel, IApiObject, ISelectableVa
     @OneToMany(mappedBy = "currency")
     @Where(clause = "${ta}.deleted=0")
     public List<WorkOrder> workOrders;
+
+    @OneToMany(mappedBy = "currency")
+    @Where(clause = "${ta}.deleted=0")
+    public List<GoodsReceipt> goodsReceipt;
+
+    @OneToMany(mappedBy = "currency")
+    @Where(clause = "${ta}.deleted=0")
+    public List<PortfolioEntryResourcePlanAllocatedActor> portfolioEntryResourcePlanAllocatedActors;
+
+    @OneToMany(mappedBy = "currency")
+    @Where(clause = "${ta}.deleted=0")
+    public List<PortfolioEntryResourcePlanAllocatedOrgUnit> portfolioEntryResourcePlanAllocatedOrgUnits;
+
+    @OneToMany(mappedBy = "currency")
+    @Where(clause = "${ta}.deleted=0")
+    public List<PortfolioEntryResourcePlanAllocatedCompetency> portfolioEntryResourcePlanAllocatedCompetencies;
 
     /**
      * Default constructor.
@@ -103,8 +122,8 @@ public class Currency extends Model implements IModel, IApiObject, ISelectableVa
 
     @Override
     public String audit() {
-        return this.getClass().getSimpleName() + " [id=" + id + ", isActive=" + isActive + ", code=" + code + ", isDefault=" + isDefault
-                + ", conversionRate=" + conversionRate + ", symbol=" + symbol + "]";
+        return this.getClass().getSimpleName() + " [id=" + id + ", isActive=" + isActive + ", code=" + code + ", isDefault=" + isDefault + ", conversionRate="
+                + conversionRate + ", symbol=" + symbol + "]";
     }
 
     @Override

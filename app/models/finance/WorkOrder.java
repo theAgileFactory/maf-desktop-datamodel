@@ -110,10 +110,14 @@ public class WorkOrder extends Model implements IModel, IApiObject {
     @JsonProperty
     public Boolean followPackageDates;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
     @JsonPropertyLink(linkField = "code")
     @ApiModelProperty(dataType = "String", required = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    @JsonProperty
+    public BigDecimal currencyRate;
 
     @JsonProperty
     @ApiModelProperty(required = true)

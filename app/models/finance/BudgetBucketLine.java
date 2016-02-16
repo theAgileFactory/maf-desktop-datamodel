@@ -27,10 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
 import com.avaje.ebean.Model;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,6 +36,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
 
 /**
  * a budget bucket line represents a part in amount of a budget bucket.
@@ -79,8 +78,12 @@ public class BudgetBucketLine extends Model implements IModel, IApiObject {
 
     @JsonPropertyLink(linkField = "code")
     @ApiModelProperty(dataType = "String", required = true)
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    @JsonProperty
+    public BigDecimal currencyRate;
 
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")

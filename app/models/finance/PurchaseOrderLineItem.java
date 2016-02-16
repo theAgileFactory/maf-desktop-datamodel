@@ -30,12 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import models.pmo.Actor;
-import play.data.validation.Constraints.Required;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -46,6 +41,10 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.formats.DateType;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
+import play.data.validation.Constraints.Required;
 
 /**
  * A purchase order.
@@ -86,10 +85,14 @@ public class PurchaseOrderLineItem extends Model implements IModel, IApiObject {
     @ApiModelProperty(required = true)
     public String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
     @JsonPropertyLink(linkField = "code")
     @ApiModelProperty(dataType = "String", required = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Currency currency;
+
+    @Column(scale = 8, precision = 18)
+    @JsonProperty
+    public BigDecimal currencyRate;
 
     /**
      * The line number.
@@ -188,8 +191,8 @@ public class PurchaseOrderLineItem extends Model implements IModel, IApiObject {
     public String audit() {
         return "PurchaseOrderLineItem [id=" + id + ", refId=" + refId + ", description=" + description + ", lineId=" + lineId + ", quantity=" + quantity
                 + ", quantityTotalReceived=" + quantityTotalReceived + ", quantityBilled=" + quantityBilled + ", amount=" + amount + ", amountReceived="
-                + amountReceived + ", amountBilled=" + amountBilled + ", unitPrice=" + unitPrice + ", materialCode=" + materialCode + ", currency="
-                + currency + ", glAccount=" + glAccount + ", isOpex=" + isOpex + ", creationDate=" + creationDate + ", dueDate=" + dueDate + "]";
+                + amountReceived + ", amountBilled=" + amountBilled + ", unitPrice=" + unitPrice + ", materialCode=" + materialCode + ", currency=" + currency
+                + ", glAccount=" + glAccount + ", isOpex=" + isOpex + ", creationDate=" + creationDate + ", dueDate=" + dueDate + "]";
     }
 
     @Override

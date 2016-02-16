@@ -95,6 +95,7 @@ public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
             newBudgetLine.amount = budgetLine.amount;
             newBudgetLine.budgetBucket = budgetLine.budgetBucket;
             newBudgetLine.currency = budgetLine.currency;
+            newBudgetLine.currencyRate = budgetLine.currencyRate;
             newBudgetLine.glAccount = budgetLine.glAccount;
             newBudgetLine.isOpex = budgetLine.isOpex;
             newBudgetLine.name = budgetLine.name;

@@ -26,15 +26,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import models.framework_models.parent.IModel;
-import models.framework_models.parent.IModelConstants;
-import play.data.validation.Constraints.Required;
 import com.avaje.ebean.Model;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import framework.services.api.commons.IApiObject;
 import framework.utils.ISelectableValueHolder;
+import models.framework_models.parent.IModel;
+import models.framework_models.parent.IModelConstants;
+import play.data.validation.Constraints.Required;
 
 /**
  * The shipment status for a {@link PurchaseOrderLineItem}.<br/>
@@ -48,6 +48,7 @@ import framework.utils.ISelectableValueHolder;
  * </ul>
  * 
  * @author Pierre-Yves Cloux
+ * @author Marc Schaer
  */
 @Entity
 public class PurchaseOrderLineShipmentStatusType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
@@ -59,26 +60,34 @@ public class PurchaseOrderLineShipmentStatusType extends Model implements IModel
     public Boolean selectable;
 
     @Id
+    @JsonProperty
+    @ApiModelProperty(required = true)
     public Long id;
 
     /**
      * Reference in the source system.
      */
     @Column(length = IModelConstants.MEDIUM_STRING)
+    @JsonProperty
     public String refId;
 
     /**
      * Name of the supplier.
      */
     @Column(length = IModelConstants.SMALL_STRING, nullable = false)
+    @JsonProperty
+    @ApiModelProperty(required = true)
+    @Required
     public String name;
 
     /**
      * Name of the supplier.
      */
     @Column(length = IModelConstants.VLARGE_STRING, nullable = true)
+    @JsonProperty
     public String description;
 
+    @JsonProperty
     @Required
     public Boolean isAmountExpanded;
 
@@ -86,6 +95,7 @@ public class PurchaseOrderLineShipmentStatusType extends Model implements IModel
      * Returns the list of PurchaseOrderLineItem which are of the current type.
      */
     @OneToMany(mappedBy = "shipmentType")
+    @JsonProperty
     public List<PurchaseOrderLineItem> sameTypePurchaseOrderLineItems;
 
     @Override

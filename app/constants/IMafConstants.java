@@ -33,11 +33,6 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String MAF_GOVERNANCE_MODULE_ID = "governance";
 
     /**
-     * Cache configuration for the AdPanelUtils.
-     */
-    public static final String AD_CACHE_PREFIX = IMafConstants.MAF_CACHE_PREFIX + "ad_panel.";
-
-    /**
      * Cache for actor hierarchy
      */
     public static final String ACTOR_HIERARCHY_CACHE_PREFIX = IMafConstants.MAF_CACHE_PREFIX + "actorhierarchy.";

@@ -51,8 +51,7 @@ import play.Play;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
-        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObject {
 
@@ -110,10 +109,14 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
 
     public Long resourceObjectId;
 
+    @JsonPropertyLink
+    @ManyToOne
+    public PortfolioEntryBudgetLineType portfolioEntryBudgetLineType;
+
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [id=" + id + ", isApproved=" + name + ", refId=" + refId + ", isOpex=" + isOpex + ", amount=" + amount
-                + ", glAccount=" + glAccount + ", currency=" + currency + "]";
+                + ", glAccount=" + glAccount + ", currency=" + currency + ", portfolioEntryBudgetLineType=" + portfolioEntryBudgetLineType + "]";
     }
 
     @Override

@@ -26,6 +26,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import com.avaje.ebean.Model;
@@ -39,6 +40,7 @@ import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
+import framework.utils.ISelectableValueHolder;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import play.Play;
@@ -51,10 +53,9 @@ import play.Play;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
-        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObject {
+public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
     @Id
     @JsonProperty
@@ -105,6 +106,9 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public BudgetBucket budgetBucket;
 
+    @OneToMany
+    public List<WorkOrder> workOrders;
+
     @Column(length = IModelConstants.LARGE_STRING)
     public String resourceObjectType;
 
@@ -126,6 +130,52 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
         save();
     }
 
+    @Override
+    public boolean getApiDeleted() {
+        return this.deleted;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        @SuppressWarnings("unchecked")
+        ISelectableValueHolder<Long> v = (ISelectableValueHolder<Long>) o;
+        return this.getName().compareTo(v.getName());
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getUrl() {
+        return null;
+    }
+
+    @Override
+    public Long getValue() {
+        return id;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public boolean isSelectable() {
+        return true;
+    }
+
+    @Override
+    public void setUrl(String arg0) {
+    }
+
     /* API methods */
 
     @Override
@@ -139,11 +189,6 @@ public class PortfolioEntryBudgetLine extends Model implements IModel, IApiObjec
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
         ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
         return customAttributeManagerService.getSerializableValues(PortfolioEntryBudgetLine.class, id);
-    }
-
-    @Override
-    public boolean getApiDeleted() {
-        return this.deleted;
     }
 
 }

@@ -58,8 +58,7 @@ import play.Play;
  * @author Johann Kohler
  */
 @Entity
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
-        isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WorkOrder extends Model implements IModel, IApiObject {
 
@@ -132,6 +131,10 @@ public class WorkOrder extends Model implements IModel, IApiObject {
     @JsonProperty
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
+
+    @JsonProperty
+    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    public PortfolioEntryBudgetLine portfolioEntryBudgetLine;
 
     @Column(length = IModelConstants.LARGE_STRING)
     public String resourceObjectType;

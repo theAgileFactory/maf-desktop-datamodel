@@ -27,7 +27,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumMapping;
@@ -78,6 +81,9 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
 
     @Version
     public Timestamp lastUpdate;
+    
+    @Column(length = IModelConstants.MEDIUM_STRING)
+    public String refId;
 
     @Required
     @Column(length = IModelConstants.MEDIUM_STRING)

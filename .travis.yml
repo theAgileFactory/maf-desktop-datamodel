@@ -22,6 +22,7 @@ install:
 script:
   - mvn install:install-file -Dfile=lib/app-framework-${APP_FRAMEWORK_VERSION}.jar -DgroupId=com.agifac.lib -DartifactId=app-framework -Dversion=${APP_FRAMEWORK_VERSION} -DpomFile=lib/app-framework-${APP_FRAMEWORK_VERSION}.pom -Dpackaging=jar
   - mvn -U clean install
+  - bash travis/deploy.sh $APP_FRAMEWORK_VERSION
 notifications:
   email: false
 branches:

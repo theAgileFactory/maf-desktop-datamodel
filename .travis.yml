@@ -19,6 +19,7 @@ install:
   - wget http://ablionge.github.io/app-framework/snapshots/com/agifac/lib/app-framework/${APP_FRAMEWORK_VERSION}/app-framework-${APP_FRAMEWORK_VERSION}.zip
   - wget http://ablionge.github.io/app-framework/snapshots/com/agifac/lib/app-framework/${APP_FRAMEWORK_VERSION}/app-framework-${APP_FRAMEWORK_VERSION}.jar
   - wget http://ablionge.github.io/app-framework/snapshots/com/agifac/lib/app-framework/${APP_FRAMEWORK_VERSION}/app-framework-${APP_FRAMEWORK_VERSION}.pom
+  - unzip app-framework-12.1.1-SNAPSHOT.jar
   - cd ..
 script:
   - mvn install:install-file -Dfile=lib/app-framework-${APP_FRAMEWORK_VERSION}.jar -DgroupId=com.agifac.lib -DartifactId=app-framework -Dversion=${APP_FRAMEWORK_VERSION} -DpomFile=lib/app-framework-${APP_FRAMEWORK_VERSION}.pom -Dpackaging=jar

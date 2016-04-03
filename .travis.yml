@@ -28,6 +28,14 @@ script:
   -Dpackaging=jar
 - mvn -U clean install
 - bash travis/deploy.sh $MAF_DESKTOP_DATAMODEL_VERSION
+after_success:
+  - |
+      if [[ ($TRAVIS_BRANCH == master) &&
+            ($TRAVIS_PULL_REQUEST == false) &&
+            ( (! $TRAVIS_JOB_NUMBER == *.*) || ($TRAVIS_JOB_NUMBER == *.1) ) ]] ; then
+        curl -LO https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+        sh trigger-travis.sh AblionGE maf-desktop-app $TRAVIS_ACCESS_TOKEN
+      fi
 notifications:
   email: false
 branches:

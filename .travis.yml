@@ -1,0 +1,51 @@
+language: java
+jdk:
+- oraclejdk8
+env:
+  global:
+  - ACTIVATOR_VERSION=1.3.7
+  - ACTIVATOR_ZIP_FILE=typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
+  - ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/${ACTIVATOR_ZIP_FILE}
+  - PLAY2_HOME=${TRAVIS_BUILD_DIR}/activator-${ACTIVATOR_VERSION}-minimal
+  - SBT_EXECUTABLE_NAME=activator
+  - APP_FRAMEWORK_VERSION="12.1.1-SNAPSHOT"
+  - MAF_DESKTOP_DATAMODEL_VERSION="12.1.1-SNAPSHOT"
+  - GH_REF=github.com/AblionGE/maf-desktop-datamodel
+  - secure: rL2MkGIFIMxOs6KtsRxe2iZypR/tJ5IbYu7o98B9A1hWcqN2Xoabr/Yvz81OdRoy9zcXqoVzRV5z+MqCxCAFqj+GFnklTdlyOIvC38oSyCBflEcfdHNxeSVzcmpOYi/VsyOdReZrzPW0nLoKrAm/HUmbditDQgVe0/2H0VgsWs/4R5GGn+OWIhPoVxtmI6DWr7Adb0sB495m/oWi/FpjQpoTpAU32i/Z9BvAH+MK7vmuhuKhqH03Ce4HU0ULAVEUG5TbGWjHvkreh+jqphRWJZjaPuKUhMOdO9t2I0btrpcXdEUjq/abEG7te7MW8R/dx+hMBaXJABqhd6gj6wfmFaZNf7ocT85jlv0WClA+3gFiUWscdpiS1+Euow7nyWKwAZGmCC0dj2/3p2DbgZkORXCBmrgk3rGply01+FFBRzJ6F4w/uMXAxkd0M/8gWJ/AbryDsdnRovtcfrIpr/64+VfLj+BckXj8iRqPPrV/JyS9YOCk4a0v9o19VsU2tfuJxIBnOLhtHfTuNvrq4LFUIc6m+uO6qpuJGv4AcJGWadE9yq19F4rj/Ki51f2WlsiTLySHrqYjoxEwHrjXrqRW4YLuItcBW0XcI/rdYitRP3SCFo7loN5z9h7sJDIowCJnFfG5pI1dtR9oCQvAEf6JvRxhwuqaHCNCJX5VNmzpbgc=
+before_install:
+- sudo apt-get update
+- sudo apt-get install --only-upgrade -y oracle-java8-installer
+install:
+- wget ${ACTIVATOR_ZIP_URL}
+- unzip -q ${ACTIVATOR_ZIP_FILE}
+- mkdir lib && cd lib
+- wget http://ablionge.github.io/app-framework/snapshots/com/agifac/lib/app-framework/${APP_FRAMEWORK_VERSION}/app-framework-${APP_FRAMEWORK_VERSION}.jar
+- wget http://ablionge.github.io/app-framework/snapshots/com/agifac/lib/app-framework/${APP_FRAMEWORK_VERSION}/app-framework-${APP_FRAMEWORK_VERSION}.pom
+- cd ..
+script:
+- mvn install:install-file -Dfile=lib/app-framework-${APP_FRAMEWORK_VERSION}.jar -DgroupId=com.agifac.lib
+  -DartifactId=app-framework -Dversion=${APP_FRAMEWORK_VERSION} -DpomFile=lib/app-framework-${APP_FRAMEWORK_VERSION}.pom
+  -Dpackaging=jar
+- mvn -U clean install
+- bash travis/deploy.sh $MAF_DESKTOP_DATAMODEL_VERSION
+after_success:
+  - |
+      if [[ ($TRAVIS_BRANCH == master) &&
+            ($TRAVIS_PULL_REQUEST == false) &&
+            ( (! $TRAVIS_JOB_NUMBER == *.*) || ($TRAVIS_JOB_NUMBER == *.1) ) ]] ; then
+        curl -LO https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+        sh trigger-travis.sh AblionGE maf-desktop-app $TRAVIS_ACCESS_TOKEN
+      fi
+notifications:
+  email: false
+branches:
+  only:
+  - master
+scala:
+- 2.11.8
+cache:
+  directories:
+  - ".autoconf"
+  - "$HOME/.m2"
+  - "$HOME/.sbt"
+  - "$HOME/.ivy"

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/theAgileFactory/maf-desktop-datamodel.svg?branch=master)](https://travis-ci.org/theAgileFactory/maf-desktop-datamodel)
+
 # Desktop data model
 The Desktop data model component is the Java representation of the desktop model for the BizDock software
 

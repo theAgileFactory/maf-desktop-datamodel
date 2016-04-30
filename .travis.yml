@@ -29,9 +29,8 @@ install:
 script:
 - mvn -f pom2.xml clean install gpg:sign -Dgpg.passphrase="${GPG_PASSPHRASE}" --settings
   ~/.m2/settings.xml
-- .travis/deploy.sh
 after_success:
-- 
+- .travis/deploy.sh
 after_script:
 - rm ~/.gnupg/secring.gpg
 - rm ~/.gnupg/pubring.gpg

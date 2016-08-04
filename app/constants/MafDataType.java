@@ -118,4 +118,8 @@ public class MafDataType extends DataType {
     public static DataType getDeliverable() {
         return DataType.getDataType(IMafConstants.Deliverable);
     }
+
+    public static DataType getLifeCycleMilestoneInstance() {
+        return DataType.getDataType(IMafConstants.LifeCycleMilestoneInstance);
+    }
 }

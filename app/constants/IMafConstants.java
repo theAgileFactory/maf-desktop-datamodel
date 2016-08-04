@@ -80,6 +80,7 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String TimesheetActivityAllocatedActor = "TimesheetActivityAllocatedActor";
     public static final String WorkOrder = "WorkOrder";
     public static final String Deliverable = "Deliverable";
+    public static final String LifeCycleMilestoneInstance = "LifeCycleMilestoneInstance";
 
     // -------------------------------------------------------------------------------------
     // Dynamic permissions constants
@@ -121,6 +122,7 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String ADMIN_SYSTEM_OWNER_PERMISSION = "ADMIN_SYSTEM_OWNER_PERMISSION";
     public static final String ADMIN_KPI_MANAGER_PERMISSION = "ADMIN_KPI_MANAGER_PERMISSION";
     public static final String ADMIN_TRANSLATION_KEY_EDIT_PERMISSION = "ADMIN_TRANSLATION_KEY_EDIT_PERMISSION";
+    public static final String ADMIN_ATTACHMENTS_MANAGEMENT_PERMISSION = "ADMIN_ATTACHMENTS_MANAGEMENT_PERMISSION";
 
     public static final String PERSONAL_SPACE_READ_PERMISSION = "PERSONAL_SPACE_READ_PERMISSION";
 

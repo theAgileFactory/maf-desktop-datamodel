@@ -17,26 +17,16 @@
  */
 package models.governance;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Version;
-
-import models.framework_models.parent.IModel;
-import models.pmo.PortfolioEntry;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import framework.services.api.commons.IApiObject;
+import models.framework_models.parent.IModel;
+import models.pmo.PortfolioEntry;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * A portfolio entry is associated with a life cycle instance. It is a specific
@@ -144,6 +134,28 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
             return planning;
         }
         return null;
+    }
+
+    /**
+     * get the first planned milestone in the current planning.
+     * 
+     * @return PlannedLifeCycleMilestoneInstance
+     */
+    public PlannedLifeCycleMilestoneInstance getFirstPlannedLifecycleMilestoneInstance() {
+    	LifeCycleInstancePlanning currentLifecycleInstancePlanning = this.getCurrentLifeCycleInstancePlanning();
+    	List<PlannedLifeCycleMilestoneInstance> milestones = currentLifecycleInstancePlanning.plannedLifeCycleMilestoneInstance;
+        return milestones.stream().min((p1, p2) -> Integer.compare(p1.lifeCycleMilestone.order, p2.lifeCycleMilestone.order)).get();
+    }
+
+    /**
+     * get the last planned milestone in the current planning
+     * 
+     * @return PlannedLifeCycleMilestoneInstance
+     */
+    public PlannedLifeCycleMilestoneInstance getLastPlannedLifecycleMilestoneInstance() {
+    	LifeCycleInstancePlanning currentLifecycleInstancePlanning = this.getCurrentLifeCycleInstancePlanning();
+    	List<PlannedLifeCycleMilestoneInstance> milestones = currentLifecycleInstancePlanning.plannedLifeCycleMilestoneInstance;
+    	return milestones.stream().max((p1, p2) -> Integer.compare(p1.lifeCycleMilestone.order, p2.lifeCycleMilestone.order)).get();
     }
 
     @Override

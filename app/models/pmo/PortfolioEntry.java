@@ -57,6 +57,7 @@ import models.framework_models.parent.IModelConstants;
 import models.governance.LifeCycleInstance;
 import models.governance.LifeCycleMilestoneInstance;
 import models.governance.LifeCycleProcess;
+import models.governance.PlannedLifeCycleMilestoneInstance;
 import models.timesheet.TimesheetEntry;
 import play.Play;
 
@@ -241,6 +242,12 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
      */
     @OneToOne
     public PortfolioEntryReport lastPortfolioEntryReport;
+    
+    @OneToOne
+    public PlannedLifeCycleMilestoneInstance firstPlannedLifecycleMilestoneInstance;
+    
+    @OneToOne
+    public PlannedLifeCycleMilestoneInstance lastPlannedLifecycleMilestoneInstance;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "portfolioEntry")
     @Where(clause = "${ta}.deleted=0")
@@ -362,6 +369,15 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     public PortfolioEntryReport getApiLastPortfolioEntryReport() {
         return lastPortfolioEntryReport != null
                 ? Ebean.find(PortfolioEntryReport.class).where().eq("deleted", false).eq("id", this.lastPortfolioEntryReport.id).findUnique() : null;
+    }
+
+    /**
+     * Update the first and last planned date according to the currently active planning
+     */
+    public void updateFirstLastPlannedDate() {
+        this.firstPlannedLifecycleMilestoneInstance = this.activeLifeCycleInstance.getFirstPlannedLifecycleMilestoneInstance();
+        this.lastPlannedLifecycleMilestoneInstance = this.activeLifeCycleInstance.getLastPlannedLifecycleMilestoneInstance();
+        this.save();
     }
 
 }

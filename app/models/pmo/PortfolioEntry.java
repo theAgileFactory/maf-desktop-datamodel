@@ -244,10 +244,10 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     public PortfolioEntryReport lastPortfolioEntryReport;
     
     @OneToOne
-    public PlannedLifeCycleMilestoneInstance firstPlannedLifecycleMilestoneInstance;
+    public Date startDate;
     
     @OneToOne
-    public PlannedLifeCycleMilestoneInstance lastPlannedLifecycleMilestoneInstance;
+    public Date endDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "portfolioEntry")
     @Where(clause = "${ta}.deleted=0")
@@ -375,8 +375,8 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
      * Update the first and last planned date according to the currently active planning
      */
     public void updateFirstLastPlannedDate() {
-        this.firstPlannedLifecycleMilestoneInstance = this.activeLifeCycleInstance.getFirstPlannedLifecycleMilestoneInstance();
-        this.lastPlannedLifecycleMilestoneInstance = this.activeLifeCycleInstance.getLastPlannedLifecycleMilestoneInstance();
+        this.startDate = this.activeLifeCycleInstance.getStartDate();
+        this.endDate = this.activeLifeCycleInstance.getEndDate();
         this.save();
     }
 

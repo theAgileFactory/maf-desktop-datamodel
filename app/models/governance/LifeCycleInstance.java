@@ -17,26 +17,17 @@
  */
 package models.governance;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Version;
-
-import models.framework_models.parent.IModel;
-import models.pmo.PortfolioEntry;
 import com.avaje.ebean.Model;
-
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import framework.services.api.commons.IApiObject;
+import models.framework_models.parent.IModel;
+import models.pmo.PortfolioEntry;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A portfolio entry is associated with a life cycle instance. It is a specific
@@ -144,6 +135,38 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
             return planning;
         }
         return null;
+    }
+
+    /**
+     * get the first planned milestone in the current planning.
+     * 
+     * @return PlannedLifeCycleMilestoneInstance
+     */
+    public Date getStartDate() {
+        // Get the first version of the planning
+        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings.stream().min((p1, p2) -> Integer.compare(p1.version, p2.version)).get();
+
+        // Get the first milestone of this planning
+        PlannedLifeCycleMilestoneInstance milestoneInstance = planning.plannedLifeCycleMilestoneInstance.stream().min((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order)).get();
+
+        // Return the planned date of this milestone
+        return milestoneInstance.plannedDate;
+    }
+
+    /**
+     * get the last planned milestone in the current planning
+     * 
+     * @return PlannedLifeCycleMilestoneInstance
+     */
+    public Date getEndDate() {
+        // Get the last version of the planning
+        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings.stream().max((p1, p2) -> Integer.compare(p1.version, p2.version)).get();
+
+        // Get the last milestone of this planning
+        PlannedLifeCycleMilestoneInstance milestoneInstance = planning.plannedLifeCycleMilestoneInstance.stream().max((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order)).get();
+
+        // Return the planned date of this milestone
+        return milestoneInstance.plannedDate;
     }
 
     @Override

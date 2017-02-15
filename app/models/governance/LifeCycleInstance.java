@@ -139,34 +139,79 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
 
     /**
      * get the first planned milestone in the current planning.
-     * 
+     *
      * @return PlannedLifeCycleMilestoneInstance
      */
     public Date getStartDate() {
-        // Get the first version of the planning
-        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings.stream().min((p1, p2) -> Integer.compare(p1.version, p2.version)).get();
 
-        // Get the first milestone of this planning
-        PlannedLifeCycleMilestoneInstance milestoneInstance = planning.plannedLifeCycleMilestoneInstance.stream().min((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order)).get();
+        // Get the global minimum value of the order for the milestones in all plannings
+        Integer minOrder = this.lifeCycleInstancePlannings
+            .stream()
+            // Get local minimum for the milestone order in each planning
+            .map(planning -> planning.plannedLifeCycleMilestoneInstance
+                .stream()
+                .min((a, b) -> Integer.compare(a.lifeCycleMilestone.order, b.lifeCycleMilestone.order))
+                .get().lifeCycleMilestone.order
+            )
+            // Get global minimum
+            .min(Integer::compareTo)
+            .get();
 
-        // Return the planned date of this milestone
-        return milestoneInstance.plannedDate;
+        // Select the highest version of the planning containing the milestone with the lowest order
+        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings
+            .stream()
+            // Filter out plannings that don't contain the milestone with the order min
+            .filter(p -> p.plannedLifeCycleMilestoneInstance
+                .stream()
+                .anyMatch(plannedMilestone -> plannedMilestone.lifeCycleMilestone.order == minOrder))
+            // Get the planning with the highest version
+            .max((p1, p2) -> Integer.compare(p1.version, p2.version))
+            .get();
+
+        // Return the planned date of the milestone with the lowest order
+        return planning.plannedLifeCycleMilestoneInstance
+                .stream()
+                .min((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order))
+                .get()
+                .plannedDate;
     }
 
     /**
      * get the last planned milestone in the current planning
-     * 
+     *
      * @return PlannedLifeCycleMilestoneInstance
      */
     public Date getEndDate() {
-        // Get the last version of the planning
-        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings.stream().max((p1, p2) -> Integer.compare(p1.version, p2.version)).get();
+        // Get the global maximum value of the order for the milestones in all plannings
+        Integer maxOrder = this.lifeCycleInstancePlannings
+                .stream()
+                // Get local maximum for the milestone order in each planning
+                .map(planning -> planning.plannedLifeCycleMilestoneInstance
+                        .stream()
+                        .max((a, b) -> Integer.compare(a.lifeCycleMilestone.order, b.lifeCycleMilestone.order))
+                        .get().lifeCycleMilestone.order
+                )
+                // Get global maximum
+                .max(Integer::compareTo)
+                .get();
 
-        // Get the last milestone of this planning
-        PlannedLifeCycleMilestoneInstance milestoneInstance = planning.plannedLifeCycleMilestoneInstance.stream().max((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order)).get();
+        // Select the highest version of the planning containing the milestone with the highest order
+        LifeCycleInstancePlanning planning = this.lifeCycleInstancePlannings
+                .stream()
+                // Filter out plannings that don't contain the milestone with the order max
+                .filter(p -> p.plannedLifeCycleMilestoneInstance
+                        .stream()
+                        .anyMatch(plannedMilestone -> plannedMilestone.lifeCycleMilestone.order == maxOrder))
+                // Get the planning with the highest version
+                .max((p1, p2) -> Integer.compare(p1.version, p2.version))
+                .get();
 
-        // Return the planned date of this milestone
-        return milestoneInstance.plannedDate;
+        // Return the planned date of the milestone with the highest order
+        return planning.plannedLifeCycleMilestoneInstance
+                .stream()
+                .max((m1, m2) -> Integer.compare(m1.lifeCycleMilestone.order, m2.lifeCycleMilestone.order))
+                .get()
+                .plannedDate;
     }
 
     @Override

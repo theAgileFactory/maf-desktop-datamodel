@@ -81,6 +81,7 @@ public interface IMafConstants extends IFrameworkConstants {
     public static final String WorkOrder = "WorkOrder";
     public static final String Deliverable = "Deliverable";
     public static final String LifeCycleMilestoneInstance = "LifeCycleMilestoneInstance";
+    public static final String PlannedLifeCycleMilestoneInstance = "PlannedLifeCycleMilestoneInstance";
 
     // -------------------------------------------------------------------------------------
     // Dynamic permissions constants

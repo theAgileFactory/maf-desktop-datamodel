@@ -147,7 +147,7 @@ public class Reporting extends Model implements IModel {
      */
     public enum Format {
 
-        PDF("PDF"), EXCEL("Excel"), CSV("CSV"), WORD("Word"), POWER_POINT("PowerPoint");
+        PDF("PDF"), EXCEL("Excel"), CSV("CSV"), WORD("Word"), RTF("RTF"),POWER_POINT("PowerPoint");
 
         String label;
 

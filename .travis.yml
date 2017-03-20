@@ -3,6 +3,7 @@ jdk:
 - oraclejdk8
 env:
   global:
+  - BRANCH=master
   - ACTIVATOR_VERSION=1.3.7
   - ACTIVATOR_ZIP_FILE=typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
   - ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/${ACTIVATOR_ZIP_FILE}
@@ -41,7 +42,7 @@ notifications:
   email: true
 branches:
   only:
-  - master
+  - ${BRANCH}
 scala:
 - 2.11.8
 cache:

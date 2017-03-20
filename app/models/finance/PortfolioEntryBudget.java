@@ -100,6 +100,7 @@ public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
             newBudgetLine.isOpex = budgetLine.isOpex;
             newBudgetLine.name = budgetLine.name;
             newBudgetLine.refId = budgetLine.refId;
+            newBudgetLine.portfolioEntryBudgetLineType = budgetLine.portfolioEntryBudgetLineType;
             newBudgetLine.portfolioEntryBudget = newBudget;
             if (budgetLine.resourceObjectType != null) {
                 newBudgetLine.resourceObjectId = allocatedResourcesMapOldToNew.get(budgetLine.resourceObjectType).get(budgetLine.resourceObjectId);

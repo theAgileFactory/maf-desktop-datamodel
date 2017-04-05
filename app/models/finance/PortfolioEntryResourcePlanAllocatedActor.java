@@ -22,14 +22,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -125,6 +121,10 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
     @JsonProperty
     public BigDecimal forecastDailyRate;
+
+    @OneToMany(mappedBy = "portfolioEntryResourcePlanAllocatedActor")
+    @Where(clause = "${ta}.deleted=0")
+    public List<PortfolioEntryResourcePlanAllocatedActorDetail> portfolioEntryResourcePlanAllocatedActorDetails;
 
     @Override
     public String audit() {

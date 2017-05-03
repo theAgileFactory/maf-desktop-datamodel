@@ -126,6 +126,8 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @Where(clause = "${ta}.deleted=0")
     public List<PortfolioEntryResourcePlanAllocatedActorDetail> portfolioEntryResourcePlanAllocatedActorDetails;
 
+    public boolean monthlyAllocated = false;
+
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [" + ", days=" + days + "]";
@@ -172,6 +174,17 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
+    }
+
+    /**
+     * Clear all allocations details from allocated actor
+     */
+    public void clearAllocations() {
+        for (PortfolioEntryResourcePlanAllocatedActorDetail detail : portfolioEntryResourcePlanAllocatedActorDetails) {
+            detail.doDelete();
+            detail.save();
+        }
+        portfolioEntryResourcePlanAllocatedActorDetails.clear();
     }
 
 }

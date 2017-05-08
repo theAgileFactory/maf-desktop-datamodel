@@ -21,15 +21,12 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import framework.services.api.commons.IApiObject;
-import framework.utils.formats.DateType;
 import models.framework_models.parent.IModel;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * The portfolio entry resource plan allocated actor detail defines the monthly
@@ -44,19 +41,23 @@ import java.util.Date;
 public class PortfolioEntryResourcePlanAllocatedActorDetail extends Model implements IModel, IApiObject {
 
     @Id
+    @JsonProperty
     public long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     public PortfolioEntryResourcePlanAllocatedActor portfolioEntryResourcePlanAllocatedActor;
 
+    @JsonProperty
     public Integer year;
 
+    @JsonProperty
     public Integer month;
 
+    @JsonProperty
     public Double days;
 
-    @DateType
-    public Date lastUpdate;
+    @Version
+    public Timestamp lastUpdate;
 
     public boolean deleted = false;
 

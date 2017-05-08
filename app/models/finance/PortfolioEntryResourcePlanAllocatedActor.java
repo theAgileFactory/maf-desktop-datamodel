@@ -124,6 +124,7 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
 
     @OneToMany(mappedBy = "portfolioEntryResourcePlanAllocatedActor")
     @Where(clause = "${ta}.deleted=0")
+    @JsonProperty
     public List<PortfolioEntryResourcePlanAllocatedActorDetail> portfolioEntryResourcePlanAllocatedActorDetails;
 
     public boolean monthlyAllocated = false;

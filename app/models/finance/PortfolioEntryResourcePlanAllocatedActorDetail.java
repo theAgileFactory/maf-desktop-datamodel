@@ -56,7 +56,6 @@ public class PortfolioEntryResourcePlanAllocatedActorDetail extends Model implem
     @JsonProperty
     public Double days;
 
-    @Version
     public Timestamp lastUpdate;
 
     public boolean deleted = false;

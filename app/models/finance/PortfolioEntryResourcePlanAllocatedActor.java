@@ -19,8 +19,7 @@ package models.finance;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -43,6 +42,7 @@ import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
 import models.pmo.PortfolioEntryPlanningPackage;
+import org.apache.commons.lang3.tuple.Pair;
 import play.Play;
 
 /**
@@ -186,6 +186,65 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
             detail.save();
         }
         portfolioEntryResourcePlanAllocatedActorDetails.clear();
+    }
+
+    public PortfolioEntryResourcePlanAllocatedActorDetail getDetail(int year, int month) {
+        if (this.portfolioEntryResourcePlanAllocatedActorDetails.isEmpty()) {
+            this.computeAllocationDetails();
+        }
+        Optional<PortfolioEntryResourcePlanAllocatedActorDetail> optionalDetail = this.portfolioEntryResourcePlanAllocatedActorDetails.stream().filter(detail -> detail.month.equals(month) && detail.year.equals(year)).findFirst();
+        return optionalDetail.isPresent() ? optionalDetail.get() : null;
+    }
+
+    public void computeAllocationDetails() {
+        // Clear current allocation details
+        this.clearAllocations();
+
+        // Distribute allocations monthly from start date to end date
+        long endMillis = removeTime(this.endDate).getTimeInMillis();
+        long startMillis = removeTime(this.startDate).getTimeInMillis();
+        int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
+        Double dayRate = this.days.doubleValue() / days;
+        Calendar start = removeTime(this.startDate);
+        Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
+        for (int i = 0; i < days; i++) {
+            Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
+            Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
+            daysMap.put(month, d + dayRate);
+            start.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        for (Pair<Integer, Integer> month : daysMap.keySet()) {
+            createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
+        }
+    }
+
+    private static Calendar removeTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
+    public PortfolioEntryResourcePlanAllocatedActorDetail createOrUpdateAllocationDetail(Integer year, Integer month, Double days) {
+        if (year == null || month == null || days == null) {
+            return null;
+        }
+        Optional<PortfolioEntryResourcePlanAllocatedActorDetail> optionalDetail = this.portfolioEntryResourcePlanAllocatedActorDetails.stream().filter(detail -> detail.year.equals(year) && detail.month.equals(month)).findFirst();
+        PortfolioEntryResourcePlanAllocatedActorDetail detail;
+        if (optionalDetail.isPresent()) {
+            // Update
+            detail = optionalDetail.get();
+            detail.days = days;
+            detail.update();
+        } else {
+            // Create
+            detail = new PortfolioEntryResourcePlanAllocatedActorDetail(this, year, month, days);
+            detail.save();
+        }
+        return detail;
     }
 
 }

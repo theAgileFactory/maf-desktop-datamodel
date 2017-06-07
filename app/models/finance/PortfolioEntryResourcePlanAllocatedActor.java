@@ -197,24 +197,26 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     }
 
     public void computeAllocationDetails() {
-        // Clear current allocation details
-        this.clearAllocations();
+        if (this.startDate != null && this.endDate != null) {
+            // Clear current allocation details
+            this.clearAllocations();
 
-        // Distribute allocations monthly from start date to end date
-        long endMillis = removeTime(this.endDate).getTimeInMillis();
-        long startMillis = removeTime(this.startDate).getTimeInMillis();
-        int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
-        Double dayRate = this.days.doubleValue() / days;
-        Calendar start = removeTime(this.startDate);
-        Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
-        for (int i = 0; i < days; i++) {
-            Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
-            Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
-            daysMap.put(month, d + dayRate);
-            start.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        for (Pair<Integer, Integer> month : daysMap.keySet()) {
-            createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
+            // Distribute allocations monthly from start date to end date
+            long endMillis = removeTime(this.endDate).getTimeInMillis();
+            long startMillis = removeTime(this.startDate).getTimeInMillis();
+            int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
+            Double dayRate = this.days.doubleValue() / days;
+            Calendar start = removeTime(this.startDate);
+            Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
+            for (int i = 0; i < days; i++) {
+                Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
+                Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
+                daysMap.put(month, d + dayRate);
+                start.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            for (Pair<Integer, Integer> month : daysMap.keySet()) {
+                createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
+            }
         }
     }
 

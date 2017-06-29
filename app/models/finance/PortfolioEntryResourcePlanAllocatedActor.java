@@ -189,14 +189,11 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     }
 
     public PortfolioEntryResourcePlanAllocatedActorDetail getDetail(int year, int month) {
-        if (this.portfolioEntryResourcePlanAllocatedActorDetails.isEmpty()) {
-            this.computeAllocationDetails();
-        }
         Optional<PortfolioEntryResourcePlanAllocatedActorDetail> optionalDetail = this.portfolioEntryResourcePlanAllocatedActorDetails.stream().filter(detail -> detail.month.equals(month) && detail.year.equals(year)).findFirst();
         return optionalDetail.isPresent() ? optionalDetail.get() : null;
     }
 
-    public void computeAllocationDetails() {
+    public void computeAllocationDetails(boolean isForecast) {
         if (this.startDate != null && this.endDate != null) {
             // Clear current allocation details
             this.clearAllocations();
@@ -205,7 +202,7 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
             long endMillis = removeTime(this.endDate).getTimeInMillis();
             long startMillis = removeTime(this.startDate).getTimeInMillis();
             int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
-            Double dayRate = this.days.doubleValue() / days;
+            Double dayRate = (isForecast && this.forecastDays != null && this.forecastDays.doubleValue() != 0.0) ? this.forecastDays.doubleValue() / days : this.days.doubleValue() / days;
             Calendar start = removeTime(this.startDate);
             Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
             for (int i = 0; i < days; i++) {
@@ -249,4 +246,9 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
         return detail;
     }
 
+    public BigDecimal getDetailsAsTotalDays() {
+        return BigDecimal.valueOf(this.portfolioEntryResourcePlanAllocatedActorDetails.stream()
+                .mapToDouble(detail -> detail.days)
+                .sum());
+    }
 }

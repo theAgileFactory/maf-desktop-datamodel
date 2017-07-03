@@ -198,7 +198,7 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
             // Clear current allocation details
             this.clearAllocations();
 
-            Map<Pair<Integer, Integer>, Double> daysMap = getAllocationDistribution(this.startDate, this.endDate, (isForecast && this.forecastDays != null && this.forecastDays.doubleValue() != 0.0) ? this.forecastDays : this.days);
+            Map<Pair<Integer, Integer>, Double> daysMap = getAllocationDistribution(this.startDate, this.endDate, isForecast ? this.forecastDays : this.days);
 
             for (Pair<Integer, Integer> month : daysMap.keySet()) {
                 createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
@@ -207,18 +207,20 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     }
 
     public static Map<Pair<Integer, Integer>, Double> getAllocationDistribution(Date startDate, Date endDate, BigDecimal daysToDistribute) {
-        // Distribute allocations monthly from start date to end date
-        long endMillis = removeTime(endDate).getTimeInMillis();
-        long startMillis = removeTime(startDate).getTimeInMillis();
-        int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
-        Double dayRate = daysToDistribute.doubleValue() / days;
-        Calendar start = removeTime(startDate);
         Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
-        for (int i = 0; i < days; i++) {
-            Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
-            Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
-            daysMap.put(month, d + dayRate);
-            start.add(Calendar.DAY_OF_MONTH, 1);
+        if (startDate != null && endDate != null && daysToDistribute != null) {
+            // Distribute allocations monthly from start date to end date
+            long endMillis = removeTime(endDate).getTimeInMillis();
+            long startMillis = removeTime(startDate).getTimeInMillis();
+            int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
+            Double dayRate = daysToDistribute.doubleValue() / days;
+            Calendar start = removeTime(startDate);
+            for (int i = 0; i < days; i++) {
+                Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
+                Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
+                daysMap.put(month, d + dayRate);
+                start.add(Calendar.DAY_OF_MONTH, 1);
+            }
         }
         return daysMap;
     }

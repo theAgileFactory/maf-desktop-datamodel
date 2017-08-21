@@ -18,10 +18,7 @@
 package models.finance;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -124,6 +121,17 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedActor.forecastDays = allocatedActor.forecastDays;
             newAllocatedActor.forecastDailyRate = allocatedActor.forecastDailyRate;
             newAllocatedActor.portfolioEntryResourcePlan = newResourcePlan;
+            newAllocatedActor.monthlyAllocated = allocatedActor.monthlyAllocated;
+
+            // Clone allocation details
+            newAllocatedActor.portfolioEntryResourcePlanAllocatedActorDetails = new ArrayList<>(allocatedActor.portfolioEntryResourcePlanAllocatedActorDetails.size());
+            allocatedActor.portfolioEntryResourcePlanAllocatedActorDetails.stream()
+                    .forEach(detail -> {
+                        PortfolioEntryResourcePlanAllocatedActorDetail newDetail = new PortfolioEntryResourcePlanAllocatedActorDetail(newAllocatedActor, detail.year, detail.month, detail.days);
+                        newDetail.save();
+                        newAllocatedActor.portfolioEntryResourcePlanAllocatedActorDetails.add(newDetail);
+                    });
+
             newAllocatedActor.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedActors.add(newAllocatedActor);
             allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedActor.class.getName()).put(allocatedActor.id, newAllocatedActor.id);

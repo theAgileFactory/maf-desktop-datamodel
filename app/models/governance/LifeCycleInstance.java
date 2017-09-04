@@ -243,7 +243,7 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
      */
     public List<LifeCycleMilestoneInstance> getApprovedLifecycleMilestoneInstances() {
         return lifeCycleMilestoneInstances.stream()
-                .filter(milestone -> milestone.lifeCycleMilestoneInstanceStatusType.isApproved)
+                .filter(milestone -> milestone.lifeCycleMilestoneInstanceStatusType != null && milestone.lifeCycleMilestoneInstanceStatusType.isApproved)
                 .collect(Collectors.toList());
     }
 }

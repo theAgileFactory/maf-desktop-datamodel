@@ -81,8 +81,9 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
     @JsonProperty
     public Date endDate;
 
-    @JsonProperty
-    public boolean isConfirmed = false;
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
 
     @JsonProperty
     public Boolean followPackageDates;

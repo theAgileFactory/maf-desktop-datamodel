@@ -17,12 +17,6 @@
  */
 package models.finance;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
-
-import javax.persistence.*;
-
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -30,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
@@ -44,6 +37,11 @@ import models.pmo.Actor;
 import models.pmo.PortfolioEntryPlanningPackage;
 import org.apache.commons.lang3.tuple.Pair;
 import play.Play;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * The portfolioEntry resource plan allocated actor defines the association
@@ -77,8 +75,9 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @JsonProperty
     public Date endDate;
 
-    @JsonProperty
-    public boolean isConfirmed = false;
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
 
     @JsonProperty
     public Boolean followPackageDates;

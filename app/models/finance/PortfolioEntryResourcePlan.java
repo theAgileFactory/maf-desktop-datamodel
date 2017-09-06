@@ -112,7 +112,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
 
             newAllocatedActor.startDate = allocatedActor.startDate;
             newAllocatedActor.portfolioEntryPlanningPackage = allocatedActor.portfolioEntryPlanningPackage;
-            newAllocatedActor.isConfirmed = allocatedActor.isConfirmed;
+            newAllocatedActor.portfolioEntryResourcePlanAllocationStatusType = allocatedActor.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedActor.followPackageDates = allocatedActor.followPackageDates;
             newAllocatedActor.currency = allocatedActor.currency;
             newAllocatedActor.currencyRate = allocatedActor.currencyRate;
@@ -142,7 +142,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedOrgUnit.endDate = allocatedOrgUnit.endDate;
             newAllocatedOrgUnit.startDate = allocatedOrgUnit.startDate;
             newAllocatedOrgUnit.portfolioEntryPlanningPackage = allocatedOrgUnit.portfolioEntryPlanningPackage;
-            newAllocatedOrgUnit.isConfirmed = allocatedOrgUnit.isConfirmed;
+            newAllocatedOrgUnit.portfolioEntryResourcePlanAllocationStatusType = allocatedOrgUnit.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedOrgUnit.followPackageDates = allocatedOrgUnit.followPackageDates;
             newAllocatedOrgUnit.currency = allocatedOrgUnit.currency;
             newAllocatedOrgUnit.currencyRate = allocatedOrgUnit.currencyRate;
@@ -161,7 +161,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedCompetency.endDate = allocatedCompetency.endDate;
             newAllocatedCompetency.startDate = allocatedCompetency.startDate;
             newAllocatedCompetency.portfolioEntryPlanningPackage = allocatedCompetency.portfolioEntryPlanningPackage;
-            newAllocatedCompetency.isConfirmed = allocatedCompetency.isConfirmed;
+            newAllocatedCompetency.portfolioEntryResourcePlanAllocationStatusType = allocatedCompetency.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedCompetency.followPackageDates = allocatedCompetency.followPackageDates;
             newAllocatedCompetency.currency = allocatedCompetency.currency;
             newAllocatedCompetency.currencyRate = allocatedCompetency.currencyRate;

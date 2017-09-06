@@ -81,8 +81,9 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
     @JsonProperty
     public Date endDate;
 
-    @JsonProperty
-    public boolean isConfirmed = false;
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
 
     @JsonProperty
     public Boolean followPackageDates;

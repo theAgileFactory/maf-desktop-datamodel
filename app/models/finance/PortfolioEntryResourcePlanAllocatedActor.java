@@ -79,6 +79,14 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
 
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Actor lastStatusTypeUpdateActor;
+
+    @JsonProperty
+    @DateType
+    public Date lastStatusTypeUpdateTime;
+
     @JsonProperty
     public Boolean followPackageDates;
 

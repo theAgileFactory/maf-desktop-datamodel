@@ -45,6 +45,7 @@ import framework.utils.Utilities;
 import framework.utils.formats.DateType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.pmo.Actor;
 import models.pmo.OrgUnit;
 import models.pmo.PortfolioEntryPlanningPackage;
 import play.Play;
@@ -84,6 +85,14 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
     @JsonPropertyLink
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
+
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Actor lastStatusTypeUpdateActor;
+
+    @JsonProperty
+    @DateType
+    public Date lastStatusTypeUpdateTime;
 
     @JsonProperty
     public Boolean followPackageDates;

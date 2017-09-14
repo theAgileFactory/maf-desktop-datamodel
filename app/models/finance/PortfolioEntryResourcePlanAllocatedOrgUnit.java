@@ -19,17 +19,11 @@ package models.finance;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
-import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,6 +37,8 @@ import framework.services.custom_attribute.ICustomAttributeManagerService.Custom
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.common.ResourceAllocation;
+import models.common.ResourceAllocationDetail;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
@@ -62,7 +58,7 @@ import play.Play;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements IModel, IApiObject {
+public class PortfolioEntryResourcePlanAllocatedOrgUnit extends ResourceAllocation implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -136,6 +132,13 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
     @JsonProperty
     public BigDecimal forecastDailyRate;
 
+    @OneToMany(mappedBy = "portfolioEntryResourcePlanAllocatedOrgUnit")
+    @Where(clause = "${ta}.deleted=0")
+    @JsonProperty
+    public List<PortfolioEntryResourcePlanAllocatedOrgUnitDetail> portfolioEntryResourcePlanAllocatedOrgUnitDetails;
+
+    public boolean monthlyAllocated;
+
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [" + ", days=" + days + "]";
@@ -165,6 +168,11 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
         }
     }
 
+    @Override
+    public PortfolioEntryResourcePlanAllocationStatusType getPortfolioEntryResourcePlanAllocationStatusType() {
+        return portfolioEntryResourcePlanAllocationStatusType;
+    }
+
     /* API methods */
 
     @Override
@@ -184,4 +192,33 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends Model implements
         return this.deleted;
     }
 
+    @Override
+    public BigDecimal getDays() {
+        return days;
+    }
+
+    @Override
+    public BigDecimal getForecastDays() {
+        return forecastDays;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    @Override
+    protected ResourceAllocationDetail createDetail(ResourceAllocation resourceAllocation, Integer year, Integer month, Double days) {
+        return new PortfolioEntryResourcePlanAllocatedOrgUnitDetail(this, year, month, days);
+    }
+
+    @Override
+    public List<? extends ResourceAllocationDetail> getDetails() {
+        return portfolioEntryResourcePlanAllocatedOrgUnitDetails;
+    }
 }

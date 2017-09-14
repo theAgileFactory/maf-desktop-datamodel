@@ -17,24 +17,21 @@
  */
 package models.timesheet;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
+import com.avaje.ebean.annotation.Where;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.utils.formats.DateType;
+import models.common.ResourceAllocation;
+import models.common.ResourceAllocationDetail;
+import models.finance.PortfolioEntryResourcePlanAllocationStatusType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
-import com.avaje.ebean.Model;
-import framework.utils.Msg;
-import framework.utils.Utilities;
-import framework.utils.formats.DateType;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Allocation of an actor to a TimesheetActivity.
@@ -42,7 +39,7 @@ import framework.utils.formats.DateType;
  * @author Johann Kohler
  */
 @Entity
-public class TimesheetActivityAllocatedActor extends Model implements IModel {
+public class TimesheetActivityAllocatedActor extends ResourceAllocation implements IModel {
 
     @Id
     public long id;
@@ -67,6 +64,13 @@ public class TimesheetActivityAllocatedActor extends Model implements IModel {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public TimesheetActivity timesheetActivity;
 
+    @OneToMany(mappedBy = "timesheetActivityAllocatedActor")
+    @Where(clause = "${ta}.deleted=0")
+    @JsonProperty
+    public List<TimesheetActivityAllocatedActorDetail> timesheetActivityAllocatedActorDetails;
+
+    public boolean monthlyAllocated;
+
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [" + ", days=" + days + "]";
@@ -82,18 +86,38 @@ public class TimesheetActivityAllocatedActor extends Model implements IModel {
         save();
     }
 
-    /**
-     * Get the date for a display.
-     */
-    public String getDisplayDate() {
-        if (this.startDate != null && this.endDate != null) {
-            return Msg.get("object.allocated_resource.date.period", Utilities.getDateFormat(null).format(this.startDate), Utilities.getDateFormat(null)
-                    .format(this.endDate));
-        } else if (this.endDate != null) {
-            return Utilities.getDateFormat(null).format(this.endDate);
-        } else {
-            return null;
-        }
+    @Override
+    public PortfolioEntryResourcePlanAllocationStatusType getPortfolioEntryResourcePlanAllocationStatusType() {
+        return null;
     }
 
+    @Override
+    public BigDecimal getDays() {
+        return days;
+    }
+
+    @Override
+    public BigDecimal getForecastDays() {
+        return null;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    @Override
+    protected ResourceAllocationDetail createDetail(ResourceAllocation resourceAllocation, Integer year, Integer month, Double days) {
+        return new TimesheetActivityAllocatedActorDetail(this, year, month, days);
+    }
+
+    @Override
+    public List<? extends ResourceAllocationDetail> getDetails() {
+        return timesheetActivityAllocatedActorDetails;
+    }
 }

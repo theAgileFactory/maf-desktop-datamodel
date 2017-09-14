@@ -17,7 +17,6 @@
  */
 package models.finance;
 
-import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -28,20 +27,20 @@ import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
-import framework.utils.Msg;
-import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.common.ResourceAllocation;
+import models.common.ResourceAllocationDetail;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
 import models.pmo.PortfolioEntryPlanningPackage;
-import org.apache.commons.lang3.tuple.Pair;
 import play.Play;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The portfolioEntry resource plan allocated actor defines the association
@@ -55,7 +54,7 @@ import java.util.*;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryResourcePlanAllocatedActor extends Model implements IModel, IApiObject {
+public class PortfolioEntryResourcePlanAllocatedActor extends ResourceAllocation implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -151,20 +150,6 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
         save();
     }
 
-    /**
-     * Get the date for a display.
-     */
-    public String getDisplayDate() {
-        if (this.startDate != null && this.endDate != null) {
-            return Msg.get("object.allocated_resource.date.period", Utilities.getDateFormat(null).format(this.startDate),
-                    Utilities.getDateFormat(null).format(this.endDate));
-        } else if (this.endDate != null) {
-            return Utilities.getDateFormat(null).format(this.endDate);
-        } else {
-            return null;
-        }
-    }
-
     /* API methods */
 
     @Override
@@ -184,86 +169,44 @@ public class PortfolioEntryResourcePlanAllocatedActor extends Model implements I
         return this.deleted;
     }
 
-    /**
-     * Clear all allocations details from allocated actor
-     */
-    public void clearAllocations() {
-        for (PortfolioEntryResourcePlanAllocatedActorDetail detail : portfolioEntryResourcePlanAllocatedActorDetails) {
-            detail.doDelete();
-            detail.save();
-        }
-        portfolioEntryResourcePlanAllocatedActorDetails.clear();
-    }
-
-    public PortfolioEntryResourcePlanAllocatedActorDetail getDetail(int year, int month) {
-        Optional<PortfolioEntryResourcePlanAllocatedActorDetail> optionalDetail = this.portfolioEntryResourcePlanAllocatedActorDetails.stream().filter(detail -> detail.month.equals(month) && detail.year.equals(year)).findFirst();
-        return optionalDetail.isPresent() ? optionalDetail.get() : null;
-    }
-
-    public void computeAllocationDetails(boolean isForecast) {
-        if (this.startDate != null && this.endDate != null) {
-            // Clear current allocation details
-            this.clearAllocations();
-
-            Map<Pair<Integer, Integer>, Double> daysMap = getAllocationDistribution(this.startDate, this.endDate, isForecast ? this.forecastDays : this.days);
-
-            for (Pair<Integer, Integer> month : daysMap.keySet()) {
-                createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
-            }
-        }
-    }
-
-    public static Map<Pair<Integer, Integer>, Double> getAllocationDistribution(Date startDate, Date endDate, BigDecimal daysToDistribute) {
-        Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
-        if (startDate != null && endDate != null && daysToDistribute != null) {
-            // Distribute allocations monthly from start date to end date
-            long endMillis = removeTime(endDate).getTimeInMillis();
-            long startMillis = removeTime(startDate).getTimeInMillis();
-            int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
-            Double dayRate = daysToDistribute.doubleValue() / days;
-            Calendar start = removeTime(startDate);
-            for (int i = 0; i < days; i++) {
-                Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
-                Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
-                daysMap.put(month, d + dayRate);
-                start.add(Calendar.DAY_OF_MONTH, 1);
-            }
-        }
-        return daysMap;
-    }
-
-    private static Calendar removeTime(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
-    }
-
-    public PortfolioEntryResourcePlanAllocatedActorDetail createOrUpdateAllocationDetail(Integer year, Integer month, Double days) {
-        if (year == null || month == null || days == null) {
-            return null;
-        }
-        Optional<PortfolioEntryResourcePlanAllocatedActorDetail> optionalDetail = this.portfolioEntryResourcePlanAllocatedActorDetails.stream().filter(detail -> detail.year.equals(year) && detail.month.equals(month)).findFirst();
-        PortfolioEntryResourcePlanAllocatedActorDetail detail;
-        if (optionalDetail.isPresent()) {
-            // Update
-            detail = optionalDetail.get();
-            detail.days = days;
-            detail.update();
-        } else {
-            // Create
-            detail = new PortfolioEntryResourcePlanAllocatedActorDetail(this, year, month, days);
-            detail.save();
-        }
-        return detail;
-    }
-
     public BigDecimal getDetailsAsTotalDays() {
         return BigDecimal.valueOf(this.portfolioEntryResourcePlanAllocatedActorDetails.stream()
                 .mapToDouble(detail -> detail.days)
                 .sum());
+    }
+
+    @Override
+    public PortfolioEntryResourcePlanAllocationStatusType getPortfolioEntryResourcePlanAllocationStatusType() {
+        return portfolioEntryResourcePlanAllocationStatusType;
+    }
+
+    @Override
+    public BigDecimal getDays() {
+        return days;
+    }
+
+    @Override
+    public BigDecimal getForecastDays() {
+        return forecastDays;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    @Override
+    protected ResourceAllocationDetail createDetail(ResourceAllocation resourceAllocation, Integer year, Integer month, Double days) {
+        return new PortfolioEntryResourcePlanAllocatedActorDetail(this, year, month, days);
+    }
+
+    @Override
+    public List<? extends ResourceAllocationDetail> getDetails() {
+        return portfolioEntryResourcePlanAllocatedActorDetails;
     }
 }

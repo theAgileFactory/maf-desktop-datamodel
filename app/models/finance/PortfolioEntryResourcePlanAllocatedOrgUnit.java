@@ -41,8 +41,10 @@ import models.common.ResourceAllocation;
 import models.common.ResourceAllocationDetail;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleInstancePlanning;
 import models.pmo.Actor;
 import models.pmo.OrgUnit;
+import models.pmo.PortfolioEntry;
 import models.pmo.PortfolioEntryPlanningPackage;
 import play.Play;
 
@@ -220,5 +222,16 @@ public class PortfolioEntryResourcePlanAllocatedOrgUnit extends ResourceAllocati
     @Override
     public List<? extends ResourceAllocationDetail> getDetails() {
         return portfolioEntryResourcePlanAllocatedOrgUnitDetails;
+    }
+
+    @Override
+    public PortfolioEntry getAssociatedPortfolioEntry() {
+        return this.portfolioEntryResourcePlan.lifeCycleInstancePlannings
+                .stream()
+                .filter(LifeCycleInstancePlanning::isActive)
+                .findFirst()
+                .get()
+                .lifeCycleInstance
+                .portfolioEntry;
     }
 }

@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import models.finance.PortfolioEntryResourcePlanAllocationStatusType;
+import models.pmo.PortfolioEntry;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.persistence.MappedSuperclass;
@@ -122,5 +123,7 @@ public abstract class ResourceAllocation extends Model {
     protected abstract ResourceAllocationDetail createDetail(ResourceAllocation resourceAllocation, Integer year, Integer month, Double days);
 
     public abstract List<? extends ResourceAllocationDetail> getDetails();
+
+    public abstract PortfolioEntry getAssociatedPortfolioEntry();
 
 }

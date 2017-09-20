@@ -25,7 +25,9 @@ import models.common.ResourceAllocationDetail;
 import models.finance.PortfolioEntryResourcePlanAllocationStatusType;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleInstancePlanning;
 import models.pmo.Actor;
+import models.pmo.PortfolioEntry;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -119,5 +121,10 @@ public class TimesheetActivityAllocatedActor extends ResourceAllocation implemen
     @Override
     public List<? extends ResourceAllocationDetail> getDetails() {
         return timesheetActivityAllocatedActorDetails;
+    }
+
+    @Override
+    public PortfolioEntry getAssociatedPortfolioEntry() {
+        return null;
     }
 }

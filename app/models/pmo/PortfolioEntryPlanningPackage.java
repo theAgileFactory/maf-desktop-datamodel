@@ -186,6 +186,12 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @Override
     public int compareTo(Object o) {
         PortfolioEntryPlanningPackage c = (PortfolioEntryPlanningPackage) o;
+        if (this.order == null) {
+            return -1;
+        }
+        if (c.order == null) {
+            return +1;
+        }
         return this.order > c.order ? +1 : this.order < c.order ? -1 : 0;
     }
 

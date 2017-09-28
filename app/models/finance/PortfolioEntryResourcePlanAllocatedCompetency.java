@@ -17,25 +17,11 @@
  */
 package models.finance;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
-import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
@@ -43,11 +29,22 @@ import framework.services.custom_attribute.ICustomAttributeManagerService.Custom
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.common.ResourceAllocation;
+import models.common.ResourceAllocationDetail;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleInstancePlanning;
+import models.pmo.Actor;
 import models.pmo.Competency;
+import models.pmo.PortfolioEntry;
 import models.pmo.PortfolioEntryPlanningPackage;
 import play.Play;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The portfolioEntry resource plan allocated competency defines the association
@@ -61,7 +58,7 @@ import play.Play;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryResourcePlanAllocatedCompetency extends Model implements IModel, IApiObject {
+public class PortfolioEntryResourcePlanAllocatedCompetency extends ResourceAllocation implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -84,6 +81,14 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
     @JsonPropertyLink
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public PortfolioEntryResourcePlanAllocationStatusType portfolioEntryResourcePlanAllocationStatusType;
+
+    @JsonPropertyLink
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Actor lastStatusTypeUpdateActor;
+
+    @JsonProperty
+    @DateType
+    public Date lastStatusTypeUpdateTime;
 
     @JsonProperty
     public Boolean followPackageDates;
@@ -148,6 +153,11 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
         }
     }
 
+    @Override
+    public PortfolioEntryResourcePlanAllocationStatusType getPortfolioEntryResourcePlanAllocationStatusType() {
+        return portfolioEntryResourcePlanAllocationStatusType;
+    }
+
     /* API methods */
 
     @Override
@@ -167,4 +177,44 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends Model impleme
         return this.deleted;
     }
 
+    @Override
+    public BigDecimal getDays() {
+        return days;
+    }
+
+    @Override
+    public BigDecimal getForecastDays() {
+        return null;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    @Override
+    protected ResourceAllocationDetail createDetail(ResourceAllocation resourceAllocation, Integer year, Integer month, Double days) {
+        return null;
+    }
+
+    @Override
+    public List<? extends ResourceAllocationDetail> getDetails() {
+        return null;
+    }
+
+    @Override
+    public PortfolioEntry getAssociatedPortfolioEntry() {
+        return this.portfolioEntryResourcePlan.lifeCycleInstancePlannings
+                .stream()
+                .filter(LifeCycleInstancePlanning::isActive)
+                .findFirst()
+                .get()
+                .lifeCycleInstance
+                .portfolioEntry;
+    }
 }

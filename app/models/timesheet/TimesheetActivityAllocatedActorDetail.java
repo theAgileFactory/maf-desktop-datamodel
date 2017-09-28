@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package models.finance;
+package models.timesheet;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -27,24 +27,18 @@ import models.common.ResourceAllocationDetail;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-/**
- * The portfolio entry resource plan allocated actor detail defines the monthly
- * allocation for an actor and a resource plan.
- *
- * @author Guillaume Petit
- */
 @Entity
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryResourcePlanAllocatedActorDetail extends ResourceAllocationDetail implements IApiObject {
+public class TimesheetActivityAllocatedActorDetail extends ResourceAllocationDetail implements IApiObject {
 
     @Id
     @JsonProperty
     public long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    public PortfolioEntryResourcePlanAllocatedActor portfolioEntryResourcePlanAllocatedActor;
+    public TimesheetActivityAllocatedActor timesheetActivityAllocatedActor;
 
     @JsonProperty
     public Integer year;
@@ -60,8 +54,8 @@ public class PortfolioEntryResourcePlanAllocatedActorDetail extends ResourceAllo
 
     public boolean deleted = false;
 
-    public PortfolioEntryResourcePlanAllocatedActorDetail(PortfolioEntryResourcePlanAllocatedActor portfolioEntryResourcePlanAllocatedActor, Integer year, Integer month, Double days) {
-        this.portfolioEntryResourcePlanAllocatedActor = portfolioEntryResourcePlanAllocatedActor;
+    public TimesheetActivityAllocatedActorDetail(TimesheetActivityAllocatedActor timesheetActivityAllocatedActor, Integer year, Integer month, Double days) {
+        this.timesheetActivityAllocatedActor = timesheetActivityAllocatedActor;
         this.year = year;
         this.month = month;
         this.days = days;

@@ -28,8 +28,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * The portfolio entry resource plan allocated actor detail defines the monthly
- * allocation for an actor and a resource plan.
+ * The portfolio entry resource plan allocated org unit detail defines the monthly
+ * generic allocation for an org unit and a resource plan.
  *
  * @author Guillaume Petit
  */
@@ -37,14 +37,14 @@ import java.sql.Timestamp;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryResourcePlanAllocatedActorDetail extends ResourceAllocationDetail implements IApiObject {
+public class PortfolioEntryResourcePlanAllocatedOrgUnitDetail extends ResourceAllocationDetail implements IApiObject {
 
     @Id
     @JsonProperty
     public long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    public PortfolioEntryResourcePlanAllocatedActor portfolioEntryResourcePlanAllocatedActor;
+    public PortfolioEntryResourcePlanAllocatedOrgUnit portfolioEntryResourcePlanAllocatedOrgUnit;
 
     @JsonProperty
     public Integer year;
@@ -60,8 +60,8 @@ public class PortfolioEntryResourcePlanAllocatedActorDetail extends ResourceAllo
 
     public boolean deleted = false;
 
-    public PortfolioEntryResourcePlanAllocatedActorDetail(PortfolioEntryResourcePlanAllocatedActor portfolioEntryResourcePlanAllocatedActor, Integer year, Integer month, Double days) {
-        this.portfolioEntryResourcePlanAllocatedActor = portfolioEntryResourcePlanAllocatedActor;
+    public PortfolioEntryResourcePlanAllocatedOrgUnitDetail(PortfolioEntryResourcePlanAllocatedOrgUnit portfolioEntryResourcePlanAllocatedOrgUnit, Integer year, Integer month, Double days) {
+        this.portfolioEntryResourcePlanAllocatedOrgUnit = portfolioEntryResourcePlanAllocatedOrgUnit;
         this.year = year;
         this.month = month;
         this.days = days;

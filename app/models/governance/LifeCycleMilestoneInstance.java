@@ -71,6 +71,9 @@ public class LifeCycleMilestoneInstance extends Model implements IModel, IApiObj
     @Column(length = IModelConstants.XLARGE_STRING)
     public String gateComments;
 
+    @Column(length = IModelConstants.XLARGE_STRING)
+    public String requestComments;
+
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public LifeCycleMilestone lifeCycleMilestone;
 

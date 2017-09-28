@@ -74,7 +74,7 @@ public class PortfolioEntryReport extends Model implements IModel, IApiObject {
     @DateType
     public Date publicationDate;
 
-    @Column(length = IModelConstants.XLARGE_STRING)
+    @Column(length = IModelConstants.XXLARGE_STRING)
     @JsonProperty
     @ApiModelProperty(required = true)
     public String comments;

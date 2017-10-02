@@ -14,19 +14,31 @@ import java.util.*;
 @MappedSuperclass
 public abstract class ResourceAllocation extends Model {
 
-    public static Map<Pair<Integer, Integer>, Double> getAllocationDistribution(Date startDate, Date endDate, BigDecimal daysToDistribute) {
+    public static Map<Pair<Integer, Integer>, Double> getAllocationDistribution(Date startDate, Date endDate, BigDecimal daysToDistribute, boolean workingDaysOnly) {
         Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();
         if (startDate != null && endDate != null && daysToDistribute != null) {
+
             // Distribute allocations monthly from start date to end date
-            long endMillis = removeTime(endDate).getTimeInMillis();
-            long startMillis = removeTime(startDate).getTimeInMillis();
-            int days = 1 + (int) ((endMillis - startMillis) / (1000 * 60 * 60 * 24));
-            Double dayRate = daysToDistribute.doubleValue() / days;
+            int numberOfDays = Utilities.getDuration(startDate, endDate);
+            Double dayRate;
+
+            if (workingDaysOnly) {
+                int numberOfWorkingDays = Utilities.getWorkingDaysCount(startDate, endDate);
+                if (numberOfWorkingDays == 0) {
+                    return null;
+                }
+                dayRate = daysToDistribute.doubleValue() / numberOfWorkingDays;
+            } else {
+                dayRate = daysToDistribute.doubleValue() / numberOfDays;
+            }
+
             Calendar start = removeTime(startDate);
-            for (int i = 0; i < days; i++) {
+            for (int i = 0; i < numberOfDays; i++) {
                 Pair<Integer, Integer> month = Pair.of(start.get(Calendar.YEAR), start.get(Calendar.MONTH));
                 Double d = daysMap.get(month) == null ? 0.0 : daysMap.get(month);
-                daysMap.put(month, d + dayRate);
+                if (!workingDaysOnly || (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
+                    daysMap.put(month, d + dayRate);
+                }
                 start.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
@@ -79,15 +91,16 @@ public abstract class ResourceAllocation extends Model {
         return optionalDetail.isPresent() ? optionalDetail.get() : null;
     }
 
-    public void computeAllocationDetails(boolean isForecast) {
+    public void computeAllocationDetails(boolean isForecast, boolean workingDaysOnly) {
         if (this.getStartDate() != null && this.getEndDate() != null) {
             // Clear current allocation details
             this.clearAllocations();
 
-            Map<Pair<Integer, Integer>, Double> daysMap = getAllocationDistribution(this.getStartDate(), this.getEndDate(), isForecast ? this.getForecastDays() : this.getDays());
-
-            for (Pair<Integer, Integer> month : daysMap.keySet()) {
-                createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
+            Map<Pair<Integer, Integer>, Double> daysMap = getAllocationDistribution(this.getStartDate(), this.getEndDate(), isForecast ? this.getForecastDays() : this.getDays(), workingDaysOnly);
+            if (daysMap != null) {
+                for (Pair<Integer, Integer> month : daysMap.keySet()) {
+                    createOrUpdateAllocationDetail(month.getLeft(), month.getRight(), daysMap.get(month));
+                }
             }
         }
     }

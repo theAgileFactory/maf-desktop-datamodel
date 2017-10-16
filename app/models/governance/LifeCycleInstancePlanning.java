@@ -151,4 +151,8 @@ public class LifeCycleInstancePlanning extends Model implements IModel, IApiObje
     public boolean getApiDeleted() {
         return this.deleted;
     }
+
+    public boolean isActive() {
+        return !this.deleted && !this.isFrozen;
+    }
 }

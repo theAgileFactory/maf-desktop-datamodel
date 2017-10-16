@@ -28,6 +28,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A portfolio entry is associated with a life cycle instance. It is a specific
@@ -138,6 +140,18 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
     }
 
     /**
+     * get the previous (current version - 1) lifecycle instance planning.
+     */
+    public LifeCycleInstancePlanning getPreviousLifeCycleInstancePlanning() {
+        LifeCycleInstancePlanning currentPlanning = getCurrentLifeCycleInstancePlanning();
+        Optional<LifeCycleInstancePlanning> previousPlanning = lifeCycleInstancePlannings.stream()
+                .filter(planning -> !planning.deleted && planning.version < currentPlanning.version)
+                .sorted((p1, p2) -> Integer.compare(p2.version, p1.version))
+                .findFirst();
+        return previousPlanning.isPresent() ? previousPlanning.get() : currentPlanning;
+    }
+
+    /**
      * get the first planned milestone in the current planning.
      *
      * @return PlannedLifeCycleMilestoneInstance
@@ -222,5 +236,14 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
+    }
+
+    /**
+     * Get approved life cycle milestone instances
+     */
+    public List<LifeCycleMilestoneInstance> getApprovedLifecycleMilestoneInstances() {
+        return lifeCycleMilestoneInstances.stream()
+                .filter(milestone -> milestone.lifeCycleMilestoneInstanceStatusType != null && milestone.lifeCycleMilestoneInstanceStatusType.isApproved)
+                .collect(Collectors.toList());
     }
 }

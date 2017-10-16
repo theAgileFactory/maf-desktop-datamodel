@@ -17,23 +17,18 @@
  */
 package models.finance;
 
-import java.sql.Timestamp;
-import java.util.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Version;
-
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
-
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
+import models.framework_models.common.CustomAttributeDefinition;
 import models.framework_models.parent.IModel;
 import models.governance.LifeCycleInstancePlanning;
 import models.governance.LifeCycleMilestoneInstance;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * The portfolioEntry resource plan is the “human budget” of the project.
@@ -112,7 +107,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
 
             newAllocatedActor.startDate = allocatedActor.startDate;
             newAllocatedActor.portfolioEntryPlanningPackage = allocatedActor.portfolioEntryPlanningPackage;
-            newAllocatedActor.isConfirmed = allocatedActor.isConfirmed;
+            newAllocatedActor.portfolioEntryResourcePlanAllocationStatusType = allocatedActor.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedActor.followPackageDates = allocatedActor.followPackageDates;
             newAllocatedActor.currency = allocatedActor.currency;
             newAllocatedActor.currencyRate = allocatedActor.currencyRate;
@@ -135,6 +130,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedActor.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedActors.add(newAllocatedActor);
             allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedActor.class.getName()).put(allocatedActor.id, newAllocatedActor.id);
+            CustomAttributeDefinition.cloneCustomAttributeValues(PortfolioEntryResourcePlanAllocatedActor.class, allocatedActor.id, newAllocatedActor.id);
         }
         for (PortfolioEntryResourcePlanAllocatedOrgUnit allocatedOrgUnit : this.portfolioEntryResourcePlanAllocatedOrgUnits) {
             PortfolioEntryResourcePlanAllocatedOrgUnit newAllocatedOrgUnit = new PortfolioEntryResourcePlanAllocatedOrgUnit();
@@ -142,7 +138,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedOrgUnit.endDate = allocatedOrgUnit.endDate;
             newAllocatedOrgUnit.startDate = allocatedOrgUnit.startDate;
             newAllocatedOrgUnit.portfolioEntryPlanningPackage = allocatedOrgUnit.portfolioEntryPlanningPackage;
-            newAllocatedOrgUnit.isConfirmed = allocatedOrgUnit.isConfirmed;
+            newAllocatedOrgUnit.portfolioEntryResourcePlanAllocationStatusType = allocatedOrgUnit.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedOrgUnit.followPackageDates = allocatedOrgUnit.followPackageDates;
             newAllocatedOrgUnit.currency = allocatedOrgUnit.currency;
             newAllocatedOrgUnit.currencyRate = allocatedOrgUnit.currencyRate;
@@ -154,6 +150,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedOrgUnit.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedOrgUnits.add(newAllocatedOrgUnit);
             allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedOrgUnit.class.getName()).put(allocatedOrgUnit.id, newAllocatedOrgUnit.id);
+            CustomAttributeDefinition.cloneCustomAttributeValues(PortfolioEntryResourcePlanAllocatedOrgUnit.class, allocatedOrgUnit.id, newAllocatedOrgUnit.id);
         }
         for (PortfolioEntryResourcePlanAllocatedCompetency allocatedCompetency : this.portfolioEntryResourcePlanAllocatedCompetencies) {
             PortfolioEntryResourcePlanAllocatedCompetency newAllocatedCompetency = new PortfolioEntryResourcePlanAllocatedCompetency();
@@ -161,7 +158,7 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedCompetency.endDate = allocatedCompetency.endDate;
             newAllocatedCompetency.startDate = allocatedCompetency.startDate;
             newAllocatedCompetency.portfolioEntryPlanningPackage = allocatedCompetency.portfolioEntryPlanningPackage;
-            newAllocatedCompetency.isConfirmed = allocatedCompetency.isConfirmed;
+            newAllocatedCompetency.portfolioEntryResourcePlanAllocationStatusType = allocatedCompetency.portfolioEntryResourcePlanAllocationStatusType;
             newAllocatedCompetency.followPackageDates = allocatedCompetency.followPackageDates;
             newAllocatedCompetency.currency = allocatedCompetency.currency;
             newAllocatedCompetency.currencyRate = allocatedCompetency.currencyRate;
@@ -171,6 +168,8 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedCompetency.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedCompetencies.add(newAllocatedCompetency);
             allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedCompetency.class.getName()).put(allocatedCompetency.id,
+                    newAllocatedCompetency.id);
+            CustomAttributeDefinition.cloneCustomAttributeValues(PortfolioEntryResourcePlanAllocatedCompetency.class, allocatedCompetency.id,
                     newAllocatedCompetency.id);
         }
 

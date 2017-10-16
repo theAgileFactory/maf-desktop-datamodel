@@ -27,10 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import javax.persistence.Version;
-
-import org.apache.commons.lang.StringUtils;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumMapping;
@@ -189,6 +186,12 @@ public class PortfolioEntryPlanningPackage extends Model implements IModel, IApi
     @Override
     public int compareTo(Object o) {
         PortfolioEntryPlanningPackage c = (PortfolioEntryPlanningPackage) o;
+        if (this.order == null) {
+            return -1;
+        }
+        if (c.order == null) {
+            return +1;
+        }
         return this.order > c.order ? +1 : this.order < c.order ? -1 : 0;
     }
 

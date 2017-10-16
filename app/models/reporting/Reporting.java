@@ -77,6 +77,9 @@ public class Reporting extends Model implements IModel {
 
     @Column(length = IModelConstants.LARGE_STRING)
     public String formats;
+    
+    @Column(length = IModelConstants.LARGE_STRING)
+    public String defaultFormat;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public ReportingCategory reportingCategory;
@@ -114,6 +117,11 @@ public class Reporting extends Model implements IModel {
         return Msg.get(this.name);
     }
 
+    public String getDefaultFormat()
+    {
+    	return this.defaultFormat;
+    }
+    
     public DefaultSelectableValueHolderCollection<String> getLanguagesAsVHC(II18nMessagesPlugin i18nMessagesPlugin) {
         DefaultSelectableValueHolderCollection<String> vhc = new DefaultSelectableValueHolderCollection<>();
         for (String code : this.languages.split(",")) {
@@ -177,8 +185,7 @@ public class Reporting extends Model implements IModel {
                 vhc.add(new DefaultSelectableValueHolder<>(format.name(), format.getLabel()));
             }
             return vhc;
-        }
-
+        }        
     }
 
 }

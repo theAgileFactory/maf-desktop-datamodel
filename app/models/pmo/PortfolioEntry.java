@@ -54,10 +54,7 @@ import models.finance.PurchaseOrder;
 import models.finance.WorkOrder;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import models.governance.LifeCycleInstance;
-import models.governance.LifeCycleMilestoneInstance;
-import models.governance.LifeCycleProcess;
-import models.governance.PlannedLifeCycleMilestoneInstance;
+import models.governance.*;
 import models.timesheet.TimesheetEntry;
 import play.Play;
 
@@ -234,6 +231,15 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
      */
     @OneToOne
     public LifeCycleMilestoneInstance lastApprovedLifeCycleMilestoneInstance;
+
+    /**
+     * we store (if exists) the next not yet approved milestone instance of the
+     * portfolio entry in the DB in order to allow filters and to improve
+     * performance. This information is redundant and could be found with:
+     * activeLifeCycleInstance.lifeCycleMilestoneInstances
+     */
+    @OneToOne
+    public PlannedLifeCycleMilestoneInstance nextPlannedLifeCycleMilestoneInstance;
 
     /**
      * we store (if exists) the last create report of the portfolio entry in the

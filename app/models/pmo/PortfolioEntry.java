@@ -17,21 +17,6 @@
  */
 package models.pmo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
-
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
@@ -40,12 +25,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
-import framework.services.kpi.IKpiObjectsContainer;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
+import framework.services.kpi.IKpiObjectsContainer;
 import framework.utils.formats.DateType;
 import models.delivery.Iteration;
 import models.delivery.PortfolioEntryDeliverable;
@@ -54,9 +38,17 @@ import models.finance.PurchaseOrder;
 import models.finance.WorkOrder;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import models.governance.*;
+import models.governance.LifeCycleInstance;
+import models.governance.LifeCycleMilestoneInstance;
+import models.governance.LifeCycleProcess;
+import models.governance.PlannedLifeCycleMilestoneInstance;
 import models.timesheet.TimesheetEntry;
 import play.Play;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 /**
  * An portfolioEntry is a unit of work consuming some resources.<br/>

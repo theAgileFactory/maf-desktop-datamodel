@@ -77,6 +77,9 @@ public class LifeCycleProcess extends Model implements IModel, IApiObject, ISele
     @JsonProperty
     public Boolean isActive;
 
+    @JsonProperty
+    public Boolean isFlexible;
+
     @OneToMany(mappedBy = "lifeCycleProcess")
     @Where(clause = "${ta}.deleted=0")
     @OrderBy("order")
@@ -96,7 +99,7 @@ public class LifeCycleProcess extends Model implements IModel, IApiObject, ISele
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [id=" + id + ", shortName=" + shortName + ", name=" + name + ", description=" + description + ", isActive="
-                + isActive + "]";
+                + isActive + ", isFlexible=" + isFlexible + "]";
     }
 
     @Override

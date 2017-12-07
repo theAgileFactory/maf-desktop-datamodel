@@ -174,4 +174,15 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
             return Msg.get("object.life_cycle_milestone.type." + this.name() + ".label");
         }
     }
+
+    public enum DisplayType {
+        SHORT_DISPLAY("preference.governance_milestone_display_preference.short.name"),
+        LONG_DISPLAY("preference.governance_milestone_display_preference.long.name");
+
+        public String key;
+
+        DisplayType(String key) {
+            this.key = key;
+        }
+    }
 }

@@ -17,19 +17,14 @@
  */
 package models.governance;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import framework.services.api.commons.IApiObject;
+import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
-import models.framework_models.parent.IModel;
-import com.avaje.ebean.Model;
-import framework.services.api.commons.IApiObject;
-import framework.utils.formats.DateType;
+import java.util.Date;
 
 /**
  * A planned life cycle milestone instance (shortly called planned date) is
@@ -39,15 +34,7 @@ import framework.utils.formats.DateType;
  * @author Johann Kohler
  */
 @Entity
-public class PlannedLifeCycleMilestoneInstance extends Model implements IModel, IApiObject {
-
-    @Id
-    public Long id;
-
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
+public class PlannedLifeCycleMilestoneInstance extends BizDockModel implements IApiObject {
 
     @DateType
     public Date plannedDate;
@@ -83,16 +70,6 @@ public class PlannedLifeCycleMilestoneInstance extends Model implements IModel, 
         return "PlannedLifeCycleMilestoneInstance [deleted=" + deleted + ", lastUpdate=" + lastUpdate + ", id=" + id + ", plannedDate=" + plannedDate + "]";
     }
 
-    @Override
-    public void defaults() {
-    }
-
-    @Override
-    public void doDelete() {
-        deleted = true;
-        update();
-    }
-
     /**
      * Get the status of the planned milestone instance.
      */
@@ -110,7 +87,7 @@ public class PlannedLifeCycleMilestoneInstance extends Model implements IModel, 
      * @author Johann Kohler
      */
     public enum Status {
-        AVAILABLE, NOT_PLANNED;
+        AVAILABLE, NOT_PLANNED
     }
 
     @Override

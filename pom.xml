@@ -100,7 +100,7 @@
 
 	<dependencies>
         <dependency>
-            <groupId>com.agifac.lib</groupId>
+            <groupId>com.sword-group.bizdock.lib</groupId>
             <artifactId>app-framework</artifactId>
             <version>${lib.app-framework.version}</version>
         </dependency>

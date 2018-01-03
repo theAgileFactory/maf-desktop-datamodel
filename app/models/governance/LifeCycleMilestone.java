@@ -17,27 +17,18 @@
  */
 package models.governance;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumValue;
 import com.avaje.ebean.annotation.Where;
-
 import framework.services.api.commons.IApiObject;
 import framework.utils.Msg;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * A life cycle process is made of multiple life cycle milestones. A milestone
@@ -71,10 +62,15 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
     @Column(name = "`order`", scale = 5)
     public int order;
 
+    @Column(scale = 5)
+    public int subOrder;
+
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public LifeCycleProcess lifeCycleProcess;
 
     public boolean isActive;
+
+    public boolean isAdditional;
 
     public Type type;
 
@@ -104,7 +100,7 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
     @Override
     public String audit() {
         return this.getClass().getSimpleName() + " [id=" + id + ", shortName=" + shortName + ", name=" + name + ", description=" + description + ", order="
-                + order + "]";
+                + order + ", subOrder=" + subOrder + "]";
     }
 
     @Override
@@ -176,6 +172,17 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
          */
         public String getLabel() {
             return Msg.get("object.life_cycle_milestone.type." + this.name() + ".label");
+        }
+    }
+
+    public enum DisplayType {
+        SHORT_DISPLAY("preference.governance_milestone_display_preference.short.name"),
+        LONG_DISPLAY("preference.governance_milestone_display_preference.long.name");
+
+        public String key;
+
+        DisplayType(String key) {
+            this.key = key;
         }
     }
 }

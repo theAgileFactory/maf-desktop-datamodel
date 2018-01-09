@@ -66,6 +66,9 @@ public class PortfolioEntryEventType extends Model implements IModel, IApiObject
     @ApiModelProperty(required = true)
     public Boolean selectable;
 
+    @JsonProperty
+    public Boolean readOnly;
+
     @Column(length = IModelConstants.MEDIUM_STRING)
     @ApiModelProperty(required = true)
     public String name;

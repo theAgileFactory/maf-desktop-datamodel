@@ -17,24 +17,12 @@
  */
 package models.pmo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
@@ -44,18 +32,21 @@ import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import play.Play;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
 /**
- * An portfolio entry can be associated with some risks. These risks can evolve
- * during the life of the project (occur, be avoided or mitigated).
+ * A portfolio entry can be associated with some issues.
  * 
- * @author Thomas Badin
- * @author Johann Kohler
+ * @author Guillaume Petit
  */
 @Entity
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
+public class PortfolioEntryIssue extends Model implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -73,7 +64,7 @@ public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
 
     @DateType
     @JsonProperty
-    public Date targetDate;
+    public Date dueDate;
 
     @Column(length = IModelConstants.MEDIUM_STRING, nullable = false)
     public String name;
@@ -86,21 +77,14 @@ public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
     @JsonProperty
     public boolean isActive;
 
-    @JsonProperty
-    public boolean isMitigated;
-
     @DateType
     @JsonProperty
     public Date closureDate;
 
-    @Column(length = IModelConstants.VLARGE_STRING)
-    @JsonProperty
-    public String mitigationComment;
-
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")
-    public PortfolioEntryRiskType portfolioEntryRiskType;
+    public PortfolioEntryIssueType portfolioEntryIssueType;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public PortfolioEntry portfolioEntry;
@@ -112,9 +96,9 @@ public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
 
     @Override
     public String audit() {
-        return this.getClass().getSimpleName() + " [id=" + id + ", creationDate=" + creationDate + ", targetDate=" + targetDate + ", name=" + name
-                + ", description=" + description + ", isActive=" + isActive + ", isMitigated=" + isMitigated + ", closureDate="
-                + closureDate + ", mitigationComment=" + mitigationComment + "]";
+        return this.getClass().getSimpleName() + " [id=" + id + ", creationDate=" + creationDate + ", dueDate=" + dueDate + ", name=" + name
+                + ", description=" + description + ", isActive=" + isActive + ", closureDate="
+                + closureDate + "]";
     }
 
     @Override
@@ -148,7 +132,7 @@ public class PortfolioEntryRisk extends Model implements IModel, IApiObject {
     @ApiModelProperty(dataType = "String", required = false)
     public List<CustomAttributeValueObject> getCustomAttributesAsSerializableValues() {
         ICustomAttributeManagerService customAttributeManagerService = Play.application().injector().instanceOf(ICustomAttributeManagerService.class);
-        return customAttributeManagerService.getSerializableValues(PortfolioEntryRisk.class, id);
+        return customAttributeManagerService.getSerializableValues(PortfolioEntryIssue.class, id);
     }
 
 }

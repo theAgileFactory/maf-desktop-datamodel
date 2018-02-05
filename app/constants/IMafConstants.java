@@ -72,6 +72,7 @@ public interface IMafConstants extends IFrameworkConstants {
     String PortfolioEntryResourcePlanAllocatedOrgUnit = "PortfolioEntryResourcePlanAllocatedOrgUnit";
     String PortfolioEntryResourcePlanAllocatedCompetency = "PortfolioEntryResourcePlanAllocatedCompetency";
     String PortfolioEntryRisk = "PortfolioEntryRisk";
+    String PortfolioEntryIssue = "PortfolioEntryIssue";
     String Portfolio = "Portfolio";
     String Stakeholder = "Stakeholder";
     String PurchaseOrderLineItem = "PurchaseOrderLineItem";

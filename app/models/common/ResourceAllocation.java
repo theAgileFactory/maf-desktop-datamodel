@@ -86,11 +86,25 @@ public abstract class ResourceAllocation extends Model {
         details.clear();
     }
 
+    /**
+     * Get an allocation detail by year and month.
+     *
+     * @param year the year of the allocation
+     * @param month the month of the allocation
+     *
+     * @return the allocation detail or null if none are found
+     */
     public ResourceAllocationDetail getDetail(int year, int month) {
         Optional<? extends ResourceAllocationDetail> optionalDetail = this.getDetails().stream().filter(detail -> detail.getMonth().equals(month) && detail.getYear().equals(year)).findFirst();
-        return optionalDetail.isPresent() ? optionalDetail.get() : null;
+        return optionalDetail.orElse(null);
     }
 
+    /**
+     * Compute the allocation details based on allocation start date and end date. The allocated days will be distributed evenly over the given period and allocation details created accordingly.
+     *
+     * @param isForecast true if the distribution must be done over the forecast days. Budget days will be taken instead.
+     * @param workingDaysOnly if true, only working days will be taken into account for the distribution.
+     */
     public void computeAllocationDetails(boolean isForecast, boolean workingDaysOnly) {
         if (this.getStartDate() != null && this.getEndDate() != null) {
             // Clear current allocation details

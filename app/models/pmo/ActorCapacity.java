@@ -75,6 +75,16 @@ public class ActorCapacity extends Model implements IModel, IApiObject {
     @ApiModelProperty(required = true)
     public Double value;
 
+    public ActorCapacity() {
+    }
+
+    public ActorCapacity(Actor actor, Integer year, Integer month, Double value) {
+        this.actor = actor;
+        this.year = year;
+        this.month = month;
+        this.value = value;
+    }
+
     @Override
     public String audit() {
         return "Competency [id=" + id + ", actor=" + actor.getName() + ", year=" + year + ", month=" + month + ", value=" + value + "]";

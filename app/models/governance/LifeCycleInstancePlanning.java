@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.avaje.ebean.annotation.Where;
 import models.finance.PortfolioEntryBudget;
 import models.finance.PortfolioEntryResourcePlan;
 import models.framework_models.parent.IModel;
@@ -75,6 +76,7 @@ public class LifeCycleInstancePlanning extends Model implements IModel, IApiObje
     public LifeCycleInstance lifeCycleInstance;
 
     @OneToMany(mappedBy = "lifeCycleInstancePlanning")
+    @Where(clause = "${ta}.deleted=0")
     public List<PlannedLifeCycleMilestoneInstance> plannedLifeCycleMilestoneInstance;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)

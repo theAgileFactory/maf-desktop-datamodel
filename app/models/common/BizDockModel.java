@@ -20,10 +20,10 @@ package models.common;
 import com.avaje.ebean.Model;
 import models.framework_models.parent.IModel;
 import models.pmo.Actor;
-import play.mvc.Controller;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import java.util.Date;
 
 /**
  * @author Guillaume Petit
@@ -31,15 +31,16 @@ import java.sql.Timestamp;
 @MappedSuperclass
 public abstract class BizDockModel extends Model implements IModel {
 
-    @Id
-    public Long id;
-
     public boolean deleted = false;
 
-    @Version
-    public Timestamp lastUpdate;
+    public Date creationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    public Actor createdBy;
+
+    public Date lastUpdate;
+
+    @ManyToOne
     public Actor updatedBy;
 
     /**

@@ -18,6 +18,7 @@
 package models.finance;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -122,4 +123,15 @@ public class PortfolioEntryBudget extends Model implements IModel, IApiObject {
         return this.deleted;
     }
 
+    /**
+     * Return the last updated budget line of the budget or null if none exists
+     *
+     * @return PortfolioEntryBudgetLine
+     */
+    public PortfolioEntryBudgetLine getLastUpdatedBudgetLine() {
+        if (this.portfolioEntryBudgetLines != null && !this.portfolioEntryBudgetLines.isEmpty()) {
+            return this.portfolioEntryBudgetLines.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
+    }
 }

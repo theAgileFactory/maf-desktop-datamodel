@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @MappedSuperclass
-public abstract class ResourceAllocation extends Model {
+public abstract class ResourceAllocation extends BizDockModel {
 
     public static Map<Pair<Integer, Integer>, Double> getAllocationDistribution(Date startDate, Date endDate, BigDecimal daysToDistribute, boolean workingDaysOnly) {
         Map<Pair<Integer, Integer>, Double> daysMap = new HashMap<>();

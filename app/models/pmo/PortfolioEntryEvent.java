@@ -17,29 +17,25 @@
  */
 package models.pmo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
-import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 import models.framework_models.parent.IModel;
 import play.Play;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.Date;
+import java.util.List;
 
 /**
  * An portfolio entry event is a message with a type that is displayed in the
@@ -51,21 +47,18 @@ import play.Play;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryEvent extends Model implements IModel, IApiObject {
+public class PortfolioEntryEvent extends BizDockModel implements IModel, IApiObject {
 
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)
     public Long id;
 
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
-
     @DateType
     @JsonProperty
-    public Date creationDate = new Date();
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
 
     @ManyToOne
     @JsonPropertyLink

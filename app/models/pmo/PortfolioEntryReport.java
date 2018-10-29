@@ -41,6 +41,7 @@ import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import play.Play;
@@ -55,21 +56,18 @@ import play.Play;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryReport extends Model implements IModel, IApiObject {
+public class PortfolioEntryReport extends BizDockModel implements IModel, IApiObject {
 
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)
     public Long id;
 
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
-
     @DateType
     @JsonProperty
-    public Date creationDate;
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
 
     @DateType
     public Date publicationDate;

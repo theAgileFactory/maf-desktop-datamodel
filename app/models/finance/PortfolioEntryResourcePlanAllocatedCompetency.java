@@ -65,11 +65,6 @@ public class PortfolioEntryResourcePlanAllocatedCompetency extends ResourceAlloc
     @ApiModelProperty(required = true)
     public long id;
 
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
-
     @DateType
     @JsonProperty
     public Date startDate;

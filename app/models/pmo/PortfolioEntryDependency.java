@@ -17,12 +17,12 @@
  */
 package models.pmo;
 
+import models.common.BizDockModel;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.avaje.ebean.Model;
 
 /**
  * Define the association table for the portfolio entry dependencies.
@@ -30,7 +30,7 @@ import com.avaje.ebean.Model;
  * @author Johann Kohler
  */
 @Entity
-public class PortfolioEntryDependency extends Model {
+public class PortfolioEntryDependency extends BizDockModel {
 
     public static final long serialVersionUID = 4369856314752364L;
 
@@ -39,35 +39,15 @@ public class PortfolioEntryDependency extends Model {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "source_portfolio_entry_id", insertable = false, updatable = false)
-    private PortfolioEntry sourcePortfolioEntry;
+    public PortfolioEntry sourcePortfolioEntry;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "destination_portfolio_entry_id", insertable = false, updatable = false)
-    private PortfolioEntry destinationPortfolioEntry;
+    public PortfolioEntry destinationPortfolioEntry;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "portfolio_entry_dependency_type_id", insertable = false, updatable = false)
-    private PortfolioEntryDependencyType portfolioEntryDependencyType;
-
-    /**
-     * Default constructor.
-     * 
-     * @param sourcePortfolioEntry
-     *            the source portfolio entry of the dependency
-     * @param destinationPortfolioEntry
-     *            the destination portfolio entry of the dependency
-     * @param portfolioEntryDependencyType
-     *            the dependency type
-     */
-    public PortfolioEntryDependency(PortfolioEntry sourcePortfolioEntry, PortfolioEntry destinationPortfolioEntry,
-            PortfolioEntryDependencyType portfolioEntryDependencyType) {
-        this.sourcePortfolioEntry = sourcePortfolioEntry;
-        this.destinationPortfolioEntry = destinationPortfolioEntry;
-        this.portfolioEntryDependencyType = portfolioEntryDependencyType;
-        this.id.sourcePortfolioEntryId = sourcePortfolioEntry.id;
-        this.id.destinationPortfolioEntryId = destinationPortfolioEntry.id;
-        this.id.portfolioEntryDependencyTypeId = portfolioEntryDependencyType.id;
-    }
+    public PortfolioEntryDependencyType portfolioEntryDependencyType;
 
     /**
      * Get the source portfolio entry.

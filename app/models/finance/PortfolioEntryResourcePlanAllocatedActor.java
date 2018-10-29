@@ -63,11 +63,6 @@ public class PortfolioEntryResourcePlanAllocatedActor extends ResourceAllocation
     @ApiModelProperty(required = true)
     public long id;
 
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
-
     @DateType
     @JsonProperty
     public Date startDate;

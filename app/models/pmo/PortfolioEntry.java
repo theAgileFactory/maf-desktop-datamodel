@@ -18,7 +18,6 @@
 package models.pmo;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -31,6 +30,7 @@ import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.services.kpi.IKpiObjectsContainer;
 import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 import models.delivery.Iteration;
 import models.delivery.PortfolioEntryDeliverable;
 import models.delivery.Requirement;
@@ -46,7 +46,7 @@ import models.timesheet.TimesheetEntry;
 import play.Play;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -62,17 +62,12 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObjectsContainer {
+public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, IKpiObjectsContainer {
 
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)
     public Long id;
-
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
 
     /**
      * Reference in the source system.
@@ -108,7 +103,21 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     @DateType
     @JsonProperty
     @ApiModelProperty(required = true)
-    public Date creationDate;
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @JsonProperty
+    @ApiModelProperty(required = true)
+    public Actor getCreatedBy() {
+        return createdBy;
+    }
+
+    @JsonProperty
+    @ApiModelProperty()
+    public Actor getUpdatedBy() {
+        return updatedBy;
+    }
 
     /**
      * True if the portfolioEntry is visible to other users than its manager,
@@ -194,6 +203,10 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
     @OneToMany(mappedBy = "portfolioEntry")
     @Where(clause = "${ta}.deleted=0")
     public List<PortfolioEntryRisk> portfolioEntryRisks;
+
+    @OneToMany(mappedBy = "portfolioEntry")
+    @Where(clause = "${ta}.deleted=0")
+    public List<PortfolioEntryIssue> portfolioEntryIssues;
 
     @OneToMany(mappedBy = "portfolioEntry")
     @Where(clause = "${ta}.deleted=0")
@@ -376,6 +389,66 @@ public class PortfolioEntry extends Model implements IModel, IApiObject, IKpiObj
         this.startDate = this.activeLifeCycleInstance.getStartDate();
         this.endDate = this.activeLifeCycleInstance.getEndDate();
         this.save();
+    }
+
+    /**
+     * Get the last updated work order or null if none exists
+     *
+     * @return WorkOrder
+     */
+    public WorkOrder getLastUpdatedWorkOrder() {
+        if (this.workOrders != null && !this.workOrders.isEmpty()) {
+            return this.workOrders.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     * Get the last updated package or null if none exists
+     *
+     * @return PortfolioEntryPlanningPackage
+     */
+    public PortfolioEntryPlanningPackage getLastUpdatedPackage() {
+        if (this.planningPackages != null && !this.planningPackages.isEmpty()) {
+            return this.planningPackages.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     * Get the last updated risk or null if none exists
+     *
+     * @return the last updated risk
+     */
+    public PortfolioEntryRisk getLastUpdatedRisk() {
+        if (this.portfolioEntryRisks != null && !this.portfolioEntryRisks.isEmpty()) {
+            return this.portfolioEntryRisks.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     * Get the last updated issue or null if none exists
+     *
+     * @return the last updated issue
+     */
+    public PortfolioEntryIssue getLastUpdatedIssue() {
+        if (this.portfolioEntryIssues != null && !this.portfolioEntryIssues.isEmpty()) {
+            return this.portfolioEntryIssues.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     * Get the last updated event or null if none exists
+     *
+     * @return the last updated event
+     */
+    public PortfolioEntryEvent getLastUpdatedEvent() {
+        if (this.portfolioEntryEvents != null && !this.portfolioEntryEvents.isEmpty()) {
+            return this.portfolioEntryEvents.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
     }
 
 }

@@ -21,6 +21,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
+import models.common.ResourceAllocation;
 import models.framework_models.common.CustomAttributeDefinition;
 import models.framework_models.parent.IModel;
 import models.governance.LifeCycleInstancePlanning;
@@ -184,5 +185,18 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
     @Override
     public boolean getApiDeleted() {
         return this.deleted;
+    }
+
+    /**
+     * Return the last updated resource allocation
+     *
+     * @return ResourceAllocation
+     */
+    public ResourceAllocation getLastUpdatedResource() {
+        List<ResourceAllocation> allocations = new ArrayList<>();
+        allocations.addAll(this.portfolioEntryResourcePlanAllocatedActors);
+        allocations.addAll(this.portfolioEntryResourcePlanAllocatedCompetencies);
+        allocations.addAll(this.portfolioEntryResourcePlanAllocatedOrgUnits);
+        return allocations.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
     }
 }

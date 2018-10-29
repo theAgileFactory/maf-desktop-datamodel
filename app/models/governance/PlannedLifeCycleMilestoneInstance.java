@@ -23,6 +23,7 @@ import models.common.BizDockModel;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
@@ -35,6 +36,9 @@ import java.util.Date;
  */
 @Entity
 public class PlannedLifeCycleMilestoneInstance extends BizDockModel implements IApiObject {
+
+    @Id
+    public Long id;
 
     @DateType
     public Date plannedDate;

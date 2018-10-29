@@ -46,6 +46,7 @@ import framework.utils.ISelectableValueHolder;
 import framework.utils.Msg;
 import framework.utils.Utilities;
 import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 import models.delivery.PortfolioEntryDeliverable;
 import models.finance.PortfolioEntryResourcePlanAllocatedActor;
 import models.finance.PortfolioEntryResourcePlanAllocatedCompetency;
@@ -67,18 +68,13 @@ import play.data.validation.Constraints.Required;
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE,
         isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PortfolioEntryPlanningPackage extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
+public class PortfolioEntryPlanningPackage extends BizDockModel implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)
     public Long id;
 
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
-    
     @Column(length = IModelConstants.MEDIUM_STRING)
     public String refId;
 

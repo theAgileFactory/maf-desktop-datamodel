@@ -18,6 +18,7 @@
 package models.governance;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -156,5 +157,12 @@ public class LifeCycleInstancePlanning extends Model implements IModel, IApiObje
 
     public boolean isActive() {
         return !this.deleted && !this.isFrozen;
+    }
+
+    public PlannedLifeCycleMilestoneInstance getLastUpdatedMilestoneInstance() {
+        if (this.plannedLifeCycleMilestoneInstance != null && !plannedLifeCycleMilestoneInstance.isEmpty()) {
+            return this.plannedLifeCycleMilestoneInstance.stream().max(Comparator.comparing(c -> c.lastUpdate)).orElse(null);
+        }
+        return null;
     }
 }

@@ -41,6 +41,7 @@ import framework.services.api.commons.JsonPropertyLink;
 import framework.services.custom_attribute.ICustomAttributeManagerService;
 import framework.services.custom_attribute.ICustomAttributeManagerService.CustomAttributeValueObject;
 import framework.utils.formats.DateType;
+import models.common.BizDockModel;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.PortfolioEntry;
@@ -60,17 +61,12 @@ import play.Play;
 @Entity
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, creatorVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WorkOrder extends Model implements IModel, IApiObject {
+public class WorkOrder extends BizDockModel implements IModel, IApiObject {
 
     @Id
     @ApiModelProperty(required = true)
     @JsonProperty
     public Long id;
-
-    public boolean deleted = false;
-
-    @Version
-    public Timestamp lastUpdate;
 
     @Column(length = IModelConstants.MEDIUM_STRING, nullable = true)
     @ApiModelProperty(required = true)
@@ -96,7 +92,9 @@ public class WorkOrder extends Model implements IModel, IApiObject {
     @DateType
     @JsonProperty
     @ApiModelProperty(required = true)
-    public Date creationDate;
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
     @DateType
     @JsonProperty
@@ -183,7 +181,7 @@ public class WorkOrder extends Model implements IModel, IApiObject {
         if (!usePurchaseOrder) {
             return isEngaged;
         } else {
-            return purchaseOrderLineItem != null && purchaseOrderLineItem.isCancelled == false ? true : false;
+            return purchaseOrderLineItem != null && !purchaseOrderLineItem.isCancelled;
         }
     }
 

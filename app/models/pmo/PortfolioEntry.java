@@ -109,13 +109,13 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
 
     @JsonProperty
     @ApiModelProperty(required = true)
-    public Actor getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
     @JsonProperty
     @ApiModelProperty()
-    public Actor getUpdatedBy() {
+    public String getUpdatedBy() {
         return updatedBy;
     }
 

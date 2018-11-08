@@ -18,11 +18,14 @@
 package models.common;
 
 import com.avaje.ebean.Model;
+import framework.services.session.IUserSessionManagerPlugin;
 import models.framework_models.parent.IModel;
-import models.pmo.Actor;
+import play.Play;
+import play.mvc.Http;
 
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.util.Date;
 
 /**
@@ -35,13 +38,11 @@ public abstract class BizDockModel extends Model implements IModel {
 
     public Date creationDate;
 
-    @ManyToOne
-    public Actor createdBy;
+    public String createdBy;
 
     public Date lastUpdate;
 
-    @ManyToOne
-    public Actor updatedBy;
+    public String updatedBy;
 
     /**
      * Default constructor
@@ -62,5 +63,21 @@ public abstract class BizDockModel extends Model implements IModel {
     public void doDelete() {
         deleted = true;
         update();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        String userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        this.lastUpdate = new Date();
+        this.creationDate = new Date();
+        this.updatedBy = userSessionId;
+        this.createdBy = userSessionId;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        String userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        this.lastUpdate = new Date();
+        this.updatedBy = userSessionId;
     }
 }

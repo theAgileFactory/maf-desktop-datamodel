@@ -21,6 +21,8 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import framework.services.api.commons.IApiObject;
+import framework.utils.ISelectableValueHolder;
+import framework.utils.Msg;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 
@@ -38,7 +40,7 @@ import java.sql.Timestamp;
  * @author Guillaume Petit
  */
 @Entity
-public class PortfolioEntryResourcePlanAllocationStatusType extends Model implements IModel, IApiObject {
+public class PortfolioEntryResourcePlanAllocationStatusType extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
     @Id
     @JsonProperty
@@ -53,6 +55,48 @@ public class PortfolioEntryResourcePlanAllocationStatusType extends Model implem
     @Column(length = IModelConstants.SMALL_STRING, nullable = false)
     @Enumerated(EnumType.STRING)
     public AllocationStatus status;
+
+    @Override
+    public String getName() {
+        return Msg.get("object.allocated_resource.status_type." + status.name() + ".label");
+    }
+
+    @Override
+    public String getUrl() {
+        return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return "";
+    }
+
+    @Override
+    public Long getValue() {
+        return this.id;
+    }
+
+    @Override
+    public boolean isSelectable() {
+        return true;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return false;
+    }
+
+    @Override
+    public void setUrl(String s) {
+        // Nope
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        @SuppressWarnings("unchecked")
+        ISelectableValueHolder<Long> v = (ISelectableValueHolder<Long>) o;
+        return this.getName().compareTo(v.getName());
+    }
 
     public enum AllocationStatus {
         DRAFT,

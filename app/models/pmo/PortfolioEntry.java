@@ -41,7 +41,6 @@ import models.framework_models.parent.IModelConstants;
 import models.governance.LifeCycleInstance;
 import models.governance.LifeCycleMilestoneInstance;
 import models.governance.LifeCycleProcess;
-import models.governance.PlannedLifeCycleMilestoneInstance;
 import models.timesheet.TimesheetEntry;
 import play.Play;
 
@@ -238,15 +237,6 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
     public LifeCycleMilestoneInstance lastApprovedLifeCycleMilestoneInstance;
 
     /**
-     * we store (if exists) the next not yet approved milestone instance of the
-     * portfolio entry in the DB in order to allow filters and to improve
-     * performance. This information is redundant and could be found with:
-     * activeLifeCycleInstance.lifeCycleMilestoneInstances
-     */
-    @OneToOne
-    public PlannedLifeCycleMilestoneInstance nextPlannedLifeCycleMilestoneInstance;
-
-    /**
      * we store (if exists) the last create report of the portfolio entry in the
      * DB in order to allow filters and to improve performance. This information
      * is redundant with the attribute "portfolioEntryReports".
@@ -296,6 +286,7 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
 
     @Override
     public void defaults() {
+        // No defaults
     }
 
     @Override

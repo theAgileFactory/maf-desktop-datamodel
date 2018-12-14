@@ -17,30 +17,21 @@
  */
 package models.governance;
 
-import java.sql.Timestamp;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
+import framework.services.api.commons.IApiObject;
+import framework.utils.formats.DateType;
 import models.finance.PortfolioEntryBudget;
 import models.finance.PortfolioEntryResourcePlan;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
-import com.avaje.ebean.Model;
 
-import com.avaje.ebean.Ebean;
-
-import framework.services.api.commons.IApiObject;
-import framework.utils.formats.DateType;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A life cycle instance planning (shortly called planning) is a set of planned

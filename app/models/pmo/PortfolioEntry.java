@@ -41,6 +41,7 @@ import models.framework_models.parent.IModelConstants;
 import models.governance.LifeCycleInstance;
 import models.governance.LifeCycleMilestoneInstance;
 import models.governance.LifeCycleProcess;
+import models.governance.PlannedLifeCycleMilestoneInstance;
 import models.timesheet.TimesheetEntry;
 import play.Play;
 
@@ -147,7 +148,7 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
      * The manager of the portfolioEntry.<br/>
      * The one that is on a daily basis managing the work progress.
      */
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String", required = true)
     public Actor manager;
@@ -157,7 +158,7 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
      * <br/>
      * Usually this is a business team.
      */
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String")
     public OrgUnit sponsoringUnit;
@@ -172,7 +173,7 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
     @Where(clause = "${ta}.deleted=0")
     public List<OrgUnit> deliveryUnits;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonPropertyLink
     @ApiModelProperty(dataType = "String", required = true)
     public PortfolioEntryType portfolioEntryType;
@@ -442,4 +443,21 @@ public class PortfolioEntry extends BizDockModel implements IModel, IApiObject, 
         return null;
     }
 
+    public PlannedLifeCycleMilestoneInstance getNextMilestone() {
+        if (this.activeLifeCycleInstance != null && !this.activeLifeCycleInstance.getCurrentLifeCycleInstancePlanning().plannedLifeCycleMilestoneInstance.isEmpty()) {
+            return this.activeLifeCycleInstance.getCurrentLifeCycleInstancePlanning().plannedLifeCycleMilestoneInstance.stream().min((o1, o2) -> {
+                if (o1.plannedDate == o2.plannedDate) {
+                    return 0;
+                }
+                if (o1.plannedDate == null) {
+                    return 1;
+                }
+                if (o2.plannedDate == null) {
+                    return -1;
+                }
+                return o1.plannedDate.compareTo(o2.plannedDate);
+            }).orElse(null);
+        }
+        return null;
+    }
 }

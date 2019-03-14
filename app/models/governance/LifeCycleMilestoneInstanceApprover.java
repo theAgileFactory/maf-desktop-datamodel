@@ -33,6 +33,7 @@ import models.pmo.Actor;
 import com.avaje.ebean.Model;
 import framework.services.api.commons.IApiObject;
 import framework.utils.formats.DateType;
+import models.pmo.OrgUnit;
 
 /**
  * A life cycle milestone is associated with one or more life cycle milestone
@@ -61,8 +62,11 @@ public class LifeCycleMilestoneInstanceApprover extends Model implements IModel,
     @DateType
     public Date approvalDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Actor actor;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    public OrgUnit orgUnit;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     public LifeCycleMilestoneInstance lifeCycleMilestoneInstance;
@@ -90,6 +94,16 @@ public class LifeCycleMilestoneInstanceApprover extends Model implements IModel,
      */
     public LifeCycleMilestoneInstanceApprover(Actor approver, LifeCycleMilestoneInstance lifeCycleMilestoneInstance) {
         this.actor = approver;
+        this.lifeCycleMilestoneInstance = lifeCycleMilestoneInstance;
+    }
+
+    /**
+     * Construct a life cycle milestone instance org unit approver
+     * @param approver
+     * @param lifeCycleMilestoneInstance
+     */
+    public LifeCycleMilestoneInstanceApprover(OrgUnit approver, LifeCycleMilestoneInstance lifeCycleMilestoneInstance) {
+        this.orgUnit = approver;
         this.lifeCycleMilestoneInstance = lifeCycleMilestoneInstance;
     }
 

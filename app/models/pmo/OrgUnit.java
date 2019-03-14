@@ -20,14 +20,7 @@ package models.pmo;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
@@ -46,6 +39,7 @@ import framework.utils.Msg;
 import models.finance.PortfolioEntryResourcePlanAllocatedOrgUnit;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
+import models.governance.LifeCycleMilestone;
 import models.timesheet.TimesheetReport;
 import play.Play;
 
@@ -94,6 +88,14 @@ public class OrgUnit extends Model implements IModel, IApiObject, ISelectableVal
     @ApiModelProperty(dataType = "String")
     @JsonPropertyLink
     public OrgUnitType orgUnitType;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "life_cycle_milestone_org_unit_approver",
+            joinColumns = {@JoinColumn(name = "org_unit_id")},
+            inverseJoinColumns = {@JoinColumn(name = "life_cycle_milestone_id")}
+    )
+    public List<LifeCycleMilestone> lifeCycleMilestones;
 
     /**
      * An org-unit which contains or is responsible for the current org-unit.

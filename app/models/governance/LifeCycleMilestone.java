@@ -25,6 +25,7 @@ import framework.utils.Msg;
 import models.framework_models.parent.IModel;
 import models.framework_models.parent.IModelConstants;
 import models.pmo.Actor;
+import models.pmo.OrgUnit;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -76,7 +77,11 @@ public class LifeCycleMilestone extends Model implements IModel, IApiObject {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "lifeCycleMilestones")
     @Where(clause = "${ta}.deleted=0")
-    public List<Actor> approvers;
+    public List<Actor> actorApprovers;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "lifeCycleMilestones")
+    @Where(clause = "${ta}.deleted=0")
+    public List<OrgUnit> orgUnitApprovers;
 
     @OneToMany(mappedBy = "lifeCycleMilestone")
     public List<LifeCycleMilestoneInstance> lifeCycleMilestoneInstances;

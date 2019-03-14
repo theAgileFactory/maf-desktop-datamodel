@@ -20,15 +20,7 @@ package models.pmo;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Where;
@@ -245,7 +237,11 @@ public class Actor extends Model implements IModel, IApiObject, ISelectableValue
     public List<PortfolioEntryRisk> portfolioEntryRisks;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "life_cycle_milestone_approver")
+    @JoinTable(
+            name = "life_cycle_milestone_actor_approver",
+            joinColumns = {@JoinColumn(name = "actor_id")},
+            inverseJoinColumns = {@JoinColumn(name = "life_cycle_milestone_id")}
+        )
     public List<LifeCycleMilestone> lifeCycleMilestones;
 
     @OneToMany(mappedBy = "actor")

@@ -48,9 +48,6 @@ public class TimesheetActivityAllocatedActor extends ResourceAllocation implemen
 
     public boolean deleted = false;
 
-    @Version
-    public Timestamp lastUpdate;
-
     @Column(scale = IModelConstants.BIGNUMBER_SCALE, precision = IModelConstants.BIGNUMBER_PRECISION)
     public BigDecimal days;
 

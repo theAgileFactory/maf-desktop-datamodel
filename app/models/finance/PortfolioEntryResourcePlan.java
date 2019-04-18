@@ -118,6 +118,8 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedActor.forecastDailyRate = allocatedActor.forecastDailyRate;
             newAllocatedActor.portfolioEntryResourcePlan = newResourcePlan;
             newAllocatedActor.monthlyAllocated = allocatedActor.monthlyAllocated;
+            newAllocatedActor.lastStatusTypeUpdateActor = allocatedActor.lastStatusTypeUpdateActor;
+            newAllocatedActor.lastStatusTypeUpdateTime = allocatedActor.lastStatusTypeUpdateTime;
 
             // Clone allocation details
             newAllocatedActor.portfolioEntryResourcePlanAllocatedActorDetails = new ArrayList<>(allocatedActor.portfolioEntryResourcePlanAllocatedActorDetails.size());
@@ -148,6 +150,8 @@ public class PortfolioEntryResourcePlan extends Model implements IModel, IApiObj
             newAllocatedOrgUnit.forecastDays = allocatedOrgUnit.forecastDays;
             newAllocatedOrgUnit.forecastDailyRate = allocatedOrgUnit.forecastDailyRate;
             newAllocatedOrgUnit.portfolioEntryResourcePlan = newResourcePlan;
+            newAllocatedOrgUnit.lastStatusTypeUpdateActor = allocatedOrgUnit.lastStatusTypeUpdateActor;
+            newAllocatedOrgUnit.lastStatusTypeUpdateTime = allocatedOrgUnit.lastStatusTypeUpdateTime;
             newAllocatedOrgUnit.save();
             newResourcePlan.portfolioEntryResourcePlanAllocatedOrgUnits.add(newAllocatedOrgUnit);
             allocatedResourcesMapOldToNew.get(PortfolioEntryResourcePlanAllocatedOrgUnit.class.getName()).put(allocatedOrgUnit.id, newAllocatedOrgUnit.id);

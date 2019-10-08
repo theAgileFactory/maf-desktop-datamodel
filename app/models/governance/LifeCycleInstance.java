@@ -26,10 +26,7 @@ import models.pmo.PortfolioEntry;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -167,6 +164,7 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
                         .min(Comparator.comparingInt(a -> a.lifeCycleMilestone.order * 10 + a.lifeCycleMilestone.subOrder))
                         .orElse(new PlannedLifeCycleMilestoneInstance()).lifeCycleMilestone
                 )
+                .filter(Objects::nonNull)
                 // Get global minimum
                 .min(Comparator.comparingInt(value -> value.order * 10 + value.subOrder))
                 .orElse(new LifeCycleMilestone());
@@ -207,6 +205,7 @@ public class LifeCycleInstance extends Model implements IModel, IApiObject {
                         .max(Comparator.comparingInt(a -> a.lifeCycleMilestone.order * 10 + a.lifeCycleMilestone.subOrder))
                         .orElse(new PlannedLifeCycleMilestoneInstance()).lifeCycleMilestone
                 )
+                .filter(Objects::nonNull)
                 // Get global maximum
                 .max(Comparator.comparingInt(value -> value.order * 10 + value.subOrder))
                 .orElse(new LifeCycleMilestone());

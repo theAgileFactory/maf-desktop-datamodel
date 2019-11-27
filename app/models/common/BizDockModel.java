@@ -67,7 +67,12 @@ public abstract class BizDockModel extends Model implements IModel {
 
     @PrePersist
     public void prePersist() {
-        String userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        String userSessionId = "";
+        try {
+            userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        } catch (RuntimeException re) {
+            userSessionId = "technical";
+        }
         this.lastUpdate = new Date();
         this.creationDate = new Date();
         this.updatedBy = userSessionId;
@@ -76,7 +81,12 @@ public abstract class BizDockModel extends Model implements IModel {
 
     @PreUpdate
     public void preUpdate() {
-        String userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        String userSessionId = "";
+        try {
+            userSessionId = Play.application().injector().instanceOf(IUserSessionManagerPlugin.class).getUserSessionId(Http.Context.current());
+        } catch (RuntimeException re) {
+            userSessionId = "technical";
+        }
         this.lastUpdate = new Date();
         this.updatedBy = userSessionId;
     }

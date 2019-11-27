@@ -63,6 +63,8 @@ import play.Play;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Actor extends Model implements IModel, IApiObject, ISelectableValueHolder<Long> {
 
+    public static final String TECHNICAL_ACTOR_UID = "technical";
+
     @Id
     @JsonProperty
     @ApiModelProperty(required = true)

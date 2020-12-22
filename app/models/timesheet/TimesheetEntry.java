@@ -17,6 +17,8 @@
  */
 package models.timesheet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -45,28 +47,36 @@ import com.avaje.ebean.annotation.Where;
 public class TimesheetEntry extends Model implements IModel {
 
     @Id
+    @JsonProperty
     public Long id;
 
+    @JsonProperty
     public boolean deleted = false;
 
     @Version
+    @JsonProperty
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public TimesheetReport timesheetReport;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @JsonPropertyLink
     public PortfolioEntry portfolioEntry;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @JsonPropertyLink
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @JsonPropertyLink
     public TimesheetActivity timesheetActivity;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "timesheetEntry")
     @Where(clause = "${ta}.deleted=0")
     @OrderBy("logDate")
+    @JsonPropertyLink
     public List<TimesheetLog> timesheetLogs;
 
     /**

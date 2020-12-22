@@ -17,6 +17,8 @@
  */
 package models.timesheet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -40,21 +42,27 @@ import framework.utils.formats.DateType;
 public class TimesheetLog extends Model implements IModel {
 
     @Id
+    @JsonProperty
     public Long id;
 
+    @JsonProperty
     public boolean deleted = false;
 
     @Version
+    @JsonProperty
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public TimesheetEntry timesheetEntry;
 
     @Required
     @DateType
+    @JsonProperty
     public Date logDate;
 
     @Required
+    @JsonProperty
     public Double hours;
 
     /**

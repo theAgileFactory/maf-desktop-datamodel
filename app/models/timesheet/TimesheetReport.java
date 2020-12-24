@@ -17,6 +17,8 @@
  */
 package models.timesheet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,29 +55,36 @@ import play.data.validation.Constraints.Required;
 public class TimesheetReport extends Model implements IModel {
 
     @Id
+    @JsonProperty
     public Long id;
 
     public boolean deleted = false;
 
     @Version
+    @JsonProperty
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public Actor actor;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public OrgUnit orgUnit;
 
     @Required
     @Column(length = IModelConstants.SMALL_STRING)
+    @JsonProperty
     public Type type = Type.WEEKLY;
 
     @Required
     @DateType
+    @JsonProperty
     public Date startDate;
 
     @Required
     @Column(length = IModelConstants.SMALL_STRING)
+    @JsonProperty
     public Status status = Status.OPEN;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "timesheetReport")

@@ -71,6 +71,7 @@ public class TimesheetEntry extends Model implements IModel, IApiObject {
     public PortfolioEntry portfolioEntry;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
+    @JsonPropertyLink
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
@@ -118,7 +119,7 @@ public class TimesheetEntry extends Model implements IModel, IApiObject {
 
     @Override
     public String getApiName() {
-        return this.id.toString();
+        return null;
     }
 
     @Override

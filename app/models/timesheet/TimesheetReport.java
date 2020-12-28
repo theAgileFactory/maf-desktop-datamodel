@@ -17,7 +17,10 @@
  */
 package models.timesheet;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -52,7 +55,10 @@ import play.data.validation.Constraints.Required;
  * @author Johann Kohler
  */
 @Entity
-public class TimesheetReport extends Model implements IModel {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TimesheetReport extends Model implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -115,6 +121,7 @@ public class TimesheetReport extends Model implements IModel {
     /**
      * Get the end date of the report (depending of the type).
      */
+    @JsonProperty("endDate")
     public Date getEndDate() {
         switch (this.type) {
         case WEEKLY:
@@ -232,12 +239,23 @@ public class TimesheetReport extends Model implements IModel {
     /**
      * Get the total hours of the report.
      */
+    @JsonProperty("total")
     public Double getTotal() {
         Double total = 0.0;
         for (TimesheetEntry entry : timesheetEntries) {
             total += entry.getTotal();
         }
         return total;
+    }
+
+    @Override
+    public String getApiName() {
+        return null;
+    }
+
+    @Override
+    public boolean getApiDeleted() {
+        return this.deleted;
     }
 
     /**

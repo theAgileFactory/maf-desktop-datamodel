@@ -64,6 +64,7 @@ public class TimesheetReport extends Model implements IModel, IApiObject {
     @JsonProperty
     public Long id;
 
+    @JsonProperty
     public boolean deleted = false;
 
     @Version

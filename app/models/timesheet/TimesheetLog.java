@@ -21,6 +21,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.formats.DateType;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -55,6 +56,7 @@ public class TimesheetLog extends Model implements IModel {
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public TimesheetEntry timesheetEntry;
 
     @Required

@@ -17,6 +17,8 @@
  */
 package models.timesheet;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
@@ -44,6 +46,9 @@ import com.avaje.ebean.annotation.Where;
  * @author Johann Kohler
  */
 @Entity
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TimesheetEntry extends Model implements IModel {
 
     @Id
@@ -58,7 +63,6 @@ public class TimesheetEntry extends Model implements IModel {
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonPropertyLink
     public TimesheetReport timesheetReport;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
@@ -66,17 +70,14 @@ public class TimesheetEntry extends Model implements IModel {
     public PortfolioEntry portfolioEntry;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @JsonPropertyLink
     public PortfolioEntryPlanningPackage portfolioEntryPlanningPackage;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)
-    @JsonPropertyLink
     public TimesheetActivity timesheetActivity;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "timesheetEntry")
     @Where(clause = "${ta}.deleted=0")
     @OrderBy("logDate")
-    @JsonPropertyLink
     public List<TimesheetLog> timesheetLogs;
 
     /**
@@ -103,6 +104,7 @@ public class TimesheetEntry extends Model implements IModel {
     /**
      * Get the total hours of the entry.
      */
+    @JsonProperty("total")
     public Double getTotal() {
         Double total = 0.0;
         for (TimesheetLog log : timesheetLogs) {

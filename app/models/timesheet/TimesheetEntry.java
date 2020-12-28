@@ -64,6 +64,7 @@ public class TimesheetEntry extends Model implements IModel, IApiObject {
     public Timestamp lastUpdate;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonPropertyLink
     public TimesheetReport timesheetReport;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = true)

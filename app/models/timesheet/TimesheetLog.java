@@ -21,6 +21,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import framework.utils.formats.DateType;
 import java.sql.Timestamp;
@@ -42,7 +43,7 @@ import play.data.validation.Constraints.Required;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TimesheetLog extends Model implements IModel {
+public class TimesheetLog extends Model implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -87,5 +88,15 @@ public class TimesheetLog extends Model implements IModel {
     public void doDelete() {
         deleted = true;
         save();
+    }
+
+    @Override
+    public String getApiName() {
+        return this.id.toString();
+    }
+
+    @Override
+    public boolean getApiDeleted() {
+        return this.deleted;
     }
 }

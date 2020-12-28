@@ -20,6 +20,7 @@ package models.timesheet;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import framework.services.api.commons.IApiObject;
 import framework.services.api.commons.JsonPropertyLink;
 import java.sql.Timestamp;
 import java.util.List;
@@ -49,7 +50,7 @@ import com.avaje.ebean.annotation.Where;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TimesheetEntry extends Model implements IModel {
+public class TimesheetEntry extends Model implements IModel, IApiObject {
 
     @Id
     @JsonProperty
@@ -115,4 +116,13 @@ public class TimesheetEntry extends Model implements IModel {
         return total;
     }
 
+    @Override
+    public String getApiName() {
+        return this.id.toString();
+    }
+
+    @Override
+    public boolean getApiDeleted() {
+        return this.deleted;
+    }
 }

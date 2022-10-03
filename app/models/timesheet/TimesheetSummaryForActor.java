@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TimesheetSummaryForActor {
 
     @JsonProperty
-    public String month;
+    public String groupBy;
 
     @JsonProperty
-    public String week;
+    public String period;
 
     @JsonProperty
     public Double hours;
@@ -16,20 +16,20 @@ public class TimesheetSummaryForActor {
     public TimesheetSummaryForActor() {
     }
 
-    public String getMonth() {
-        return month;
+    public String getGroupBy() {
+        return groupBy;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setGroupBy(String groupBy) {
+        this.groupBy = groupBy;
     }
 
-    public String getWeek() {
-        return week;
+    public String getPeriod() {
+        return period;
     }
 
-    public void setWeek(String week) {
-        this.week = week;
+    public void setPeriod(String period) {
+        this.period = period;
     }
 
     public Double getHours() {
